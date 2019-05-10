@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
+    <script src="http://rtc.cdn.infobip.com/latest/infobip.rtc.js"></script>
+    <meta charset="UTF-8">
+    <title>Receive Incoming Call | Infobip WebRTC Showcase</title>
+</head>
+<body>
+<h2>Infobip WebRTC Showcase</h2>
+<h3>Receive Incoming Call</h3>
+<h4>Logged as: <span id="identity">None</span></h4>
+
+<audio id="remoteAudio" autoplay></audio>
+
+<h4>Status: <span id="status">Idle</span></h4>
+
+<button id="accept-btn" disabled>Accept</button>
+<button id="decline-btn" disabled>Decline</button>
+<br/><br/>
+<button id="hangup-btn" disabled>Hangup</button>
+
+<script type="application/javascript" src="js/common.js"></script>
+<script type="application/javascript" src="js/receive-call.js"></script>
+</body>
+</html>
