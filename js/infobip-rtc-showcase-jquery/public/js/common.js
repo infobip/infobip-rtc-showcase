@@ -1,12 +1,13 @@
 async function connectInfobipRTC(identity) {
     return new Promise(resolve => {
-        $.ajax('/token', {
+        $.post({
+            url: "http://localhost:8080/token",
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({identity: identity}),
             success: function (data) {
                 let token = JSON.parse(data).token;
-                let options = {debug: true, url: 'portunus.ioinfobip.com'};
+                let options = {debug: true};
                 infobipRTC = new InfobipRTC(token, options);
                 infobipRTC.on('connected', function (event) {
                     console.log('Connected to Infobip RTC Cloud with: %s', event.identity);

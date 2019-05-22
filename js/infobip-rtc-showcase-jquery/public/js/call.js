@@ -18,34 +18,39 @@ function call() {
 }
 
 function callPhoneNumber() {
-    activeCall = infobipRTC.callPhoneNumber(getDestination(), { from: '38761225883'});
+    activeCall = infobipRTC.callPhoneNumber(getDestination(), { from: '33755531044'});
     listenForCallEvents();
 }
 
 function listenForCallEvents() {
+    $('#call-btn').prop('disabled', true);
+    $('#call-phone-number-btn').prop('disabled', true);
+    $('#hangup-btn').prop('disabled', false);
+
     activeCall.on('established', function (event) {
         console.log('Call established with ' + getDestination());
-        $('#hangup-btn').prop('disabled', false);
         $('#remoteAudio')[0].srcObject = event.remoteStream;
     });
     activeCall.on('hangup', function (event) {
-        activeCall = undefined;
-        $('#hangup-btn').prop('disabled', true);
+        hangup();
     });
     activeCall.on('ringing', function (event) {
         console.log('Call is ringing...');
     });
     activeCall.on('error', function (event) {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+        hangup();
     });
 }
 
 function hangup() {
     if (activeCall) {
         activeCall.hangup();
-        activeCall = undefined;
-        $('#hangup-btn').prop('disabled', true);
     }
+    activeCall = undefined;
+    $('#hangup-btn').prop('disabled', true);
+    $('#call-btn').prop('disabled', false);
+    $('#call-phone-number-btn').prop('disabled', false);
 }
 
 function getDestination() {

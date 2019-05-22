@@ -1,6 +1,6 @@
 {
-  "name": "infobip-rtc-showcase-jquery",
-  "version": "1.0.0",
+  "name": "infobip-rtc-token",
+  "version": "0.0.1",
   "description": "",
   "main": "app.js",
   "scripts": {
