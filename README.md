@@ -20,7 +20,17 @@ The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
 ## Token Application
-In the /token project directory, you can run:
+Create config.json file in the /token project directory, and fill it with data:
+
+`{`<br>
+  `"HTTP_PORT": 8080,`<br>
+  `"INFOBIP_API_HOST": "oneapi.ioinfobip.com",`<br>
+  `"INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",`<br>
+  `"INFOBIP_USERNAME": "YOUR_USERNAME",`<br>
+  `"INFOBIP_PASSWORD": "YOUR_PASSWORD"`<br>
+`}`
+
+Then in the /token project directory, you should run:
 
 
 ### `npm start`
