@@ -2,4 +2,4 @@
 **/.DS_Store
 .idea/
 node_modules/
-token/lib/config.js
+token/config.json

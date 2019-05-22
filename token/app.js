@@ -1,5 +1,5 @@
 const express = require('express');
-const config = require('./lib/config');
+var config = require('./config.json');
 const https = require('./lib/https')();
 const app = express();
 app.use(express.json());
