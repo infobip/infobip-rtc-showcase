@@ -76,7 +76,7 @@ class Call extends Component {
     callPhoneNumber = () => {
         if(this.state.destination) {
             this.setState((state) => {
-                state.activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, {from: '38761225883'});
+                state.activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, {from: '33755531044'});
                 this.listenForCallEvents();
                 return state;
             });

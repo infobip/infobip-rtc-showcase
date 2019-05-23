@@ -1,5 +1,5 @@
 ## Infobip RTC Showcase - jQuery
-In /js/infobip-rtc-showcase-jquery folder: 
+In /js/jquery folder: 
 
 
 ### `npm start`
@@ -9,7 +9,7 @@ Open [http://localhost:8010](http://localhost:8010) to view it in the browser.
 
 
 ## Infobip RTC Showcase - React
-In /js/infobip-rtc-showcase-react folder: 
+In /js/react folder: 
 
 ### `npm start`
 
