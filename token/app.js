@@ -11,11 +11,14 @@ app.use(function(req, res, next) {
     next();
 });
 const AUTH = 'Basic ' + Buffer.from(config.INFOBIP_USERNAME + ':' + config.INFOBIP_PASSWORD).toString('base64');
+const IDENTITY_PREFIX = 'user';
+let counter = 1;
 
 app.post('/token', (req, res) => {
-    let identity = req.body.identity;
+    let identity = IDENTITY_PREFIX + counter;
     https.post(config.INFOBIP_API_HOST, config.INFOBIP_RTC_TOKEN_PATH, JSON.stringify({ identity: identity }), AUTH)
         .then(function(tokenResponse) {
+            counter ++;
             res.send(tokenResponse)
         })
         .catch(err => {

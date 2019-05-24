@@ -17,7 +17,6 @@ Then in the /token project directory, you should run:
 Runs the app.<br>
 Open [http://localhost:8080](http://localhost:8080) 
 
-
 ## Infobip RTC Showcase - jQuery
 In /js/jquery folder: 
 
@@ -35,6 +34,17 @@ In /js/react folder:
 
 Runs the app.<br>
 Open [http://localhost:8020](http://localhost:8020) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+
+## Infobip RTC Showcase - Angular
+In /js/angular folder: 
+
+### `npm start`
+
+Runs the app.<br>
+Open [http://localhost:8030](http://localhost:8030) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.

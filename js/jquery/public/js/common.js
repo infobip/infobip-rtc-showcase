@@ -1,10 +1,9 @@
-async function connectInfobipRTC(identity) {
+async function connectInfobipRTC() {
     return new Promise(resolve => {
         $.post({
             url: "http://localhost:8080/token",
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({identity: identity}),
             success: function (data) {
                 let token = JSON.parse(data).token;
                 let options = {debug: true};

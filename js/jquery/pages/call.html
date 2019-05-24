@@ -10,16 +10,18 @@
 </head>
 <body>
 <h2>Infobip RTC Showcase</h2>
-<h3>Basic Call</h3>
+<h4>Logged as: <span id="identity">None</span></h4>
 
 <audio id="remoteAudio" autoplay></audio>
 
 <input type="text" name="destination" id="destination" placeholder="Enter destination to call...">
 <br/> <br/>
-
 <button id="call-btn">Call</button>
 <button id="call-phone-number-btn">Call Phone Number</button>
 
+<h4><span id="status"></span></h4>
+<button id="accept-btn" disabled>Accept</button>
+<button id="decline-btn" disabled>Decline</button>
 <br/><br/>
 <button id="hangup-btn" disabled>Hangup</button>
 

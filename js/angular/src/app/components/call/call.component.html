@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infobip RTC Showcase</title>
+</head>
+<body>
+<div>
+  <h4>Logged as: <span>{{identity || 'None'}}</span></h4>
+  <audio #remoteAudio autoPlay> </audio>
+  <input type="text" (change)="onChange($event)" placeholder="Enter destination to call..." />
+  <br/> <br/>
+  <button [disabled]="activeCall" (click)="call()">Call</button>
+  <button [disabled]="activeCall" (click)="callPhoneNumber()">Call Phone Number</button>
+  <br/><br/>
+
+  <h4> <span>{{status}}</span></h4>
+  <button [disabled]="shouldDisableButtonsOnIncomingCall()" (click)="accept()">Accept</button>
+  <button [disabled]="shouldDisableButtonsOnIncomingCall()" (click)="decline()">Decline</button>
+  <br/><br/>
+
+  <button [disabled]="shouldDisableHangupButton()" (click)="hangup()">Hangup</button>
+</div>
+</body>
+</html>
