@@ -24,7 +24,7 @@ Create config.json file in the /token project directory, and fill it with data:
 
 `{`<br>
   `"HTTP_PORT": 8080,`<br>
-  `"INFOBIP_API_HOST": "oneapi.ioinfobip.com",`<br>
+  `"INFOBIP_API_HOST": "api.infobip.com",`<br>
   `"INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",`<br>
   `"INFOBIP_USERNAME": "YOUR_USERNAME",`<br>
   `"INFOBIP_PASSWORD": "YOUR_PASSWORD"`<br>
