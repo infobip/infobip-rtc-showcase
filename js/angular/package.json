@@ -2,12 +2,12 @@
   "name": "infobip-rtc-showcase-angular",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --open --port 8030",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng": "cross-env ng",
+    "start": "cross-env ng serve --open --port 8030",
+    "build": "cross-env ng build",
+    "test": "cross-env ng test",
+    "lint": "cross-env ng lint",
+    "e2e": "cross-env ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +32,7 @@
     "@angular/language-service": "~7.2.0",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.5.0",
+    "cross-env": "^5.2.0",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",

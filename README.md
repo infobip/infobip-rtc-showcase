@@ -12,6 +12,7 @@ Create config.json file in the /token project directory, and fill it with data:
 Then in the /token project directory, you should run:
 
 
+### `npm install`
 ### `npm start`
 
 Runs the app.<br>
@@ -21,6 +22,7 @@ Open [http://localhost:8080](http://localhost:8080)
 In /js/jquery folder: 
 
 
+### `npm install`
 ### `npm start`
 
 Runs the app.<br>
@@ -30,6 +32,7 @@ Open [http://localhost:8010](http://localhost:8010) to view it in the browser.
 ## Infobip RTC Showcase - React
 In /js/react folder: 
 
+### `npm install`
 ### `npm start`
 
 Runs the app.<br>
@@ -41,6 +44,7 @@ You will also see any lint errors in the console.
 ## Infobip RTC Showcase - Angular
 In /js/angular folder: 
 
+### `npm install`
 ### `npm start`
 
 Runs the app.<br>
