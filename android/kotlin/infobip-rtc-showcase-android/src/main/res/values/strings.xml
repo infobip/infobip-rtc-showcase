@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Infobip RTC Showcase</string>
+    <string name="destination_input_label">Destination</string>
+    <string name="call_button_label">Call</string>
+    <string name="call_phone_number_button_label">Call Phone Number</string>
+    <string name="hangup_button_label">Hangup</string>
+    <string name="accept_button_label">Accept</string>
+    <string name="decline_button_label">Decline</string>
+    <string name="idle_label"/>
+    <string name="calling_label">Calling</string>
+    <string name="ringing_label">Ringing</string>
+    <string name="incoming_call_label">Incoming Call</string>
+    <string name="in_a_call_label">In A Call</string>
+</resources>

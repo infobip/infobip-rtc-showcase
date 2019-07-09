@@ -1,0 +1,6 @@
+server.port: ${HTTP_PORT:8080}
+infobip:
+  api-host: ${INFOBIP_API_HOST:api.infobip.com}
+  rtc-token-path: ${INFOBIP_RTC_TOKEN_PATH:/webrtc/1/token}
+  username: ${INFOBIP_USERNAME}
+  password: ${INFOBIP_PASSWORD}

@@ -18,8 +18,10 @@ app.post('/token', (req, res) => {
     let identity = IDENTITY_PREFIX + counter;
     https.post(config.INFOBIP_API_HOST, config.INFOBIP_RTC_TOKEN_PATH, JSON.stringify({ identity: identity }), AUTH)
         .then(function(tokenResponse) {
-            counter ++;
-            res.send(tokenResponse)
+            counter++;
+            let response = JSON.parse(tokenResponse);
+            response.identity = identity;
+            res.json(response);
         })
         .catch(err => {
             console.error(err);
