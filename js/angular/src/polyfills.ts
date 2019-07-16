@@ -51,6 +51,8 @@
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
+(window as any).global = window;
+(window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.

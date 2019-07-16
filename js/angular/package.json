@@ -1,6 +1,12 @@
 {
   "name": "infobip-rtc-showcase-angular",
   "version": "0.0.0",
+  "description": "Infobip RTC Showcase Application - Angular",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infobip/infobip-rtc-showcase.git"
+  },
+  "license": "ISC",
   "scripts": {
     "ng": "cross-env ng",
     "start": "cross-env ng serve --open --port 8030",
@@ -20,7 +26,7 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
-    "infobip-rtc": "0.0.25",
+    "infobip-rtc": "0.0.29",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

@@ -1,7 +1,11 @@
 {
   "name": "infobip-rtc-showcase-jquery",
   "version": "1.0.0",
-  "description": "",
+  "description": "Infobip RTC Showcase Application - JQuery",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/infobip/infobip-rtc-showcase.git"
+  },
   "main": "app.js",
   "scripts": {
     "start": "cross-env node app.js"

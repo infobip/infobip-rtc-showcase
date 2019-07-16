@@ -1,6 +1,11 @@
 {
   "name": "infobip-rtc-showcase-react",
   "version": "0.0.1",
+  "description": "Infobip RTC Showcase Application - React",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infobip/infobip-rtc-showcase.git"
+  },
   "private": true,
   "main": "app.js",
   "keywords": [],
@@ -12,7 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "infobip-rtc": "0.0.25",
+    "infobip-rtc": "0.0.29",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",
