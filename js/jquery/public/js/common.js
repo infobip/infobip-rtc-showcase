@@ -5,7 +5,7 @@ async function connectInfobipRTC() {
             type: 'POST',
             contentType: 'application/json',
             success: function (data) {
-                let token = JSON.parse(data).token;
+                let token = data.token;
                 let options = {debug: true};
                 infobipRTC = new InfobipRTC(token, options);
                 infobipRTC.on('connected', function (event) {
