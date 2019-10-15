@@ -36,7 +36,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.google.firebase:firebase-core:17.0.0'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
-    implementation ('com.infobip:infobip-rtc:0.3.2@aar') {
+    implementation ('com.infobip:infobip-rtc:+@aar') {
         transitive = true
     }
 }

@@ -14,16 +14,13 @@ import com.infobip.webrtc.sdk.api.InfobipRTC
 import com.infobip.webrtc.sdk.api.call.CallRequest
 import com.infobip.webrtc.sdk.api.call.options.CallPhoneNumberOptions
 import com.infobip.webrtc.sdk.api.event.CallEventListener
-import com.infobip.webrtc.sdk.api.event.call.CallErrorEvent
-import com.infobip.webrtc.sdk.api.event.call.CallEstablishedEvent
-import com.infobip.webrtc.sdk.api.event.call.CallHangupEvent
-import com.infobip.webrtc.sdk.api.event.call.CallRingingEvent
 import android.os.AsyncTask
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.infobip.rtc.showcase.service.AccessToken
 import com.infobip.webrtc.sdk.api.call.IncomingCall
+import com.infobip.webrtc.sdk.api.event.call.*
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -163,6 +160,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun callEventListener(): CallEventListener {
         return object : CallEventListener {
+            override fun onRinging(callRingingEvent: CallRingingEvent?) {
+                handleRinging(callRingingEvent!!)
+            }
+            override fun onEarlyMedia(callEarlyMediaEvent: CallEarlyMediaEvent?) {
+                Log.d(TAG, "Early media: $callEarlyMediaEvent")
+            }
             override fun onHangup(callHangupEvent: CallHangupEvent?) {
                 handleHangup("Hangup: ${callHangupEvent?.errorCode?.name}")
             }
@@ -171,9 +174,6 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onError(callErrorEvent: CallErrorEvent?) {
                 handleHangup("Error: ${callErrorEvent?.reason?.name}")
-            }
-            override fun onRinging(callRingingEvent: CallRingingEvent?) {
-               handleRinging(callRingingEvent!!)
             }
         }
     }
