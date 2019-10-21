@@ -75,6 +75,10 @@ extension ViewController: CallDelegate {
         self.statusLabel.text = "Ringing"
     }
     
+    func onEarlyMedia(_ callEarlyMediaEvent: CallEarlyMediaEvent) {
+        self.statusLabel.text = "Ringing..."
+    }
+    
     func onEstablished(_ callEstablishedEvent: CallEstablishedEvent) {
         self.statusLabel.text = "Active call with: \(self.activeCall?.destination().identity ?? self.unknown)"
     }
