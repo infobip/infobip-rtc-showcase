@@ -30,11 +30,11 @@ function callPhoneNumber() {
 
 function listenForIncomingCall() {
     infobipRTC.on('incoming-call', function(incomingCall) {
-        console.log('Received incoming call from: ' + incomingCall.caller.identity);
+        console.log('Received incoming call from: ' + incomingCall.source().identity);
         activeCall = incomingCall;
         incomingCall.on('established', event => {
             $('#hangup-btn').prop('disabled', false);
-            $('#status').html('In a call with: ' + incomingCall.caller.identity);
+            $('#status').html('In a call with: ' + incomingCall.source().identity);
             $('#remoteAudio')[0].srcObject = event.remoteStream;
         });
         incomingCall.on('hangup', () => {
@@ -44,7 +44,7 @@ function listenForIncomingCall() {
 
         $('#accept-btn').prop('disabled', false);
         $('#decline-btn').prop('disabled', false);
-        $('#status').html('Incoming call from: ' + incomingCall.caller.identity);
+        $('#status').html('Incoming call from: ' + incomingCall.source().identity);
     });
 }
 

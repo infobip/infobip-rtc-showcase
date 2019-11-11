@@ -1,23 +1,23 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Call, InfobipRTC} from "infobip-rtc";
-import {HttpClient} from "@angular/common/http";
-import {IncomingCall} from "infobip-rtc/dist/call/IncomingCall";
+import {Call, InfobipRTC} from 'infobip-rtc';
+import {HttpClient} from '@angular/common/http';
+import {IncomingCall} from 'infobip-rtc/dist/call/IncomingCall';
 
 @Component({
   selector: 'app-call',
   templateUrl: './call.component.html'
 })
 export class CallComponent implements OnInit {
-  @ViewChild("remoteAudio") remoteAudio: HTMLAudioElement;
+  @ViewChild('remoteAudio') remoteAudio: HTMLAudioElement;
 
-  destination: string = '';
+  destination = '';
   infobipRTC: InfobipRTC = null;
   activeCall: Call = null;
-  identity: string = '';
-  status: string = '';
-  isCallEstablished: boolean = false;
-  isOutgoingCall: boolean = false;
-  isIncomingCall: boolean = false;
+  identity = '';
+  status = '';
+  isCallEstablished = false;
+  isOutgoingCall = false;
+  isIncomingCall = false;
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -30,7 +30,7 @@ export class CallComponent implements OnInit {
     this.httpClient.post('http://localhost:8080/token', {})
       .toPromise()
       .then((response: Response) => {
-        let that = this;
+        const that = this;
         // @ts-ignore
         this.infobipRTC = new InfobipRTC(response.token, {debug: true});
         this.infobipRTC.on('connected', function (event) {
@@ -46,18 +46,18 @@ export class CallComponent implements OnInit {
   };
 
   listenForIncomingCall = () => {
-    let that = this;
+    const that = this;
     this.infobipRTC.on('incoming-call', function (incomingCall) {
-      console.log('Received incoming call from: ' + incomingCall.caller.identity);
+      console.log('Received incoming call from: ' + incomingCall.source().identity);
 
       that.activeCall = incomingCall;
       that.isIncomingCall = true;
-      that.status = 'Incoming call from: ' + incomingCall.caller.identity;
+      that.status = 'Incoming call from: ' + incomingCall.source().identity;
 
       incomingCall.on('established', () => {
         // @ts-ignore
         that.remoteAudio.nativeElement.srcObject = incomingCall.remoteStream;
-        that.status = 'In a call with: ' + incomingCall.caller.identity;
+        that.status = 'In a call with: ' + incomingCall.source().identity;
         that.isCallEstablished = true;
       });
       incomingCall.on('hangup', () => {
@@ -72,7 +72,7 @@ export class CallComponent implements OnInit {
 
   listenForCallEvents = () => {
     if (this.activeCall) {
-      let that = this;
+      const that = this;
       this.activeCall.on('established', function (event) {
         that.status = 'Call established with: ' + that.destination;
         console.log('Call established with ' + that.destination);
@@ -118,11 +118,11 @@ export class CallComponent implements OnInit {
   };
 
   accept = () => {
-    (<IncomingCall>this.activeCall).accept();
+    (<IncomingCall> this.activeCall).accept();
   };
 
   decline = () => {
-    (<IncomingCall>this.activeCall).decline();
+    (<IncomingCall> this.activeCall).decline();
   };
 
   shouldDisableButtonsOnIncomingCall = () => {

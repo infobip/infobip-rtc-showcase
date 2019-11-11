@@ -46,20 +46,18 @@ class Call extends Component {
     listenForIncomingCall() {
         let that = this;
         this.state.infobipRTC.on('incoming-call', function (incomingCall) {
-            console.log('Received incoming call from: ' + incomingCall.caller.identity);
+            console.log('Received incoming call from: ' + incomingCall.source().identity);
 
-            that.setState((state) => {
-                state.activeCall = incomingCall;
-                state.isIncomingCall = true;
-                state.status = 'Incoming call from: ' + incomingCall.caller.identity;
-                return state;
+            that.setState( {
+                activeCall: incomingCall,
+                isIncomingCall: true,
+                status: 'Incoming call from: ' + incomingCall.source().identity
             });
             incomingCall.on('established', () => {
                 that.refs.remoteAudio.srcObject = incomingCall.remoteStream;
-                that.setState((state) => {
-                    state.status = 'In a call with: ' + incomingCall.caller.identity;
-                    state.isCallEstablished = true;
-                    return state;
+                that.setState({
+                    status: 'In a call with: ' + incomingCall.source().identity,
+                    isCallEstablished: true
                 });
             });
             incomingCall.on('hangup', () => {
@@ -72,59 +70,50 @@ class Call extends Component {
         });
     }
 
-    listenForCallEvents() {
-        if (this.state.activeCall) {
-            let that = this;
-            this.state.activeCall.on('established', function (event) {
-                that.setState((state) => {
-                    state.status = 'Call established with: ' + that.destination;
-                    return state;
-                });
-                console.log('Call established with ' + that.state.destination);
-                that.refs.remoteAudio.srcObject = event.remoteStream;
-            });
-            this.state.activeCall.on('hangup', function (event) {
-                that.setValuesAfterOutgoingCall();
-            });
-            this.state.activeCall.on('ringing', function () {
-                that.setState((state) => {
-                    state.status = 'Ringing...';
-                    return state;
-                });
-                console.log('Call is ringing...');
-            });
-            this.state.activeCall.on('error', function (event) {
-                console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
-                that.setValuesAfterOutgoingCall();
-            });
-        }
+    setCallEventHandlers(call) {
+        let that = this;
+        call.on('established', function (event) {
+            that.setState({status: 'Call established with: ' + that.state.destination});
+            console.log('Call established with ' + that.state.destination);
+            that.refs.remoteAudio.srcObject = event.remoteStream;
+        });
+        call.on('hangup', function (event) {
+            that.setValuesAfterOutgoingCall();
+            that.setState({status: 'Call finished, status: ' + event.status.description});
+        });
+        call.on('ringing', function () {
+            that.setState({status: 'Ringing...'});
+            console.log('Call is ringing...');
+        });
+        call.on('error', function (event) {
+            console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+            that.setValuesAfterOutgoingCall();
+        });
     }
 
     handleChange = (event) => {
         const dest = event.target.value;
-        this.setState((state) => {
-            state.destination = dest;
-            return state;
-        });
+        this.setState({destination: dest});
     };
 
     call = () => {
         if (this.state.destination) {
-            this.setState((state) => {
-                state.activeCall = this.state.infobipRTC.call(this.state.destination, {});
-                state.isOutgoingCall = true;
-                this.listenForCallEvents();
-                return state;
+            const activeCall = this.state.infobipRTC.call(this.state.destination, {});
+            this.setCallEventHandlers(activeCall);
+            this.setState({
+                activeCall: activeCall,
+                isOutgoingCall: true
             });
         }
     };
 
     callPhoneNumber = () => {
         if (this.state.destination) {
-            this.setState((state) => {
-                state.activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, {from: '33755531044'});
-                this.listenForCallEvents();
-                return state;
+            const activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, {});
+            this.setCallEventHandlers(activeCall);
+            this.setState({
+                activeCall: activeCall,
+                isOutgoingCall: true
             });
         }
     };
@@ -150,21 +139,18 @@ class Call extends Component {
     }
 
     setValuesAfterIncomingCall() {
-        this.setState((state) => {
-            state.status = null;
-            state.activeCall = null;
-            state.isCallEstablished = false;
-            state.isIncomingCall = false;
-            return state;
+        this.setState({
+            status: null,
+            activeCall: null,
+            isCallEstablished: false,
+            isIncomingCall: false
         });
     }
 
     setValuesAfterOutgoingCall() {
-        this.setState((state) => {
-            state.status = null;
-            state.activeCall = null;
-            state.isOutgoingCall = false;
-            return state;
+        this.setState({
+            activeCall: null,
+            isOutgoingCall: false
         });
     }
 
