@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Call, InfobipRTC} from 'infobip-rtc';
+import {Call, IncomingCall, InfobipRTC} from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
-import {IncomingCall} from 'infobip-rtc/dist/call/IncomingCall';
 
 @Component({
   selector: 'app-call',
@@ -33,11 +32,11 @@ export class CallComponent implements OnInit {
         const that = this;
         // @ts-ignore
         this.infobipRTC = new InfobipRTC(response.token, {debug: true});
-        this.infobipRTC.on('connected', function (event) {
+        this.infobipRTC.on('connected', event => {
           that.identity = event.identity;
           console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
         });
-        this.infobipRTC.on('disconnected', function (event) {
+        this.infobipRTC.on('disconnected', event => {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
@@ -47,7 +46,7 @@ export class CallComponent implements OnInit {
 
   listenForIncomingCall = () => {
     const that = this;
-    this.infobipRTC.on('incoming-call', function (incomingCall) {
+    this.infobipRTC.on('incoming-call', incomingCall => {
       console.log('Received incoming call from: ' + incomingCall.source().identity);
 
       that.activeCall = incomingCall;
@@ -63,7 +62,7 @@ export class CallComponent implements OnInit {
       incomingCall.on('hangup', () => {
         that.setValuesAfterIncomingCall();
       });
-      incomingCall.on('error', function (event) {
+      incomingCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         that.setValuesAfterIncomingCall();
       });
@@ -73,20 +72,20 @@ export class CallComponent implements OnInit {
   listenForCallEvents = () => {
     if (this.activeCall) {
       const that = this;
-      this.activeCall.on('established', function (event) {
+      this.activeCall.on('established', event => {
         that.status = 'Call established with: ' + that.destination;
         console.log('Call established with ' + that.destination);
         // @ts-ignore
         that.remoteAudio.nativeElement.srcObject = event.remoteStream;
       });
-      this.activeCall.on('hangup', function (event) {
+      this.activeCall.on('hangup', event => {
         that.setValuesAfterOutgoingCall();
       });
-      this.activeCall.on('ringing', function () {
+      this.activeCall.on('ringing', () => {
         that.status = 'Ringing...';
         console.log('Call is ringing...');
       });
-      this.activeCall.on('error', function (event) {
+      this.activeCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         that.setValuesAfterOutgoingCall();
       });
@@ -109,6 +108,7 @@ export class CallComponent implements OnInit {
   callPhoneNumber = () => {
     if (this.destination) {
       this.activeCall = this.infobipRTC.callPhoneNumber(this.destination, {from: '33755531044'});
+
       this.listenForCallEvents();
     }
   };
@@ -118,11 +118,11 @@ export class CallComponent implements OnInit {
   };
 
   accept = () => {
-    (<IncomingCall> this.activeCall).accept();
+    (this.activeCall as IncomingCall).accept();
   };
 
   decline = () => {
-    (<IncomingCall> this.activeCall).decline();
+    (this.activeCall as IncomingCall).decline();
   };
 
   shouldDisableButtonsOnIncomingCall = () => {
