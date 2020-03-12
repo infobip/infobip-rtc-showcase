@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {InfobipRTC} from "infobip-rtc";
+import {CallPhoneNumberOptions, InfobipRTC} from "infobip-rtc";
 import httpClient from "axios";
 
 class Call extends Component {
@@ -45,10 +45,11 @@ class Call extends Component {
 
     listenForIncomingCall() {
         let that = this;
-        this.state.infobipRTC.on('incoming-call', function (incomingCall) {
+        this.state.infobipRTC.on('incoming-call', function (incomingCallEvent) {
+            const incomingCall = incomingCallEvent.incomingCall;
             console.log('Received incoming call from: ' + incomingCall.source().identity);
 
-            that.setState( {
+            that.setState({
                 activeCall: incomingCall,
                 isIncomingCall: true,
                 status: 'Incoming call from: ' + incomingCall.source().identity
@@ -98,7 +99,7 @@ class Call extends Component {
 
     call = () => {
         if (this.state.destination) {
-            const activeCall = this.state.infobipRTC.call(this.state.destination, {});
+            const activeCall = this.state.infobipRTC.call(this.state.destination);
             this.setCallEventHandlers(activeCall);
             this.setState({
                 activeCall: activeCall,
@@ -109,7 +110,7 @@ class Call extends Component {
 
     callPhoneNumber = () => {
         if (this.state.destination) {
-            const activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, {});
+            const activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, new CallPhoneNumberOptions('33712345678'));
             this.setCallEventHandlers(activeCall);
             this.setState({
                 activeCall: activeCall,

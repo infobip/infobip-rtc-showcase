@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     setOnClickEventListeners();
     connectInfobipRTC()
         .then(identity => {
@@ -19,17 +19,18 @@ let infobipRTC;
 let activeCall;
 
 function call() {
-    activeCall = infobipRTC.call(getDestination(), {});
+    activeCall = infobipRTC.call(getDestination());
     listenForCallEvents();
 }
 
 function callPhoneNumber() {
-    activeCall = infobipRTC.callPhoneNumber(getDestination(), { from: '33755531044'});
+    activeCall = infobipRTC.callPhoneNumber(getDestination(), new CallPhoneNumberOptions('33712345678'));
     listenForCallEvents();
 }
 
 function listenForIncomingCall() {
-    infobipRTC.on('incoming-call', function(incomingCall) {
+    infobipRTC.on('incoming-call', function (incomingCallEvent) {
+        let incomingCall = incomingCallEvent.incomingCall;
         console.log('Received incoming call from: ' + incomingCall.source().identity);
         activeCall = incomingCall;
         incomingCall.on('established', event => {

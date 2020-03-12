@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Call, IncomingCall, InfobipRTC} from 'infobip-rtc';
+import {Call, CallPhoneNumberOptions, IncomingCall, InfobipRTC} from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -46,7 +46,8 @@ export class CallComponent implements OnInit {
 
   listenForIncomingCall = () => {
     const that = this;
-    this.infobipRTC.on('incoming-call', incomingCall => {
+    this.infobipRTC.on('incoming-call', incomingCallEvent => {
+      const incomingCall = incomingCallEvent.incomingCall;
       console.log('Received incoming call from: ' + incomingCall.source().identity);
 
       that.activeCall = incomingCall;
@@ -98,7 +99,7 @@ export class CallComponent implements OnInit {
 
   call = () => {
     if (this.destination) {
-      this.activeCall = this.infobipRTC.call(this.destination, {});
+      this.activeCall = this.infobipRTC.call(this.destination);
       this.isOutgoingCall = true;
 
       this.listenForCallEvents();
@@ -107,7 +108,7 @@ export class CallComponent implements OnInit {
 
   callPhoneNumber = () => {
     if (this.destination) {
-      this.activeCall = this.infobipRTC.callPhoneNumber(this.destination, {from: '33755531044'});
+      this.activeCall = this.infobipRTC.callPhoneNumber(this.destination, new CallPhoneNumberOptions('33712345678'));
 
       this.listenForCallEvents();
     }

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         const val INCOMING_CALL = "INCOMING_CALL"
 
         private const val TAG = "INFOBIP_RTC"
-        private const val FROM = "33755531044"
+        private const val FROM = "33712345678"
         private val EXECUTOR: ScheduledExecutorService = Executors.newScheduledThreadPool(2)
     }
 
