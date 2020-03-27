@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Call, CallPhoneNumberOptions, IncomingCall, InfobipRTC} from 'infobip-rtc';
+import {Call, CallOptions, CallPhoneNumberOptions, IncomingCall, InfobipRTC} from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -8,6 +8,8 @@ import {HttpClient} from '@angular/common/http';
 })
 export class CallComponent implements OnInit {
   @ViewChild('remoteAudio') remoteAudio: HTMLAudioElement;
+  @ViewChild('remoteVideo') remoteVideo: HTMLVideoElement;
+  @ViewChild('localVideo') localVideo: HTMLVideoElement;
 
   destination = '';
   infobipRTC: InfobipRTC = null;
@@ -52,19 +54,20 @@ export class CallComponent implements OnInit {
 
       that.activeCall = incomingCall;
       that.isIncomingCall = true;
-      that.status = 'Incoming call from: ' + incomingCall.source().identity;
+      that.status = 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.source().identity;
 
-      incomingCall.on('established', () => {
-        // @ts-ignore
-        that.remoteAudio.nativeElement.srcObject = incomingCall.remoteStream;
+      incomingCall.on('established', event => {
+        that.setMediaStream(incomingCall, event);
         that.status = 'In a call with: ' + incomingCall.source().identity;
         that.isCallEstablished = true;
       });
       incomingCall.on('hangup', () => {
+        that.removeMediaStream();
         that.setValuesAfterIncomingCall();
       });
       incomingCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+        that.removeMediaStream();
         that.setValuesAfterIncomingCall();
       });
     });
@@ -76,10 +79,10 @@ export class CallComponent implements OnInit {
       this.activeCall.on('established', event => {
         that.status = 'Call established with: ' + that.destination;
         console.log('Call established with ' + that.destination);
-        // @ts-ignore
-        that.remoteAudio.nativeElement.srcObject = event.remoteStream;
+        that.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('hangup', event => {
+        that.removeMediaStream();
         that.setValuesAfterOutgoingCall();
       });
       this.activeCall.on('ringing', () => {
@@ -88,8 +91,30 @@ export class CallComponent implements OnInit {
       });
       this.activeCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+        that.removeMediaStream();
         that.setValuesAfterOutgoingCall();
       });
+    }
+  };
+
+  removeMediaStream() {
+    // @ts-ignore
+    this.localVideo.nativeElement.srcObject = null;
+    // @ts-ignore
+    this.remoteVideo.nativeElement.srcObject = null;
+    // @ts-ignore
+    this.remoteAudio.nativeElement.srcObject = null;
+  }
+
+  setMediaStream = (call, event) => {
+    if (call.options.video) {
+      // @ts-ignore
+      this.localVideo.nativeElement.srcObject = event.localStream;
+      // @ts-ignore
+      this.remoteVideo.nativeElement.srcObject = event.remoteStream;
+    } else {
+      // @ts-ignore
+      this.remoteAudio.nativeElement.srcObject = event.remoteStream;
     }
   };
 
@@ -97,9 +122,13 @@ export class CallComponent implements OnInit {
     this.destination = event.target.value;
   };
 
-  call = () => {
+  call = (video = false) => {
     if (this.destination) {
-      this.activeCall = this.infobipRTC.call(this.destination);
+      const callOptions = CallOptions.builder()
+        .setVideo(video)
+        .build();
+
+      this.activeCall = this.infobipRTC.call(this.destination, callOptions);
       this.isOutgoingCall = true;
 
       this.listenForCallEvents();
@@ -108,7 +137,10 @@ export class CallComponent implements OnInit {
 
   callPhoneNumber = () => {
     if (this.destination) {
-      this.activeCall = this.infobipRTC.callPhoneNumber(this.destination, new CallPhoneNumberOptions('33712345678'));
+      const callPhoneNumberOptions = CallPhoneNumberOptions.builder()
+        .setFrom('33712345678')
+        .build();
+      this.activeCall = this.infobipRTC.callPhoneNumber(this.destination, callPhoneNumberOptions);
 
       this.listenForCallEvents();
     }

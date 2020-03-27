@@ -8,7 +8,12 @@ $(document).ready(function () {
 });
 
 function setOnClickEventListeners() {
-    $('#call-btn').click(call);
+    $('#call-btn').click(function () {
+        call(false);
+    });
+    $('#call-video-btn').click(function () {
+        call(true);
+    });
     $('#call-phone-number-btn').click(callPhoneNumber);
     $('#accept-btn').click(accept);
     $('#decline-btn').click(decline);
@@ -18,13 +23,19 @@ function setOnClickEventListeners() {
 let infobipRTC;
 let activeCall;
 
-function call() {
-    activeCall = infobipRTC.call(getDestination());
+function call(video = false) {
+    let callOptions = CallOptions.builder()
+        .setVideo(video)
+        .build();
+    activeCall = infobipRTC.call(getDestination(), callOptions);
     listenForCallEvents();
 }
 
 function callPhoneNumber() {
-    activeCall = infobipRTC.callPhoneNumber(getDestination(), new CallPhoneNumberOptions('33712345678'));
+    let callPhoneNumberOptions = CallPhoneNumberOptions.builder()
+        .setFrom('33712345678')
+        .build();
+    activeCall = infobipRTC.callPhoneNumber(getDestination(), callPhoneNumberOptions);
     listenForCallEvents();
 }
 
@@ -34,30 +45,37 @@ function listenForIncomingCall() {
         console.log('Received incoming call from: ' + incomingCall.source().identity);
         activeCall = incomingCall;
         incomingCall.on('established', event => {
+            $('#call-btn').prop('disabled', true);
+            $('#call-video-btn').prop('disabled', true);
+            $('#call-phone-number-btn').prop('disabled', true);
             $('#hangup-btn').prop('disabled', false);
             $('#status').html('In a call with: ' + incomingCall.source().identity);
-            $('#remoteAudio')[0].srcObject = event.remoteStream;
+            setMediaStream(incomingCall, event);
         });
         incomingCall.on('hangup', () => {
-            $('#hangup-btn').prop('disabled', true);
-            $('#status').html('');
+            hangup();
+        });
+        incomingCall.on('error', () => {
+            console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+            hangup();
         });
 
         $('#accept-btn').prop('disabled', false);
         $('#decline-btn').prop('disabled', false);
-        $('#status').html('Incoming call from: ' + incomingCall.source().identity);
+        $('#status').html('Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.source().identity);
     });
 }
 
 function listenForCallEvents() {
     $('#call-btn').prop('disabled', true);
+    $('#call-video-btn').prop('disabled', true);
     $('#call-phone-number-btn').prop('disabled', true);
     $('#hangup-btn').prop('disabled', false);
 
     activeCall.on('established', function (event) {
         $('#status').html('Call established with: ' + getDestination());
         console.log('Call established with ' + getDestination());
-        $('#remoteAudio')[0].srcObject = event.remoteStream;
+        setMediaStream(activeCall, event);
     });
     activeCall.on('hangup', function (event) {
         hangup();
@@ -70,6 +88,21 @@ function listenForCallEvents() {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         hangup();
     });
+}
+
+function removeMediaStream() {
+    $('#remoteVideo')[0].srcObject = null;
+    $('#localVideo')[0].srcObject = null;
+    $('#remoteAudio')[0].srcObject = null;
+}
+
+function setMediaStream(call, event) {
+    if (call.options.video) {
+        $('#remoteVideo')[0].srcObject = event.remoteStream;
+        $('#localVideo')[0].srcObject = event.localStream;
+    } else {
+        $('#remoteAudio')[0].srcObject = event.remoteStream;
+    }
 }
 
 function accept() {
@@ -92,7 +125,9 @@ function hangup() {
     $('#status').html('');
     $('#hangup-btn').prop('disabled', true);
     $('#call-btn').prop('disabled', false);
+    $('#call-video-btn').prop('disabled', false);
     $('#call-phone-number-btn').prop('disabled', false);
+    removeMediaStream();
 }
 
 function getDestination() {

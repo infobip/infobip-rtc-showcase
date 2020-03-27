@@ -17,6 +17,7 @@
 <input type="text" name="destination" id="destination" placeholder="Enter destination to call...">
 <br/> <br/>
 <button id="call-btn">Call</button>
+<button id="call-video-btn">Video Call</button>
 <button id="call-phone-number-btn">Call Phone Number</button>
 
 <h4><span id="status"></span></h4>
@@ -24,6 +25,18 @@
 <button id="decline-btn" disabled>Decline</button>
 <br/><br/>
 <button id="hangup-btn" disabled>Hangup</button>
+<br/><br/>
+
+<video id="remoteVideo"
+       style="object-fit: cover"
+       width="700" height="700"
+       autoplay>
+</video>
+<video id="localVideo"
+       style="object-fit: cover"
+       width="700" height="700"
+       autoplay>
+</video>
 
 <script type="application/javascript" src="js/common.js"></script>
 <script type="application/javascript" src="js/call.js"></script>

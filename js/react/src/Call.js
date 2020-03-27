@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {CallPhoneNumberOptions, InfobipRTC} from "infobip-rtc";
+import {CallOptions, CallPhoneNumberOptions, InfobipRTC} from "infobip-rtc";
 import httpClient from "axios";
 
 class Call extends Component {
@@ -52,20 +52,22 @@ class Call extends Component {
             that.setState({
                 activeCall: incomingCall,
                 isIncomingCall: true,
-                status: 'Incoming call from: ' + incomingCall.source().identity
+                status: 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.source().identity
             });
-            incomingCall.on('established', () => {
-                that.refs.remoteAudio.srcObject = incomingCall.remoteStream;
+            incomingCall.on('established', event => {
+                that.setMediaStream(incomingCall, event);
                 that.setState({
                     status: 'In a call with: ' + incomingCall.source().identity,
                     isCallEstablished: true
                 });
             });
             incomingCall.on('hangup', () => {
+                that.removeMediaStream();
                 that.setValuesAfterIncomingCall();
             });
             incomingCall.on('error', (event) => {
                 console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+                that.removeMediaStream();
                 that.setValuesAfterIncomingCall();
             });
         });
@@ -76,9 +78,10 @@ class Call extends Component {
         call.on('established', function (event) {
             that.setState({status: 'Call established with: ' + that.state.destination});
             console.log('Call established with ' + that.state.destination);
-            that.refs.remoteAudio.srcObject = event.remoteStream;
+            that.setMediaStream(call, event);
         });
         call.on('hangup', function (event) {
+            that.removeMediaStream();
             that.setValuesAfterOutgoingCall();
             that.setState({status: 'Call finished, status: ' + event.status.description});
         });
@@ -88,8 +91,24 @@ class Call extends Component {
         });
         call.on('error', function (event) {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+            that.removeMediaStream();
             that.setValuesAfterOutgoingCall();
         });
+    }
+
+    setMediaStream(call, event) {
+        if (call.options.video) {
+            this.refs.localVideo.srcObject = event.localStream;
+            this.refs.remoteVideo.srcObject = event.remoteStream;
+        } else {
+            this.refs.remoteAudio.srcObject = event.remoteStream;
+        }
+    }
+
+    removeMediaStream() {
+        this.refs.localVideo.srcObject = null;
+        this.refs.remoteVideo.srcObject = null;
+        this.refs.remoteAudio.srcObject = null;
     }
 
     handleChange = (event) => {
@@ -97,9 +116,13 @@ class Call extends Component {
         this.setState({destination: dest});
     };
 
-    call = () => {
+    call = (video = false) => {
         if (this.state.destination) {
-            const activeCall = this.state.infobipRTC.call(this.state.destination);
+            let callOptions = CallOptions.builder()
+                .setVideo(video)
+                .build();
+
+            const activeCall = this.state.infobipRTC.call(this.state.destination, callOptions);
             this.setCallEventHandlers(activeCall);
             this.setState({
                 activeCall: activeCall,
@@ -110,7 +133,10 @@ class Call extends Component {
 
     callPhoneNumber = () => {
         if (this.state.destination) {
-            const activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, new CallPhoneNumberOptions('33712345678'));
+            let callPhoneNumberOptions = CallPhoneNumberOptions.builder()
+                .setFrom('33712345678')
+                .build();
+            const activeCall = this.state.infobipRTC.callPhoneNumber(this.state.destination, callPhoneNumberOptions);
             this.setCallEventHandlers(activeCall);
             this.setState({
                 activeCall: activeCall,
@@ -159,11 +185,12 @@ class Call extends Component {
         return (
             <div>
                 <h4>Logged as: <span>{this.state.identity}</span></h4>
-                <audio ref="remoteAudio" autoPlay></audio>
+                <audio ref="remoteAudio" autoPlay/>
                 <input type="text" value={this.state.destination} onChange={this.handleChange}
                        placeholder="Enter destination to call..."/>
                 <br/> <br/>
-                <button disabled={this.state.activeCall} onClick={this.call}>Call</button>
+                <button disabled={this.state.activeCall} onClick={() => this.call(false)}>Call</button>
+                <button disabled={this.state.activeCall} onClick={() => this.call(true)}>Video Call</button>
                 <button disabled={this.state.activeCall} onClick={this.callPhoneNumber}>Call Phone Number</button>
                 <br/><br/>
 
@@ -180,6 +207,16 @@ class Call extends Component {
                 <button disabled={this.shouldDisableHangupButton()}
                         onClick={this.hangup}>Hangup
                 </button>
+                <br/><br/>
+
+                <video width="700" height="700"
+                       style={{"object-fit": "cover"}}
+                       autoPlay
+                       ref="remoteVideo"/>
+                <video width="700" height="700"
+                       style={{"object-fit": "cover"}}
+                       autoPlay
+                       ref="localVideo"/>
             </div>
         )
     }
