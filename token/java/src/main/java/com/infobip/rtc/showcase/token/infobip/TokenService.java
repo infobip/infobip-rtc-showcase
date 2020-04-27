@@ -13,13 +13,16 @@ public class TokenService {
     @Value("http://${infobip.api-host}${infobip.rtc-token-path}")
     private String infobipTokenUrl;
 
+    private final String applicationId;
     private final RestTemplate restTemplate;
     private final HttpHeaders httpHeaders;
 
     private int counter = 0;
 
     public TokenService(@Value("${infobip.username}") String infobipUsername,
-                        @Value("${infobip.password}") String infobipPassword) {
+                        @Value("${infobip.password}") String infobipPassword,
+                        @Value("${infobip.application-id}") String infobipApplicationId) {
+        applicationId = infobipApplicationId;
         restTemplate = new RestTemplate();
         httpHeaders = new HttpHeaders();
         httpHeaders.setBasicAuth(infobipUsername, infobipPassword);
@@ -27,7 +30,7 @@ public class TokenService {
 
     public TokenResponse nextToken() {
         String identity = nextIdentity();
-        HttpEntity<TokenRequest> request = new HttpEntity<>(new TokenRequest(identity), httpHeaders);
+        HttpEntity<TokenRequest> request = new HttpEntity<>(new TokenRequest(identity, applicationId), httpHeaders);
         TokenResponse response = restTemplate.postForObject(infobipTokenUrl, request, TokenResponse.class);
         response.setIdentity(identity);
         return response;

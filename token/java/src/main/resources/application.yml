@@ -4,3 +4,4 @@ infobip:
   rtc-token-path: ${INFOBIP_RTC_TOKEN_PATH:/webrtc/1/token}
   username: ${INFOBIP_USERNAME}
   password: ${INFOBIP_PASSWORD}
+  application-id: ${INFOBIP_APP_ID}
