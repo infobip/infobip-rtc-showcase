@@ -9,7 +9,8 @@ Create `config.json` file in the `./token/node` project directory, and fill it w
   "INFOBIP_API_HOST": "api.infobip.com",
   "INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",
   "INFOBIP_USERNAME": "YOUR_USERNAME",
-  "INFOBIP_PASSWORD": "YOUR_PASSWORD"
+  "INFOBIP_PASSWORD": "YOUR_PASSWORD",
+  "INFOBIP_APP_ID": "YOUR_APPLICATION_ID"
 }
 ```
 
