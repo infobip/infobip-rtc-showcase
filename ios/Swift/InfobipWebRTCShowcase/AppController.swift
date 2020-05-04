@@ -2,12 +2,12 @@ import UIKit
 import InfobipRTC
 import os.log
 
-class ViewController: UIViewController {
+class AppController: UIViewController {
     private let unknown = "Unknown"
     private var state: State = .IDLE
     private var token: String?
     private var identity: String?
-    private var activeCall: Call?
+    var activeCall: Call?
     
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var destinationInput: UITextField!
@@ -27,6 +27,7 @@ class ViewController: UIViewController {
             self.dialPadVisibility(.VISIBLE)
             self.token = accessToken.token
             self.identity = accessToken.identity
+            self.createPushRegistry(accessToken.token)
         }
     }
 
@@ -40,6 +41,13 @@ class ViewController: UIViewController {
     
     @IBAction func hangup(_ sender: Any) {
         self.activeCall?.hangup()
+    }
+    
+    func dialPadVisibility(_ visibility: DialpadVisibility) {
+        let isHidden = visibility == .HIDDEN
+        self.destinationInput.isHidden = isHidden
+        self.callButton.isHidden = isHidden
+        self.callPhoneButton.isHidden = isHidden
     }
     
     private func makeCall(phoneCall: Bool = false) {
@@ -61,16 +69,9 @@ class ViewController: UIViewController {
             os_log("Failed to make a call: %@", error.localizedDescription)
         }
     }
-    
-    private func dialPadVisibility(_ visibility: DialpadVisibility) {
-        let isHidden = visibility == .HIDDEN
-        self.destinationInput.isHidden = isHidden
-        self.callButton.isHidden = isHidden
-        self.callPhoneButton.isHidden = isHidden
-    }
 }
 
-extension ViewController: CallDelegate {
+extension AppController: CallDelegate {
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         self.statusLabel.text = "Ringing"
     }
@@ -80,7 +81,8 @@ extension ViewController: CallDelegate {
     }
     
     func onEstablished(_ callEstablishedEvent: CallEstablishedEvent) {
-        self.statusLabel.text = "Active call with: \(self.activeCall?.destination().identity ?? self.unknown)"
+        let remote = getRemote()
+        self.statusLabel.text = "Active call with: \(remote)"
     }
     
     func onHangup(_ callHangupEvent: CallHangupEvent) {
@@ -92,10 +94,24 @@ extension ViewController: CallDelegate {
     }
     
     private func callCleanup(_ reason: String) {
+        if let call = self.activeCall {
+            CallKitAdapter.shared.endCall(call)
+        }
         self.dialPadVisibility(.VISIBLE)
         self.hangupButton.isHidden = true
         os_log("Call finished: %@", reason)
         self.statusLabel.text = "Connected as \(self.identity ?? self.unknown)"
+    }
+    
+    private func getRemote() -> String {
+        if let call = self.activeCall {
+            if call is IncomingCall {
+                return call.source().identity
+            } else {
+                return call.destination().identity
+            }
+        }
+        return unknown
     }
 }
 

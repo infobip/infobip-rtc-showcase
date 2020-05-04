@@ -5,27 +5,24 @@ class TokenProvider {
     private static let TOKEN_API_URL = "http://localhost:9090/token"
     static let shared = TokenProvider()
     
+    private var accessToken: AccessToken?
+    
     func get(completion: @escaping (AccessToken?, Error?) -> Void) {
-        Alamofire
+        if let token = accessToken { return completion(token, nil) }
+        AF
             .request(TokenProvider.TOKEN_API_URL, method: .post, encoding: JSONEncoding.default)
-            .responseJSON { response in
-                guard
-                    let body = response.result.value,
-                    let json = body as? NSDictionary,
-                    let token = json.value(forKey: "token") as? String,
-                    let identity = json.value(forKey: "identity") as? String
-                else {
-                    os_log("Failed to generate token")
+            .responseDecodable(of: AccessToken.self) { response in
+                if let accessToken = response.value {
+                    self.accessToken = accessToken
+                    completion(accessToken, nil)
+                } else {
                     completion(nil, APIError.tokenUnavailable)
-                    return
                 }
-            
-                completion(AccessToken(token, identity), nil)
-        }
+            }
     }
 }
 
-class AccessToken {
+class AccessToken: Decodable {
     let token: String
     let identity: String
     

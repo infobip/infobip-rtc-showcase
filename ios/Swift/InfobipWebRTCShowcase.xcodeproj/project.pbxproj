@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		CA0B91AC9A9AB81EB4F678CA /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA9F59A25E9CDBFA3E212AD4 /* Pods_InfobipWebRTCShowcase.framework */; };
+		DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */; };
+		DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2178245B3DA900C85FAA /* Runtime.swift */; };
+		DDA3A0612459B24F00F4A924 /* PushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA3A0602459B24F00F4A924 /* PushHandler.swift */; };
 		DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */; };
 		DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24A234F75BF00263857 /* AppDelegate.swift */; };
-		DDFEE24F234F75BF00263857 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24E234F75BF00263857 /* ViewController.swift */; };
+		DDFEE24F234F75BF00263857 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24E234F75BF00263857 /* AppController.swift */; };
 		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
 		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
 		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
@@ -20,10 +23,14 @@
 		2A92E1989D3DD06A525D1F2F /* Pods-InfobipWebRTCShowcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.debug.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.debug.xcconfig"; sourceTree = "<group>"; };
 		74B5300D4E37D1D94B8B17AE /* Pods-InfobipWebRTCShowcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.release.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.release.xcconfig"; sourceTree = "<group>"; };
 		AA9F59A25E9CDBFA3E212AD4 /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitAdapter.swift; sourceTree = "<group>"; };
+		DD1C2178245B3DA900C85FAA /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
+		DDA3A0602459B24F00F4A924 /* PushHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushHandler.swift; sourceTree = "<group>"; };
+		DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InfobipWebRTCShowcase.entitlements; sourceTree = "<group>"; };
 		DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
 		DDFEE247234F75BF00263857 /* InfobipWebRTCShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfobipWebRTCShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFEE24A234F75BF00263857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DDFEE24E234F75BF00263857 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DDFEE24E234F75BF00263857 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		DDFEE251234F75BF00263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -80,13 +87,17 @@
 		DDFEE249234F75BF00263857 /* InfobipWebRTCShowcase */ = {
 			isa = PBXGroup;
 			children = (
+				DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */,
 				DDFEE24A234F75BF00263857 /* AppDelegate.swift */,
-				DDFEE24E234F75BF00263857 /* ViewController.swift */,
+				DDFEE24E234F75BF00263857 /* AppController.swift */,
 				DDFEE250234F75BF00263857 /* Main.storyboard */,
 				DDFEE253234F75C000263857 /* Assets.xcassets */,
 				DDFEE255234F75C000263857 /* LaunchScreen.storyboard */,
 				DDFEE258234F75C000263857 /* Info.plist */,
 				DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */,
+				DDA3A0602459B24F00F4A924 /* PushHandler.swift */,
+				DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */,
+				DD1C2178245B3DA900C85FAA /* Runtime.swift */,
 			);
 			path = InfobipWebRTCShowcase;
 			sourceTree = "<group>";
@@ -206,8 +217,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDFEE24F234F75BF00263857 /* ViewController.swift in Sources */,
+				DDFEE24F234F75BF00263857 /* AppController.swift in Sources */,
 				DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */,
+				DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */,
+				DDA3A0612459B24F00F4A924 /* PushHandler.swift in Sources */,
+				DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */,
 				DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +367,7 @@
 			baseConfigurationReference = 2A92E1989D3DD06A525D1F2F /* Pods-InfobipWebRTCShowcase.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = T6U248P7YM;
@@ -376,6 +391,7 @@
 			baseConfigurationReference = 74B5300D4E37D1D94B8B17AE /* Pods-InfobipWebRTCShowcase.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = T6U248P7YM;
