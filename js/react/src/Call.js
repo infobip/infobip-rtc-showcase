@@ -61,6 +61,9 @@ class Call extends Component {
                     isCallEstablished: true
                 });
             });
+            incomingCall.on('updated', event => {
+                that.setMediaStream(incomingCall, event);
+            });
             incomingCall.on('hangup', () => {
                 that.removeMediaStream();
                 that.setValuesAfterIncomingCall();
@@ -89,6 +92,9 @@ class Call extends Component {
             that.setState({status: 'Ringing...'});
             console.log('Call is ringing...');
         });
+        call.on('updated', function (event) {
+           that.setMediaStream(call, event);
+        });
         call.on('error', function (event) {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
             that.removeMediaStream();
@@ -97,10 +103,17 @@ class Call extends Component {
     }
 
     setMediaStream(call, event) {
-        if (call.options.video) {
+        if (call.hasLocalVideo()) {
             this.refs.localVideo.srcObject = event.localStream;
-            this.refs.remoteVideo.srcObject = event.remoteStream;
         } else {
+            this.refs.localVideo.srcObject = null;
+        }
+
+        if(call.hasRemoteVideo()) {
+            this.refs.remoteVideo.srcObject = event.remoteStream;
+            this.refs.remoteAudio.srcObject = null;
+        } else {
+            this.refs.remoteVideo.srcObject = null;
             this.refs.remoteAudio.srcObject = event.remoteStream;
         }
     }
@@ -191,6 +204,9 @@ class Call extends Component {
                 <br/> <br/>
                 <button disabled={this.state.activeCall} onClick={() => this.call(false)}>Call</button>
                 <button disabled={this.state.activeCall} onClick={() => this.call(true)}>Video Call</button>
+                <button disabled={!this.state.activeCall}
+                        onClick={() => this.state.activeCall.screenShare(!this.state.activeCall.hasScreenShare())}>
+                        Toggle Screen Share </button>
                 <button disabled={this.state.activeCall} onClick={this.callPhoneNumber}>Call Phone Number</button>
                 <br/><br/>
 

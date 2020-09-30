@@ -65,6 +65,9 @@ export class CallComponent implements OnInit {
         that.removeMediaStream();
         that.setValuesAfterIncomingCall();
       });
+      incomingCall.on('updated', event => {
+        that.setMediaStream(incomingCall, event);
+      });
       incomingCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         that.removeMediaStream();
@@ -79,6 +82,8 @@ export class CallComponent implements OnInit {
       this.activeCall.on('established', event => {
         that.status = 'Call established with: ' + that.destination;
         console.log('Call established with ' + that.destination);
+
+        // @ts-ignore
         that.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('hangup', event => {
@@ -88,6 +93,9 @@ export class CallComponent implements OnInit {
       this.activeCall.on('ringing', () => {
         that.status = 'Ringing...';
         console.log('Call is ringing...');
+      });
+      this.activeCall.on('updated', event => {
+        that.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
@@ -107,16 +115,26 @@ export class CallComponent implements OnInit {
   }
 
   setMediaStream = (call, event) => {
-    if (call.options.video) {
+    if (call.hasLocalVideo()) {
       // @ts-ignore
       this.localVideo.nativeElement.srcObject = event.localStream;
+    } else {
+      // @ts-ignore
+      this.localVideo.nativeElement.srcObject = null;
+    }
+
+    if(call.hasRemoteVideo()) {
       // @ts-ignore
       this.remoteVideo.nativeElement.srcObject = event.remoteStream;
+      // @ts-ignore
+      this.remoteAudio.nativeElement.srcObject = null;
     } else {
+      // @ts-ignore
+      this.remoteVideo.nativeElement.srcObject = null;
       // @ts-ignore
       this.remoteAudio.nativeElement.srcObject = event.remoteStream;
     }
-  };
+  }
 
   onChange = (event) => {
     this.destination = event.target.value;
@@ -165,6 +183,10 @@ export class CallComponent implements OnInit {
   shouldDisableHangupButton = () => {
     return !this.activeCall || (!this.isCallEstablished && this.isIncomingCall);
   };
+
+  toggleShareScreen = () => {
+    this.activeCall.screenShare(!this.activeCall.hasScreenShare());
+  }
 
   private setValuesAfterIncomingCall() {
     this.status = null;

@@ -12,6 +12,7 @@
   <br/> <br/>
   <button [disabled]="activeCall" (click)="call(false)">Call</button>
   <button [disabled]="activeCall" (click)="call(true)">Video Call</button>
+  <button [disabled]="!activeCall" (click)="toggleShareScreen()">Toggle Share Screen</button>
   <button [disabled]="activeCall" (click)="callPhoneNumber()">Call Phone Number</button>
   <br/><br/>
 
