@@ -11,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.infobip.rtc.showcase.service.AccessToken
+import com.infobip.rtc.showcase.service.ServiceHelper
 import com.infobip.rtc.showcase.service.TokenService
 import com.infobip.webrtc.sdk.api.InfobipRTC
 import com.infobip.webrtc.sdk.api.call.CallRequest
+import com.infobip.webrtc.sdk.api.call.CallStatus
 import com.infobip.webrtc.sdk.api.call.IncomingCall
 import com.infobip.webrtc.sdk.api.call.options.CallOptions
 import com.infobip.webrtc.sdk.api.call.options.CallPhoneNumberOptions
@@ -29,7 +31,9 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val INCOMING_CALL = "INCOMING_CALL"
+        const val CALL_FINISHED = "call_finished"
+        const val OUTGOING_CALL_START = "outgoing_call_start"
+        const val INCOMING_CALL_START = "incoming_call_start"
 
         private const val TAG = "INFOBIP_RTC"
         private const val FROM = "33712345678"
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             declineButtonOnClick()
         }
 
-        findViewById<View>(R.id.flip_camera_button).setOnClickListener{
+        findViewById<View>(R.id.flip_camera_button).setOnClickListener {
             flipCameraButtonOnClick()
         }
 
@@ -99,9 +103,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         val action = intent.action
-        if (INCOMING_CALL == action) {
+        if (INCOMING_CALL_START == action && InfobipRTC.getActiveCall() != null) {
             showIncomingCall()
         }
     }
@@ -175,7 +182,13 @@ class MainActivity : AppCompatActivity() {
             try {
                 accessToken = TokenService.getAccessToken()
                 val destination = findViewById<EditText>(R.id.destination).text.toString()
-                val callRequest = CallRequest(accessToken.token, applicationContext, destination, callEventListener())
+
+                val callRequest = CallRequest(
+                    accessToken.token,
+                    applicationContext,
+                    destination,
+                    callEventListener()
+                )
 
                 val outgoingCall = if (phoneNumber) {
                     val callPhoneNumberOutgoingCall = CallPhoneNumberOptions.builder().from(FROM).build()
@@ -186,6 +199,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 Log.d(TAG, "Outgoing Call: $outgoingCall")
+                ServiceHelper.startService(this@MainActivity, OUTGOING_CALL_START)
+                intent.action = null
 
                 runOnUiThread {
                     if (video) initializeVideoRenderers()
@@ -206,15 +221,22 @@ class MainActivity : AppCompatActivity() {
             override fun onRinging(callRingingEvent: CallRingingEvent?) {
                 handleRinging(callRingingEvent!!)
             }
+
             override fun onEarlyMedia(callEarlyMediaEvent: CallEarlyMediaEvent?) {
                 Log.d(TAG, "Early media: $callEarlyMediaEvent")
             }
+
+            override fun onUpdated(callUpdatedEvent: CallUpdatedEvent?) {
+            }
+
             override fun onHangup(callHangupEvent: CallHangupEvent?) {
                 handleHangup("Hangup: ${callHangupEvent?.errorCode?.name}")
             }
+
             override fun onEstablished(callEstablishedEvent: CallEstablishedEvent?) {
                 handleEstablished(callEstablishedEvent!!)
             }
+
             override fun onError(callErrorEvent: CallErrorEvent?) {
                 handleHangup("Error: ${callErrorEvent?.reason?.name}")
             }
@@ -230,6 +252,8 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             setApplicationState(message)
         }
+
+        ServiceHelper.startService(this@MainActivity, CALL_FINISHED)
 
         EXECUTOR.schedule({
             runOnUiThread {
@@ -287,14 +311,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun showIncomingCall() {
         val incomingCall = InfobipRTC.getActiveCall() as IncomingCall
-        incomingCall.setEventListener(callEventListener())
-        val video = incomingCall.hasRemoteVideo()
-        val callType = if (video) "video" else "audio"
 
-        runOnUiThread {
-            if (video) initializeVideoRenderers()
-            setApplicationState("Incoming $callType call from ${incomingCall.source().identity}")
-            handleIncomingCallLayout()
+        if (incomingCall.status() == CallStatus.RINGING) {
+            incomingCall.setEventListener(callEventListener())
+            val video = incomingCall.hasRemoteVideo()
+            val callType = if (video) "video" else "audio"
+
+            runOnUiThread {
+                if (video) initializeVideoRenderers()
+                setApplicationState("Incoming $callType call from ${incomingCall.source().identity}")
+                handleIncomingCallLayout()
+            }
         }
     }
 

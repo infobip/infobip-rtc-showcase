@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.infobip.rtc.showcase">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
     <application
             android:allowBackup="true"
             android:fullBackupContent="true"
@@ -29,6 +32,11 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service
+                android:name=".service.ForegroundService"
+                android:enabled="true"
+                android:exported="false" />
 
         <service
                 android:name="com.infobip.webrtc.sdk.impl.fcm.FcmTokenRefresher"
