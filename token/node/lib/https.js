@@ -26,7 +26,7 @@ async function post(host, path, body, auth) {
                 response.push(data);
             });
             res.on('end', () => {
-                resolve(response.join());
+                resolve(response.join(''));
             });
         });
 
