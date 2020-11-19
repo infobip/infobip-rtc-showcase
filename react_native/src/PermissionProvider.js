@@ -1,25 +1,21 @@
 import {Permission, PermissionsAndroid} from 'react-native';
 
 export default class PermissionsProvider {
-  static async requestPermission(permissionName: Permission) {
+  static async requestPermission(permissions: Permission[]) {
     const doRequest = async (permission: Permission) => {
-      console.log('Trying ' + permissionName);
+      console.log('Trying ' + permission);
       const granted = await PermissionsAndroid.request(permission);
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log(`Granted permission for ${permissionName}`);
+        console.log(`Granted permission for ${permission}`);
       } else {
-        console.warn(`Denied permission for ${permissionName}`);
+        console.warn(`Denied permission for ${permission}`);
         throw new Error('Permission denied.');
       }
     };
 
-    if (Array.isArray(permissionName)) {
-      for (const name of permissionName) {
-        await doRequest(name);
-      }
-    } else {
-      await doRequest(permissionName);
+    for (const permission of permissions) {
+      await doRequest(permission);
     }
   }
 }

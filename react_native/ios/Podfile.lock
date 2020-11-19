@@ -20,10 +20,10 @@ PODS:
     - glog
   - glog (0.3.5)
   - IBGoogleWebRTC (1.0.31369)
-  - infobip-rtc-react-native (0.1.15-SNAPSHOT):
+  - infobip-rtc-react-native (0.2.0):
     - InfobipRTC
     - React
-  - InfobipRTC (1.2.3):
+  - InfobipRTC (1.2.5):
     - IBGoogleWebRTC (~> 1.0.31369)
     - Starscream (~> 4.0.4)
     - SwiftEventBus (~> 5.0.0)
@@ -360,8 +360,8 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   IBGoogleWebRTC: b0098b75e8d63b1ee5364cde4097587d69f48a84
-  infobip-rtc-react-native: 96c609fe227c4679397c574c918b3720d255e711
-  InfobipRTC: e783f43b9edf97f1c20e7ad5c1f9b0d27fab15a0
+  infobip-rtc-react-native: 876a1db0c1bf187ce3c135c093261f0b5977cfb9
+  InfobipRTC: a3983ab61fae485f7a109b252b1aad7997d32263
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
   RCTTypeSafety: edf4b618033c2f1c5b7bc3d90d8e085ed95ba2ab
   React: f36e90f3ceb976546e97df3403e37d226f79d0e3

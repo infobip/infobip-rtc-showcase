@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {
-  StyleSheet,
+  Alert,
   PermissionsAndroid,
+  Platform,
   SafeAreaView,
   StatusBar,
-  Platform,
-  Alert,
+  StyleSheet,
 } from 'react-native';
 
 import PermissionProvider from './PermissionProvider';
@@ -15,9 +15,10 @@ import Header from './Header';
 export default function App() {
   React.useEffect(() => {
     if (Platform.OS === 'android') {
-      PermissionProvider.requestPermission(
+      PermissionProvider.requestPermission([
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      ).catch((e) => {
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      ]).catch((e) => {
         Alert.alert('Error!', e.message);
       });
     }
