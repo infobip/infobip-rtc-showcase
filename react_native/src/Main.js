@@ -49,6 +49,24 @@ export default function Main() {
     }
   };
 
+  const callConversations = async () => {
+    setStatus(CallStatus.CALLING);
+
+    try {
+      let token = await tokenService.getToken();
+      if (!token) {
+        return showError('Error occurred while retrieving access token!');
+      }
+      console.log('Token retrieved. Starting call...');
+      let options = CallOptions.builder().setVideo(true).build();
+      let outboundCall = await InfobipRTC.callConversations(token, options);
+      setupActiveCall(outboundCall);
+    } catch (e) {
+      console.log(e);
+      showError(e.message);
+    }
+  };
+
   const setupActiveCall = (outgoingCall: Call) => {
     setActiveCall(outgoingCall);
     outgoingCall.on('ringing', () => onRinging());
@@ -129,6 +147,11 @@ export default function Main() {
             style={[styles.button, styles.callButton]}
             onPress={() => call(true)}>
             <Text style={styles.buttonText}>Call Phone Number</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.callButton]}
+            onPress={() => callConversations()}>
+            <Text style={styles.buttonText}>Call Conversations</Text>
           </TouchableOpacity>
         </>
       )}
