@@ -7,11 +7,15 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --fix",
+    "dev": "yarn install && yarn run start && yarn run android"
   },
   "dependencies": {
+    "@react-native-community/cli-platform-ios": "^4.13.0",
+    "@react-native-firebase/app": "^9.0.0",
+    "@react-native-firebase/messaging": "^8.0.1",
     "axios": "0.21.0",
-    "infobip-rtc-react-native": "0.2.1",
+    "infobip-rtc-react-native": "0.2.3",
     "react": "16.13.1",
     "react-native": "0.63.3"
   },

@@ -100,3 +100,29 @@ You can also run Android app on a real device. In that case, the running token a
 Easiest way to do so is use tool like [ngrok](https://ngrok.com/). It allows you to expose your local port on public internet via simple command:  
 #### `ngrok http 8080`
 Then you can access publicly exposed token app from your physical Android device using the URL provided by ngrok.
+
+## Infobip RTC Showcase - React Native
+Add your `google-services.json` to folder `./react_native/android/app` so that you could receive notifications about incoming calls.  
+Provided that you run token application on your machine, you can run The android app on the emulator on the same machine.  
+  
+There is known issue with receiving push notifications for incoming calls on subsequent runs on an emulator, so it is recommended to wipe data on your emulator before running the app again.
+  
+You can also run Android app on a real device. In that case, the running token application must be accessible from your device.  
+The Easiest way to do so is use tool like [ngrok](https://ngrok.com/). It allows you to expose your local port on a public internet via simple command:  
+#### `ngrok http 8080`
+Then you can access publicly exposed token app from your physical Android device using the URL provided by ngrok.
+
+After that, ensure you have local.properties in folder `./react_native/android` filled with content `sdk.dir=...` with path to Android SDK on your computer.
+
+Then in the `./react_native` project directory:
+ 
+- install needed dependencies by running:
+    ### `npm install` or `yarn install` 
+    
+- start the metro application by running:
+    ### `npm start` or  `yarn start` 
+
+- start the Android on emulator or connected phone by running:
+    ### `npm run android` or  `yarn run android`     
+    
+You can use both _yarn_ or _npm_, but please keep in mind that it is advised not to mix package managers in order to avoid resolution inconsistencies.
