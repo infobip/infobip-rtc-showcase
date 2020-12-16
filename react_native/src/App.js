@@ -8,22 +8,10 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import PermissionProvider from './PermissionProvider';
 import Main from './Main';
 import Header from './Header';
 
 export default function App() {
-  React.useEffect(() => {
-    if (Platform.OS === 'android') {
-      PermissionProvider.requestPermission([
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-      ]).catch((e) => {
-        Alert.alert('Error!', e.message);
-      });
-    }
-  }, []);
-
   return (
     <>
       <SafeAreaView style={styles.statusBar}>

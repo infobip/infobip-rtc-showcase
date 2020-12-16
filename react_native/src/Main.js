@@ -1,5 +1,7 @@
 import {
   Alert,
+  PermissionsAndroid,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,6 +19,7 @@ import InfobipRTC, {
 import React from 'react';
 import {CallStatus} from './CallStatus';
 import {TokenService} from './TokenService';
+import PermissionProvider from './PermissionProvider';
 
 class Main extends React.Component {
   constructor(props) {
@@ -36,17 +39,25 @@ class Main extends React.Component {
     if (!this.state.token) {
       return this.showError('Error occurred while retrieving access token!');
     }
-    InfobipRTC.enablePushNotification(this.state.token)
-      .then(console.log('Enabled push notifications.'))
-      .catch((e) =>
-        console.error('Error occurred while enabling push notifications.', e),
-      );
+    if (Platform.OS === 'android') {
+      PermissionProvider.requestPermission([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      ]).catch((e) => {
+        Alert.alert('Error!', e.message);
+      });
+      InfobipRTC.enablePushNotification(this.state.token)
+        .then(console.log('Enabled push notifications.'))
+        .catch((e) =>
+          console.error('Error occurred while enabling push notifications.', e),
+        );
 
-    messaging().onMessage(this.handleNotification(true));
-    messaging().setBackgroundMessageHandler(this.handleNotification(false));
+      messaging().onMessage(this.handleNotification());
+      messaging().setBackgroundMessageHandler(this.handleNotification());
+    }
   }
 
-  handleNotification(foreground) {
+  handleNotification() {
     return async (remoteMessage) => {
       try {
         let incomingCall: IncomingCall = await InfobipRTC.handleIncomingCall(
