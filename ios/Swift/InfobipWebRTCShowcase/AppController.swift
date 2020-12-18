@@ -72,6 +72,10 @@ class AppController: UIViewController {
 }
 
 extension AppController: CallDelegate {
+    func onUpdated(_ callUpdatedEvent: CallUpdatedEvent) {
+       
+    }
+    
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         self.statusLabel.text = "Ringing"
     }
@@ -90,7 +94,7 @@ extension AppController: CallDelegate {
     }
     
     func onError(_ callErrorEvent: CallErrorEvent) {
-        self.callCleanup(callErrorEvent.reason)
+        self.callCleanup(callErrorEvent.reason.description)
     }
     
     private func callCleanup(_ reason: String) {
