@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,69 +17,170 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-jK-wwz">
-                                <rect key="frame" x="55" y="371" width="304" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-jK-wwz">
+                                <rect key="frame" x="30" y="435.5" width="354" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="ev0-UJ-cd1"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Infobip WebRTC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAt-fD-Q47">
-                                <rect key="frame" x="131" y="124" width="153" height="43"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHl-TB-Dub">
-                                <rect key="frame" x="157" y="427" width="100" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHl-TB-Dub">
+                                <rect key="frame" x="30" y="500.5" width="354" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="9N8-Vx-8SL"/>
+                                </constraints>
                                 <state key="normal" title="Call">
-                                    <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="call:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sdA-N5-UFp"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHR-C8-9jT">
-                                <rect key="frame" x="157" y="477" width="100" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Call Phone">
-                                    <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ik-9z-pJ7">
+                                <rect key="frame" x="30" y="545.5" width="354" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="49z-Kg-lPh"/>
+                                </constraints>
+                                <state key="normal" title="Call Video">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="callVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h3o-Bs-fzo"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHR-C8-9jT">
+                                <rect key="frame" x="30" y="590.5" width="354" height="35"/>
+                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="YSC-fY-vQU"/>
+                                </constraints>
+                                <state key="normal" title="Call Phone Number">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="callPhone:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IDo-7f-bCu"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRm-vm-lm7">
-                                <rect key="frame" x="33" y="258" width="348" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRm-vm-lm7">
+                                <rect key="frame" x="0.0" y="89" width="414" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cP9-gh-ZxZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8k-gC-HWw">
-                                <rect key="frame" x="157" y="308" width="100" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Hangup">
-                                    <color key="titleColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="hangup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VVY-Jx-WCR"/>
-                                </connections>
-                            </button>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="FcQ-v8-n01">
+                                <rect key="frame" x="254" y="129" width="130" height="165"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="165" id="0Bc-6C-tAm"/>
+                                    <constraint firstAttribute="width" constant="130" id="9bt-Nc-eU5"/>
+                                </constraints>
+                            </view>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9d8-DX-BrH">
+                                <rect key="frame" x="37" y="792" width="340" height="35"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8k-gC-HWw">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="teb-5C-teK"/>
+                                            <constraint firstAttribute="width" constant="100" id="vxn-r4-blO"/>
+                                        </constraints>
+                                        <state key="normal" title="Hangup">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hangup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VVY-Jx-WCR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEt-sw-LEg">
+                                        <rect key="frame" x="120" y="0.0" width="100" height="35"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="9hK-dP-cwY"/>
+                                            <constraint firstAttribute="height" constant="35" id="TDF-zo-ehe"/>
+                                        </constraints>
+                                        <state key="normal" title="Flip Camera">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="flipCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xlD-kf-zDl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17a-XI-J2y">
+                                        <rect key="frame" x="240" y="0.0" width="100" height="35"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="IhX-yK-aQt"/>
+                                            <constraint firstAttribute="height" constant="35" id="TYL-BI-7FM"/>
+                                        </constraints>
+                                        <state key="normal" title="Enable Video">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wxO-bf-vrt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-X4-c8g">
+                                <rect key="frame" x="0.0" y="44" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="G4v-V5-0B6"/>
+                                </constraints>
+                                <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Infobip RTC Showcase" id="hQT-I7-wFR"/>
+                                </items>
+                            </navigationBar>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vzP-jK-wwz" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="2xm-DI-lDn"/>
+                            <constraint firstItem="L0b-X4-c8g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3sr-gs-sKA"/>
+                            <constraint firstItem="5ik-9z-pJ7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="E7u-KT-fTh"/>
+                            <constraint firstItem="5ik-9z-pJ7" firstAttribute="top" secondItem="lHl-TB-Dub" secondAttribute="bottom" constant="10" id="H0e-9Z-S06"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="lHl-TB-Dub" secondAttribute="centerX" id="HOb-FW-52z"/>
+                            <constraint firstItem="bRm-vm-lm7" firstAttribute="top" secondItem="L0b-X4-c8g" secondAttribute="bottom" constant="5" id="IK4-jc-cwb"/>
+                            <constraint firstItem="FcQ-v8-n01" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="85" id="JCD-8H-kXL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="bRm-vm-lm7" secondAttribute="centerX" id="Jwp-SD-aMu"/>
+                            <constraint firstItem="vzP-jK-wwz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="R4d-Q8-0nr"/>
+                            <constraint firstItem="OHR-C8-9jT" firstAttribute="top" secondItem="5ik-9z-pJ7" secondAttribute="bottom" constant="10" id="Rh3-wY-4S0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FcQ-v8-n01" secondAttribute="trailing" constant="30" id="Vdp-S4-ys6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9d8-DX-BrH" secondAttribute="bottom" constant="35" id="Vfk-6N-Vwo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="5ik-9z-pJ7" secondAttribute="centerX" id="ZZQ-Bw-TU3"/>
+                            <constraint firstItem="L0b-X4-c8g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bKE-Nu-xXd"/>
+                            <constraint firstItem="lHl-TB-Dub" firstAttribute="top" secondItem="vzP-jK-wwz" secondAttribute="bottom" constant="30" id="eE2-3f-DeC"/>
+                            <constraint firstItem="lHl-TB-Dub" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="eZS-Fl-vmP"/>
+                            <constraint firstItem="9d8-DX-BrH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fAj-jH-C1J"/>
+                            <constraint firstItem="OHR-C8-9jT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="gNf-Ql-S6Z"/>
+                            <constraint firstItem="bRm-vm-lm7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h6t-Up-V5E"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="OHR-C8-9jT" secondAttribute="centerX" id="jL0-UI-jdP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="vzP-jK-wwz" secondAttribute="centerX" id="pUo-7e-cBc"/>
+                            <constraint firstItem="L0b-X4-c8g" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="rC5-Dc-N1g"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="callButton" destination="lHl-TB-Dub" id="SVf-Vb-cwv"/>
+                        <outlet property="callButtonsStack" destination="9d8-DX-BrH" id="3p8-AK-5KP"/>
                         <outlet property="callPhoneButton" destination="OHR-C8-9jT" id="PxP-4A-x3g"/>
+                        <outlet property="callVideoButton" destination="5ik-9z-pJ7" id="MJz-9Q-PuB"/>
                         <outlet property="destinationInput" destination="vzP-jK-wwz" id="FJa-Ph-AOZ"/>
+                        <outlet property="flipCameraButton" destination="nEt-sw-LEg" id="1QG-ul-F0Z"/>
                         <outlet property="hangupButton" destination="p8k-gC-HWw" id="lNg-bo-WOz"/>
+                        <outlet property="localVideoView" destination="FcQ-v8-n01" id="GJI-uY-zch"/>
                         <outlet property="statusLabel" destination="bRm-vm-lm7" id="hv3-zu-DkC"/>
+                        <outlet property="toggleVideoButton" destination="17a-XI-J2y" id="vdw-bc-X9s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -86,4 +188,15 @@
             <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

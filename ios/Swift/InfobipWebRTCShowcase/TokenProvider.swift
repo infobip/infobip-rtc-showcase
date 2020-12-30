@@ -2,7 +2,7 @@ import Alamofire
 import os.log
 
 class TokenProvider {
-    private static let TOKEN_API_URL = "http://localhost:9090/token"
+    private static let TOKEN_API_URL = "http://localhost:8080/token"
     static let shared = TokenProvider()
     
     private var accessToken: AccessToken?

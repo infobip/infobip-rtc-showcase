@@ -51,11 +51,12 @@ extension AppController: PKPushRegistryDelegate {
     }
     
     private func showIncomingCall(_ incomingCall: IncomingCall) {
-        let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identity, preferredStyle: UIAlertController.Style.alert)
+        let hasVideo: Bool = incomingCall.hasRemoteVideo()
+        let callType = hasVideo ? "Video" : "Audio"
+        let alert = UIAlertController(title: "Incoming " + callType + " Call", message: incomingCall.source().identity, preferredStyle: UIAlertController.Style.alert)
 
         alert.addAction(UIAlertAction(title: "Accept", style: UIAlertAction.Style.default, handler: {action in
             incomingCall.accept()
-            self.hangupButton.isHidden = false
         }))
         alert.addAction(UIAlertAction(title: "Decline", style: UIAlertAction.Style.cancel, handler: {action in
             incomingCall.decline()

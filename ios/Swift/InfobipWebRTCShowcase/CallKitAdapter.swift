@@ -8,12 +8,12 @@ class CallKitAdapter: NSObject {
     private var calls: [String: CallRecord] = [:]
     private var callKitProvider = CXProvider(configuration: CXProviderConfiguration(localizedName: "InfobipRTC"))
     private let callKitCallController = CXCallController()
-
+    
     override init() {
         super.init()
         callKitProvider.setDelegate(self, queue: nil)
     }
-
+    
     func reportIncomingCall(_ call: Call) {
         guard let uuid = UUID(uuidString: call.id()) else { return }
         calls[call.id()] = CallRecord(uuid, call)
@@ -28,7 +28,7 @@ class CallKitAdapter: NSObject {
             }
         }
     }
-
+    
     func endCall(_ call: Call) {
         if let uuid = calls[call.id()]?.uuid {
             callKitProvider.reportCall(with: uuid, endedAt: nil, reason: .remoteEnded)
@@ -46,12 +46,12 @@ extension CallKitAdapter: CXProviderDelegate {
             action.fail()
         }
     }
-
+    
     func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
         self.callKitProvider.reportOutgoingCall(with: action.callUUID, startedConnectingAt: nil)
         action.fulfill()
     }
-
+    
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
         guard let call = calls[action.callUUID.uuidString.lowercased()]?.call else { return }
         if let incoming = call as? IncomingCall, incoming.status != .ESTABLISHED {
@@ -61,21 +61,21 @@ extension CallKitAdapter: CXProviderDelegate {
         }
         action.fulfill()
     }
-
+    
     func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
         if let call = calls[action.callUUID.uuidString.lowercased()]?.call {
             call.mute(action.isMuted)
             action.fulfill()
         }
     }
-
+    
     func providerDidReset(_ provider: CXProvider) {}
 }
 
 class CallRecord {
     let uuid: UUID
     let call: Call
-
+    
     init(_ uuid: UUID, _ call: Call) {
         self.uuid = uuid
         self.call = call

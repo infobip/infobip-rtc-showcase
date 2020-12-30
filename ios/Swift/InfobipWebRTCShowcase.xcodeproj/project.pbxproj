@@ -17,6 +17,7 @@
 		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
 		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
 		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
+		E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0891DF82595F70C00842857 /* VideoCallExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDFEE258234F75C000263857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E0891DF82595F70C00842857 /* VideoCallExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				DDA3A0602459B24F00F4A924 /* PushHandler.swift */,
 				DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */,
 				DD1C2178245B3DA900C85FAA /* Runtime.swift */,
+				E0891DF82595F70C00842857 /* VideoCallExtension.swift */,
 			);
 			path = InfobipWebRTCShowcase;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */,
 				DDFEE24F234F75BF00263857 /* AppController.swift in Sources */,
 				DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */,
 				DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */,
