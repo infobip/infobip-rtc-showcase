@@ -231,7 +231,7 @@ class Call extends Component {
                        ref="remoteVideo"/>
                 <video width="700" height="700"
                        style={{"object-fit": "cover"}}
-                       autoPlay
+                       autoPlay muted
                        ref="localVideo"/>
             </div>
         )
