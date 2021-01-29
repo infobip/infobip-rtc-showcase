@@ -175,6 +175,21 @@ class Main extends React.Component {
     this.setState({peer: peer});
   }
 
+  toggleLocalVideo() {
+    const call = this.state.activeCall;
+    call?.localVideo(!call.hasLocalVideo());
+  }
+
+  toggleSpeakerphone() {
+    const call = this.state.activeCall;
+    call?.speakerphone(!call.speakerphoneOn());
+  }
+
+  toggleMute() {
+    const call = this.state.activeCall;
+    call?.mute(!call.muted());
+  }
+
   render() {
     return (
       <ScrollView
@@ -194,22 +209,22 @@ class Main extends React.Component {
               value={this.state.peer}
             />
             <TouchableOpacity
-              style={[styles.button, styles.callButton]}
+              style={[styles.button, styles.basicButton]}
               onPress={() => this.call(false)}>
               <Text style={styles.buttonText}>Call</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.callButton]}
+              style={[styles.button, styles.basicButton]}
               onPress={() => this.call(false, true)}>
               <Text style={styles.buttonText}>Video Call</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.callButton]}
+              style={[styles.button, styles.basicButton]}
               onPress={() => this.call(true)}>
               <Text style={styles.buttonText}>Call Phone Number</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.button, styles.callButton]}
+              style={[styles.button, styles.basicButton]}
               onPress={() => this.callConversations()}>
               <Text style={styles.buttonText}>Call Conversations</Text>
             </TouchableOpacity>
@@ -220,13 +235,13 @@ class Main extends React.Component {
             <Text style={styles.peerText}>{this.state.peer}</Text>
             <Text style={styles.statusText}>Incoming call</Text>
             <TouchableOpacity
-              style={[styles.button, styles.acceptButton]}
+              style={[styles.button, styles.basicButton]}
               onPress={() => this.accept(false)}>
               <Text style={styles.buttonText}>Accept</Text>
             </TouchableOpacity>
             {this.state.activeCall.hasRemoteVideo() && (
               <TouchableOpacity
-                style={[styles.button, styles.acceptButton]}
+                style={[styles.button, styles.basicButton]}
                 onPress={() => this.accept(true)}>
                 <Text style={styles.buttonText}>Accept with video</Text>
               </TouchableOpacity>
@@ -259,6 +274,30 @@ class Main extends React.Component {
                   />
                 </View>
               )}
+            {this.state.status === CallStatus.ESTABLISHED && (
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  style={[styles.button, styles.smallButton]}
+                  onPress={() => this.toggleLocalVideo()}>
+                  {this.state.activeCall.hasLocalVideo() && (
+                    <Text style={styles.buttonText}>Video Off</Text>
+                  )}
+                  {!this.state.activeCall.hasLocalVideo() && (
+                    <Text style={styles.buttonText}>Video On</Text>
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.smallButton]}
+                  onPress={() => this.toggleSpeakerphone()}>
+                  <Text style={styles.buttonText}>Speaker</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.smallButton]}
+                  onPress={() => this.toggleMute()}>
+                  <Text style={styles.buttonText}>Mute</Text>
+                </TouchableOpacity>
+              </View>
+            )}
             <TouchableOpacity
               style={[styles.button, styles.hangupButton]}
               onPress={() => this.hangup()}>
@@ -305,11 +344,17 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  callButton: {
+  basicButton: {
     backgroundColor: '#53d769',
   },
-  acceptButton: {
+  smallButton: {
+    maxWidth: '33%',
     backgroundColor: '#53d769',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    height: 70,
+    justifyContent: 'space-between',
   },
   hangupButton: {
     bottom: 10,

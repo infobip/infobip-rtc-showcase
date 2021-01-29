@@ -15,7 +15,7 @@
     "@react-native-firebase/app": "^9.0.0",
     "@react-native-firebase/messaging": "^8.0.1",
     "axios": "0.21.0",
-    "infobip-rtc-react-native": "0.2.3",
+    "infobip-rtc-react-native": "0.2.12",
     "react": "16.13.1",
     "react-native": "0.63.3"
   },
