@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import DeviceInfo from 'react-native-device-info'
 import InfobipRTC, {
   Call,
   CallOptions,
@@ -46,14 +47,22 @@ class Main extends React.Component {
       ]).catch((e) => {
         Alert.alert('Error!', e.message);
       });
-      InfobipRTC.enablePushNotification(this.state.token)
-        .then(console.log('Enabled push notifications.'))
-        .catch((e) =>
-          console.error('Error occurred while enabling push notifications.', e),
+      if (!DeviceInfo.isEmulator()) { // TODO Unify for iOS / Android
+        InfobipRTC.enablePushNotification(this.state.token)
+          .then(console.log('Enabled push notifications.'))
+          .catch((e) =>
+            console.error('Error occurred while enabling push notifications.', e),
         );
+      }
 
       messaging().onMessage(this.handleNotification());
       messaging().setBackgroundMessageHandler(this.handleNotification());
+    }
+    
+    if (DeviceInfo.isEmulator()) {
+      InfobipRTC.registerForActiveConnection(this.state.token, (incomingCall) => {
+        this.onIncomingCall(incomingCall);
+      });
     }
   }
 
@@ -127,6 +136,7 @@ class Main extends React.Component {
   }
 
   onEstablished(event) {
+    console.log('Call is established');
     this.setState({
       status: CallStatus.ESTABLISHED,
       isIncoming: false,
@@ -169,6 +179,17 @@ class Main extends React.Component {
 
   decline() {
     this.state.activeCall?.decline();
+  }
+
+  onIncomingCall(incomingCall) {
+    this.setupActiveCall(incomingCall);
+    this.setState({
+      peer: incomingCall.source().identity,
+      isIncoming: true,
+    });
+    console.log(
+      'Incoming call from: ' + this.state.activeCall.source().identity,
+    );
   }
 
   setPeer(peer) {

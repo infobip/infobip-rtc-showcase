@@ -70,8 +70,8 @@ PODS:
   - GoogleUtilities/UserDefaults (7.2.0):
     - GoogleUtilities/Logger
   - IBGoogleWebRTC (1.0.31369)
-  - infobip-rtc-react-native (0.2.12):
-    - InfobipRTC (~> 1.3.6)
+  - infobip-rtc-react-native (0.2.13):
+    - InfobipRTC (~> 1.3.7)
     - React
   - InfobipRTC (1.3.7):
     - IBGoogleWebRTC (~> 1.0.31369)
@@ -307,6 +307,8 @@ PODS:
     - React-Core (= 0.63.3)
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
+  - RNDeviceInfo (8.0.1):
+    - React-Core
   - RNFBApp (9.0.0):
     - Firebase/CoreOnly (~> 7.0.0)
     - React-Core
@@ -345,6 +347,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -418,6 +421,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -441,7 +446,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1024b1a4dfbd7a0e92cb20d7e0a6f1fb66b449a4
   GoogleUtilities: d866834472f1324d080496bc67ab3ce5d0d46027
   IBGoogleWebRTC: b0098b75e8d63b1ee5364cde4097587d69f48a84
-  infobip-rtc-react-native: 3513466168d17720d7ab0789aab765bff12a472d
+  infobip-rtc-react-native: 1dc1d20b27ff671facce2b5bea250130b94318ae
   InfobipRTC: d7a3cd1fc51892ba901c25fb135def8e04fa02b3
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
@@ -465,10 +470,11 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
+  RNDeviceInfo: 921a809eaf9de79645a24de1c6ca90db6cb91786
   RNFBApp: 2810471bdc092151f20f16a9f8915b1ad70325b2
   RNFBMessaging: 37ea050803005191f1c42ff02234353225429c07
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
 
 PODFILE CHECKSUM: 8ab78ac0c78a1f7a944f51f81a4eb7728e7446d0
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.9.3
