@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Alert,
-  PermissionsAndroid,
-  Platform,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 
 import Main from './Main';
 import Header from './Header';

@@ -3226,9 +3226,9 @@ globals@^12.1.0:
     type-fest "^0.8.1"
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.3, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
-  version "4.2.5"
-  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/graceful-fs/-/graceful-fs-4.2.5.tgz#bc18864a6c9fc7b303f2e2abdb9155ad178fbe29"
-  integrity sha1-vBiGSmyfx7MD8uKr25FVrRePvik=
+  version "4.2.6"
+  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
+  integrity sha1-/wQLKwhTsjw9MQJ1I3BvGIXXa+4=
 
 growly@^1.3.0:
   version "1.3.0"
@@ -3421,10 +3421,10 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-infobip-rtc-react-native@0.2.13:
-  version "0.2.13"
-  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/infobip-rtc-react-native/-/infobip-rtc-react-native-0.2.13.tgz#b1f8959de70b70d3030864da4b2a868fe3b34f1d"
-  integrity sha1-sfiVnecLcNMDCGTaSyqGj+OzTx0=
+infobip-rtc-react-native@0.2.14:
+  version "0.2.14"
+  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/infobip-rtc-react-native/-/infobip-rtc-react-native-0.2.14.tgz#eb16b62028ab6d44a06e362f3d1b3ac65a9842ad"
+  integrity sha1-6xa2ICirbUSgbjYvPRs6xlqYQq0=
 
 inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@~2.0.3:
   version "2.0.4"
@@ -5831,10 +5831,20 @@ react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6:
   resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
 
+react-native-callkeep@^4.0.1:
+  version "4.0.1"
+  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/react-native-callkeep/-/react-native-callkeep-4.0.1.tgz#533e0b8a0cf0ebe4600c5e3186ee324deb24cee1"
+  integrity sha1-Uz4Ligzw6+RgDF4xhu4yTeskzuE=
+
 react-native-device-info@^8.0.1:
   version "8.0.1"
   resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/react-native-device-info/-/react-native-device-info-8.0.1.tgz#23a038ab39a9fe3ea8963feb366361ee7c03a2a1"
   integrity sha1-I6A4qzmp/j6olj/rNmNh7nwDoqE=
+
+react-native-voip-push-notification@3.1.0:
+  version "3.1.0"
+  resolved "https://artifactory.ib-ci.com:443/artifactory/api/npm/npm-release/react-native-voip-push-notification/-/react-native-voip-push-notification-3.1.0.tgz#51a7af6c5cbba00c13f3d34da67fa433ed032997"
+  integrity sha1-UaevbFy7oAwT89NNpn+kM+0DKZc=
 
 react-native@0.63.3:
   version "0.63.3"

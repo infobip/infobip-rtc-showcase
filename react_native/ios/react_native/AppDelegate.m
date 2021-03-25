@@ -3,6 +3,9 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <PushKit/PushKit.h>
+#import "RNVoipPushNotificationManager.h"
+#import "RNCallKeep.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -32,6 +35,7 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  [RNVoipPushNotificationManager voipRegistration];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"infobip-rtc-showcase-react-native"
                                             initialProperties:nil];
@@ -55,4 +59,22 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
+- (void)pushRegistry:(PKPushRegistry *)registry didUpdatePushCredentials:(PKPushCredentials *)credentials forType:(PKPushType)type {
+  NSLog(@"PushCredentials: %@", credentials.token);
+  [RNVoipPushNotificationManager didUpdatePushCredentials:credentials forType:(NSString *)type];
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
+  NSString *callId = payload.dictionaryPayload[@"callId"];
+  NSString *displayName = payload.dictionaryPayload[@"displayName"];
+  NSString *source = payload.dictionaryPayload[@"source"];
+  _Bool hasVideo = payload.dictionaryPayload[@"hasVideo"] == kCFBooleanTrue;
+
+  [RNVoipPushNotificationManager didReceiveIncomingPushWithPayload:payload forType:(NSString *)type];
+
+  [RNCallKeep reportNewIncomingCall:callId handle:source handleType:@"generic" hasVideo:hasVideo localizedCallerName:displayName
+               supportsHolding:false supportsDTMF:false supportsGrouping:false supportsUngrouping:false fromPushKit: YES
+               payload:payload.dictionaryPayload withCompletionHandler:nil];
+  completion();
+}
 @end

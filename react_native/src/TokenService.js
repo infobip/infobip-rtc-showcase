@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 let config = require('../config.json');
 
 export class TokenService {
-  getToken() {
+  static getToken() {
     let url =
       Platform.OS === 'android' ? config.tokenUrl.android : config.tokenUrl.ios;
 

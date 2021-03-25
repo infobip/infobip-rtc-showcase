@@ -1,26 +1,9 @@
-import {
-  Alert,
-  PermissionsAndroid,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import DeviceInfo from 'react-native-device-info'
-import InfobipRTC, {
-  Call,
-  CallOptions,
-  IncomingCall,
-  InfobipRTCVideoView,
-} from 'infobip-rtc-react-native';
+import {Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import InfobipRTC, {Call, CallOptions, InfobipRTCVideoView} from 'infobip-rtc-react-native';
 import React from 'react';
 import {CallStatus} from './CallStatus';
 import {TokenService} from './TokenService';
-import PermissionProvider from './PermissionProvider';
+import {IncomingCallHandler} from './IncomingCallHandler';
 
 class Main extends React.Component {
   constructor(props) {
@@ -31,61 +14,42 @@ class Main extends React.Component {
       activeCall: null,
       isIncoming: false,
       token: null,
+      incomingCallHandler: null,
     };
   }
 
   async componentDidMount() {
-    let tokenService: TokenService = new TokenService();
-    this.state.token = await tokenService.getToken();
+    this.state.token = await TokenService.getToken();
     if (!this.state.token) {
       return this.showError('Error occurred while retrieving access token!');
     }
-    if (Platform.OS === 'android') {
-      PermissionProvider.requestPermission([
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-      ]).catch((e) => {
-        Alert.alert('Error!', e.message);
-      });
-      if (!DeviceInfo.isEmulator()) { // TODO Unify for iOS / Android
-        InfobipRTC.enablePushNotification(this.state.token)
-          .then(console.log('Enabled push notifications.'))
-          .catch((e) =>
-            console.error('Error occurred while enabling push notifications.', e),
-        );
-      }
-
-      messaging().onMessage(this.handleNotification());
-      messaging().setBackgroundMessageHandler(this.handleNotification());
-    }
-    
-    if (DeviceInfo.isEmulator()) {
-      InfobipRTC.registerForActiveConnection(this.state.token, (incomingCall) => {
-        this.onIncomingCall(incomingCall);
-      });
-    }
+    this.state.incomingCallHandler = new IncomingCallHandler(this.state.token);
+    await this.state.incomingCallHandler.initializePush((incomingCall) => this.setupIncomingCall(incomingCall));
+    await this.state.incomingCallHandler.initializeCallKit(
+      () => this.answerCall(),
+      () => this.endCall()
+    );
   }
 
-  handleNotification() {
-    return async (remoteMessage) => {
-      try {
-        let incomingCall: IncomingCall = await InfobipRTC.handleIncomingCall(
-          remoteMessage.data,
-        );
-        if (incomingCall) {
-          this.setState({
-            peer: incomingCall.source().identity,
-            isIncoming: true,
-          });
-          this.setupActiveCall(incomingCall);
-          console.log(
-            'Incoming call from: ' + this.state.activeCall.source().identity,
-          );
-        }
-      } catch (error) {
-        console.error('Error handling incoming call: ', error);
-      }
-    };
+  setupIncomingCall(incomingCall) {
+    this.setupActiveCall(incomingCall);
+    this.setState({
+      peer: incomingCall.source().identity,
+      isIncoming: true,
+    });
+  }
+
+  answerCall() {
+    let video = this.state.activeCall?.hasRemoteVideo();
+    this.accept(video);
+  }
+
+  endCall() {
+    if (this.state.isIncoming) {
+      this.decline();
+    } else {
+      this.state?.activeCall?.hangup();
+    }
   }
 
   async call(isPSTN: boolean, isVideo: boolean = false) {
@@ -111,10 +75,7 @@ class Main extends React.Component {
 
     try {
       let options = CallOptions.builder().setVideo(true).build();
-      let outboundCall = await InfobipRTC.callConversations(
-        this.state.token,
-        options,
-      );
+      let outboundCall = await InfobipRTC.callConversations(this.state.token, options);
       this.setupActiveCall(outboundCall);
     } catch (e) {
       this.showError(e.message);
@@ -122,21 +83,24 @@ class Main extends React.Component {
   }
 
   setupActiveCall(call: Call) {
+    call.on('ringing', () => this.onRinging());
+    call.on('early-media', () => this.onRinging());
+    call.on('established', (e) => this.onEstablished(e));
+    call.on('updated', (e) => this.onUpdated(e));
+    call.on('hangup', (e: any) => this.onHangup(e));
+    call.on('error', (e: any) => this.onHangup(e));
     this.setState({activeCall: call});
-    this.state.activeCall.on('ringing', () => this.onRinging());
-    this.state.activeCall.on('early-media', () => this.onRinging());
-    this.state.activeCall.on('established', (e) => this.onEstablished(e));
-    this.state.activeCall.on('updated', (e) => this.onUpdated(e));
-    this.state.activeCall.on('hangup', (e: any) => this.onHangup(e));
-    this.state.activeCall.on('error', (e: any) => this.onHangup(e));
   }
 
   onRinging() {
     this.setState({status: CallStatus.RINGING});
   }
 
-  onEstablished(event) {
-    console.log('Call is established');
+  async onEstablished(event) {
+    let call = this.state.activeCall;
+    if (this.state.isIncoming) {
+      await this.state.incomingCallHandler.startCallKitCall(call);
+    }
     this.setState({
       status: CallStatus.ESTABLISHED,
       isIncoming: false,
@@ -147,7 +111,8 @@ class Main extends React.Component {
     this.setState({status: CallStatus.ESTABLISHED});
   }
 
-  onHangup(e: any) {
+  async onHangup(e: any) {
+    await this.state.incomingCallHandler.endCallKitCall(this.state.activeCall?.id());
     this.setState({
       status: CallStatus.FINISHED,
       activeCall: undefined,
@@ -181,17 +146,6 @@ class Main extends React.Component {
     this.state.activeCall?.decline();
   }
 
-  onIncomingCall(incomingCall) {
-    this.setupActiveCall(incomingCall);
-    this.setState({
-      peer: incomingCall.source().identity,
-      isIncoming: true,
-    });
-    console.log(
-      'Incoming call from: ' + this.state.activeCall.source().identity,
-    );
-  }
-
   setPeer(peer) {
     this.setState({peer: peer});
   }
@@ -213,9 +167,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1}}
-        keyboardShouldPersistTaps="handled">
+      <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps="handled">
         {!this.state.activeCall && !this.state.isIncoming && (
           <>
             <TextInput
@@ -229,24 +181,16 @@ class Main extends React.Component {
               onChangeText={(value) => this.setPeer(value.trim())}
               value={this.state.peer}
             />
-            <TouchableOpacity
-              style={[styles.button, styles.basicButton]}
-              onPress={() => this.call(false)}>
+            <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.call(false)}>
               <Text style={styles.buttonText}>Call</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.basicButton]}
-              onPress={() => this.call(false, true)}>
+            <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.call(false, true)}>
               <Text style={styles.buttonText}>Video Call</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.basicButton]}
-              onPress={() => this.call(true)}>
+            <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.call(true)}>
               <Text style={styles.buttonText}>Call Phone Number</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.basicButton]}
-              onPress={() => this.callConversations()}>
+            <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.callConversations()}>
               <Text style={styles.buttonText}>Call Conversations</Text>
             </TouchableOpacity>
           </>
@@ -255,21 +199,15 @@ class Main extends React.Component {
           <>
             <Text style={styles.peerText}>{this.state.peer}</Text>
             <Text style={styles.statusText}>Incoming call</Text>
-            <TouchableOpacity
-              style={[styles.button, styles.basicButton]}
-              onPress={() => this.accept(false)}>
+            <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.accept(false)}>
               <Text style={styles.buttonText}>Accept</Text>
             </TouchableOpacity>
             {this.state.activeCall.hasRemoteVideo() && (
-              <TouchableOpacity
-                style={[styles.button, styles.basicButton]}
-                onPress={() => this.accept(true)}>
+              <TouchableOpacity style={[styles.button, styles.basicButton]} onPress={() => this.accept(true)}>
                 <Text style={styles.buttonText}>Accept with video</Text>
               </TouchableOpacity>
             )}
-            <TouchableOpacity
-              style={[styles.button, styles.hangupButton]}
-              onPress={() => this.decline()}>
+            <TouchableOpacity style={[styles.button, styles.hangupButton]} onPress={() => this.decline()}>
               <Text style={styles.buttonText}>Decline</Text>
             </TouchableOpacity>
           </>
@@ -280,48 +218,29 @@ class Main extends React.Component {
             <Text style={styles.statusText}>{this.state.status}</Text>
             {this.state.activeCall.hasRemoteVideo() && (
               <View style={styles.remoteVideoView}>
-                <InfobipRTCVideoView
-                  streamId="remote"
-                  style={styles.remoteVideo}
-                />
+                <InfobipRTCVideoView streamId="remote" style={styles.remoteVideo} />
               </View>
             )}
-            {this.state.activeCall.hasLocalVideo() &&
-              this.state.status === CallStatus.ESTABLISHED && (
-                <View style={styles.localVideoView}>
-                  <InfobipRTCVideoView
-                    streamId="local"
-                    style={styles.localVideo}
-                  />
-                </View>
-              )}
+            {this.state.activeCall.hasLocalVideo() && this.state.status === CallStatus.ESTABLISHED && (
+              <View style={styles.localVideoView}>
+                <InfobipRTCVideoView streamId="local" style={styles.localVideo} />
+              </View>
+            )}
             {this.state.status === CallStatus.ESTABLISHED && (
               <View style={styles.buttonsContainer}>
-                <TouchableOpacity
-                  style={[styles.button, styles.smallButton]}
-                  onPress={() => this.toggleLocalVideo()}>
-                  {this.state.activeCall.hasLocalVideo() && (
-                    <Text style={styles.buttonText}>Video Off</Text>
-                  )}
-                  {!this.state.activeCall.hasLocalVideo() && (
-                    <Text style={styles.buttonText}>Video On</Text>
-                  )}
+                <TouchableOpacity style={[styles.button, styles.smallButton]} onPress={() => this.toggleLocalVideo()}>
+                  {this.state.activeCall.hasLocalVideo() && <Text style={styles.buttonText}>Video Off</Text>}
+                  {!this.state.activeCall.hasLocalVideo() && <Text style={styles.buttonText}>Video On</Text>}
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.button, styles.smallButton]}
-                  onPress={() => this.toggleSpeakerphone()}>
+                <TouchableOpacity style={[styles.button, styles.smallButton]} onPress={() => this.toggleSpeakerphone()}>
                   <Text style={styles.buttonText}>Speaker</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.button, styles.smallButton]}
-                  onPress={() => this.toggleMute()}>
+                <TouchableOpacity style={[styles.button, styles.smallButton]} onPress={() => this.toggleMute()}>
                   <Text style={styles.buttonText}>Mute</Text>
                 </TouchableOpacity>
               </View>
             )}
-            <TouchableOpacity
-              style={[styles.button, styles.hangupButton]}
-              onPress={() => this.hangup()}>
+            <TouchableOpacity style={[styles.button, styles.hangupButton]} onPress={() => this.hangup()}>
               <Text style={styles.buttonText}>Hangup</Text>
             </TouchableOpacity>
           </>
