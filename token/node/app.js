@@ -10,7 +10,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-const AUTH = 'Basic ' + Buffer.from(config.INFOBIP_USERNAME + ':' + config.INFOBIP_PASSWORD).toString('base64');
+const AUTH = 'App ' + config.INFOBIP_API_KEY;
 const IDENTITY_PREFIX = 'user';
 let counter = 1;
 

@@ -8,8 +8,7 @@ Create `config.json` file in the `./token/node` project directory, and fill it w
   "HTTP_PORT": 8080,
   "INFOBIP_API_HOST": "api.infobip.com",
   "INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",
-  "INFOBIP_USERNAME": "YOUR_USERNAME",
-  "INFOBIP_PASSWORD": "YOUR_PASSWORD",
+  "INFOBIP_API_KEY": "YOUR_API_KEY",
   "INFOBIP_APP_ID": "YOUR_APPLICATION_ID"
 }
 ```
@@ -34,7 +33,7 @@ In the `./token/java` project directory:
 
 Runs the app.
 
-Before that, you should export `INFOBIP_USERNAME` and `INFOBIP_PASSWORD` environment variables and set them to your Infobip credentials.  
+Before that, you should export `INFOBIP_API_KEY` environment variable and set it to your Infobip API key.
 
 You can verify that app is running by executing:
 

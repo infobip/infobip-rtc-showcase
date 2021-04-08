@@ -19,13 +19,12 @@ public class TokenService {
 
     private int counter = 0;
 
-    public TokenService(@Value("${infobip.username}") String infobipUsername,
-                        @Value("${infobip.password}") String infobipPassword,
+    public TokenService(@Value("${infobip.api-key}") String infobipApiKey,
                         @Value("${infobip.application-id}") String infobipApplicationId) {
         applicationId = infobipApplicationId;
         restTemplate = new RestTemplate();
         httpHeaders = new HttpHeaders();
-        httpHeaders.setBasicAuth(infobipUsername, infobipPassword);
+        httpHeaders.set(HttpHeaders.AUTHORIZATION, "App " + infobipApiKey);
     }
 
     public TokenResponse nextToken() {
