@@ -4,7 +4,16 @@ $(document).ready(function () {
         .then(identity => {
             listenForIncomingCall();
             $('#identity').html(identity);
-        });
+        })
+
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+        document.getElementById("remoteVideo").muted = true;
+        $("<button id='playBtn'>Tap to Unmute</button><br><br>").insertBefore("#remoteVideo")
+        $("#playBtn").click(function (){
+            document.getElementById("remoteVideo").muted = false;
+        })
+    }
 });
 
 function setOnClickEventListeners() {

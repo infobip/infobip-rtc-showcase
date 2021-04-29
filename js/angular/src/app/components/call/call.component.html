@@ -24,6 +24,11 @@
   <button [disabled]="shouldDisableHangupButton()" (click)="hangup()">Hangup</button>
   <br/><br/>
 
+  <div *ngIf="iPhoneOrIpad">
+    <button (click)="unmuteVideo()">Tap to Unmute</button>
+    <br/><br/>
+  </div>
+
   <video #remoteVideo autoplay
          style="object-fit: cover"
          width="700" height="700">

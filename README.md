@@ -39,6 +39,7 @@ You can verify that app is running by executing:
 
 ### `curl -X POST http://localhost:8080/token`
 
+
 ## Infobip RTC Showcase - jQuery
 
 You need to have `Node.js` installed on your computer (https://nodejs.org/en/).

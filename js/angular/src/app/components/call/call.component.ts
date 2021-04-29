@@ -19,23 +19,34 @@ export class CallComponent implements OnInit {
   isCallEstablished = false;
   isOutgoingCall = false;
   isIncomingCall = false;
+  iPhoneOrIpad = false;
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
   }
 
   ngOnInit(): void {
+    const userAgent = window.navigator.userAgent;
+    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
+      this.iPhoneOrIpad = true;
+      // @ts-ignore
+      this.remoteVideo.nativeElement.muted = true;
+    }
   }
 
-  connectInfobipRTC = async () => {
+  unmuteVideo = () => {
+    // @ts-ignore
+    this.remoteVideo.nativeElement.muted = false;
+  }
+
+  connectInfobipRTC = () => {
     this.httpClient.post('http://localhost:8080/token', {})
       .toPromise()
       .then((response: Response) => {
-        const that = this;
         // @ts-ignore
         this.infobipRTC = new InfobipRTC(response.token, {debug: true});
         this.infobipRTC.on('connected', event => {
-          that.identity = event.identity;
+          this.identity = event.identity;
           console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
         });
         this.infobipRTC.on('disconnected', event => {
@@ -43,7 +54,7 @@ export class CallComponent implements OnInit {
         });
         this.infobipRTC.connect();
         this.listenForIncomingCall();
-      });
+      })
   };
 
   listenForIncomingCall = () => {

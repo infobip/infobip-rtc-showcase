@@ -5,9 +5,7 @@ async function connectInfobipRTC() {
             type: 'POST',
             contentType: 'application/json',
             success: function (data) {
-                let token = data.token;
-                let options = {debug: true};
-                infobipRTC = new InfobipRTC(token, options);
+                infobipRTC = new InfobipRTC(data.token, { debug: true });
                 infobipRTC.on('connected', function (event) {
                     console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     resolve(event.identity);

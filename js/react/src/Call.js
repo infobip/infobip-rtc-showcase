@@ -14,27 +14,29 @@ class Call extends Component {
             status: '',
             isCallEstablished: false,
             isOutgoingCall: false,
-            isIncomingCall: false
+            isIncomingCall: false,
+            isIphoneOrIpad: !!(window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i))
         };
 
         this.connectInfobipRTC();
     }
 
     connectInfobipRTC = async () => {
-        let that = this;
         httpClient.post('http://localhost:8080/token')
             .then((response) => {
-                that.setState((state) => {
-                    state.infobipRTC = new InfobipRTC(response.data.token, {debug: true});
-                    state.infobipRTC.on('connected', function (event) {
-                        that.setState({identity: event.identity});
+                const token = response.data.token
+
+                this.setState((state) => {
+                    state.infobipRTC = new InfobipRTC(token, {debug: true});
+                    state.infobipRTC.on('connected',  (event) => {
+                        this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
                     state.infobipRTC.on('disconnected', function (event) {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
-                    that.listenForIncomingCall();
+                    this.listenForIncomingCall();
                     return state;
                 });
             })
@@ -195,6 +197,7 @@ class Call extends Component {
     }
 
     render() {
+
         return (
             <div>
                 <h4>Logged as: <span>{this.state.identity}</span></h4>
@@ -225,10 +228,15 @@ class Call extends Component {
                 </button>
                 <br/><br/>
 
+                {this.state.isIphoneOrIpad && (<button onClick={() => { this.refs.remoteVideo.muted = false }}>Tap to Unmute</button>)}
+                <br/><br/>
+
                 <video width="700" height="700"
                        style={{"object-fit": "cover"}}
                        autoPlay
+                       muted={this.state.isIphoneOrIpad}
                        ref="remoteVideo"/>
+
                 <video width="700" height="700"
                        style={{"object-fit": "cover"}}
                        autoPlay muted
