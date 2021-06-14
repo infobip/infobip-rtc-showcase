@@ -19,8 +19,26 @@ async function connectInfobipRTC() {
     });
 }
 
+let infobipRTC;
+let activeCall;
+let activeConference;
+
 $(window).on("beforeunload", function () {
     if (infobipRTC) {
         infobipRTC.disconnect();
     }
+});
+
+$(window).ready(function(){
+    const page = window.location.hash === '' ? 'call' : window.location.hash.substring(1);
+    $.get('pages/' + page + '.html', function (pageContent) {
+        $(".page-container").html(pageContent);
+    });
+});
+
+$(window).on("hashchange", function () {
+    const page = window.location.hash.substring(1);
+    $.get('pages/' + page + '.html', function (pageContent) {
+        $(".page-container").html(pageContent);
+    });
 });

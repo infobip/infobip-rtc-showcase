@@ -23,15 +23,12 @@ function setOnClickEventListeners() {
     $('#call-video-btn').click(function () {
         call(true);
     });
-    $('#call-share-screen-butn').click(toggleShareScreen);
+    $('#call-share-screen-btn').click(toggleShareScreen);
     $('#call-phone-number-btn').click(callPhoneNumber);
     $('#accept-btn').click(accept);
     $('#decline-btn').click(decline);
     $('#hangup-btn').click(hangup);
 }
-
-let infobipRTC;
-let activeCall;
 
 function call(video = false) {
     let callOptions = CallOptions.builder()
@@ -50,7 +47,7 @@ function callPhoneNumber() {
 }
 
 function listenForIncomingCall() {
-    $('#call-share-screen-butn').prop('disabled', true);
+    $('#call-share-screen-btn').prop('disabled', true);
     infobipRTC.on('incoming-call', function (incomingCallEvent) {
         let incomingCall = incomingCallEvent.incomingCall;
         console.log('Received incoming call from: ' + incomingCall.source().identity);
@@ -60,7 +57,7 @@ function listenForIncomingCall() {
             $('#call-video-btn').prop('disabled', true);
             $('#call-phone-number-btn').prop('disabled', true);
             $('#hangup-btn').prop('disabled', false);
-            $('#call-share-screen-butn').prop('disabled', false);
+            $('#call-share-screen-btn').prop('disabled', false);
             $('#status').html('In a call with: ' + incomingCall.source().identity);
             setMediaStream(incomingCall, event);
         });
@@ -69,7 +66,7 @@ function listenForIncomingCall() {
         });
         incomingCall.on('updated', function (event) {
             setMediaStream(incomingCall, event);
-            $('#call-share-screen-butn').prop('disabled', false);
+            $('#call-share-screen-btn').prop('disabled', false);
         });
         incomingCall.on('error', () => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
@@ -86,11 +83,11 @@ function listenForCallEvents() {
     $('#call-btn').prop('disabled', true);
     $('#call-video-btn').prop('disabled', true);
     $('#call-phone-number-btn').prop('disabled', true);
-    $('#call-share-screen-butn').prop('disabled', true);
+    $('#call-share-screen-btn').prop('disabled', true);
     $('#hangup-btn').prop('disabled', false);
 
     activeCall.on('established', function (event) {
-        $('#call-share-screen-butn').prop('disabled', false);
+        $('#call-share-screen-btn').prop('disabled', false);
         $('#status').html('Call established with: ' + getDestination());
         console.log('Call established with ' + getDestination());
         setMediaStream(activeCall, event);
@@ -100,7 +97,7 @@ function listenForCallEvents() {
     });
     activeCall.on('updated', function (event) {
         setMediaStream(activeCall, event);
-        $('#call-share-screen-butn').prop('disabled', false);
+        $('#call-share-screen-btn').prop('disabled', false);
     });
     activeCall.on('ringing', function (event) {
         $('#status').html('Ringing...');
@@ -162,7 +159,7 @@ function hangup() {
     $('#call-btn').prop('disabled', false);
     $('#call-video-btn').prop('disabled', false);
     $('#call-phone-number-btn').prop('disabled', false);
-    $('#call-share-screen-butn').prop('disabled', true);
+    $('#call-share-screen-btn').prop('disabled', true);
     removeMediaStream();
 }
 

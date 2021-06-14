@@ -6,7 +6,10 @@
 </head>
 <body>
 <div>
+  <h2>{{title}}</h2>
   <h4>Logged as: <span>{{identity || 'None'}}</span></h4>
+</div>
+<div>
   <audio #remoteAudio autoPlay></audio>
   <input type="text" (change)="onChange($event)" placeholder="Enter destination to call..."/>
   <br/> <br/>

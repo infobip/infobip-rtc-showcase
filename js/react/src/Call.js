@@ -7,6 +7,7 @@ class Call extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            title: 'Infobip RTC Call Showcase',
             destination: '',
             infobipRTC: null,
             activeCall: null,
@@ -95,7 +96,7 @@ class Call extends Component {
             console.log('Call is ringing...');
         });
         call.on('updated', function (event) {
-           that.setMediaStream(call, event);
+            that.setMediaStream(call, event);
         });
         call.on('error', function (event) {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
@@ -200,6 +201,7 @@ class Call extends Component {
 
         return (
             <div>
+                <h2><span>{this.state.title}</span></h2>
                 <h4>Logged as: <span>{this.state.identity}</span></h4>
                 <audio ref="remoteAudio" autoPlay/>
                 <input type="text" value={this.state.destination} onChange={this.handleChange}

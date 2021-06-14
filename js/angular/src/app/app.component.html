@@ -1,4 +1,7 @@
 <div>
-  <h2>{{title}}</h2>
-  <app-call></app-call>
+  <nav>
+    <a routerLink="/call" routerLinkActive="active">Call</a> | <a routerLink="/conference" routerLinkActive="active">Conference</a>
+  </nav>
+  <hr>
+  <router-outlet></router-outlet>
 </div>

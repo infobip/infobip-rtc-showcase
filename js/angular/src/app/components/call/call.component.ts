@@ -11,6 +11,8 @@ export class CallComponent implements OnInit {
   @ViewChild('remoteVideo') remoteVideo: HTMLVideoElement;
   @ViewChild('localVideo') localVideo: HTMLVideoElement;
 
+  title = 'Infobip RTC Call Showcase';
+
   destination = '';
   infobipRTC: InfobipRTC = null;
   activeCall: Call = null;
@@ -58,60 +60,58 @@ export class CallComponent implements OnInit {
   };
 
   listenForIncomingCall = () => {
-    const that = this;
     this.infobipRTC.on('incoming-call', incomingCallEvent => {
       const incomingCall = incomingCallEvent.incomingCall;
       console.log('Received incoming call from: ' + incomingCall.source().identity);
 
-      that.activeCall = incomingCall;
-      that.isIncomingCall = true;
-      that.status = 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.source().identity;
+      this.activeCall = incomingCall;
+      this.isIncomingCall = true;
+      this.status = 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.source().identity;
 
       incomingCall.on('established', event => {
-        that.setMediaStream(incomingCall, event);
-        that.status = 'In a call with: ' + incomingCall.source().identity;
-        that.isCallEstablished = true;
+        this.setMediaStream(incomingCall, event);
+        this.status = 'In a call with: ' + incomingCall.source().identity;
+        this.isCallEstablished = true;
       });
       incomingCall.on('hangup', () => {
-        that.removeMediaStream();
-        that.setValuesAfterIncomingCall();
+        this.removeMediaStream();
+        this.setValuesAfterIncomingCall();
       });
       incomingCall.on('updated', event => {
-        that.setMediaStream(incomingCall, event);
+        this.setMediaStream(incomingCall, event);
       });
       incomingCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
-        that.removeMediaStream();
-        that.setValuesAfterIncomingCall();
+        this.removeMediaStream();
+        this.setValuesAfterIncomingCall();
       });
     });
   };
 
   listenForCallEvents = () => {
     if (this.activeCall) {
-      const that = this;
       this.activeCall.on('established', event => {
-        that.status = 'Call established with: ' + that.destination;
-        console.log('Call established with ' + that.destination);
+        this.status = 'Call established with: ' + this.destination;
+        console.log('Call established with ' + this.destination);
 
         // @ts-ignore
         that.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('hangup', event => {
-        that.removeMediaStream();
-        that.setValuesAfterOutgoingCall();
+        this.removeMediaStream();
+        this.setValuesAfterOutgoingCall();
       });
       this.activeCall.on('ringing', () => {
-        that.status = 'Ringing...';
+        this.status = 'Ringing...';
         console.log('Call is ringing...');
       });
       this.activeCall.on('updated', event => {
-        that.setMediaStream(this.activeCall, event);
+        this.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
-        that.removeMediaStream();
-        that.setValuesAfterOutgoingCall();
+        this.removeMediaStream();
+        this.setValuesAfterOutgoingCall();
       });
     }
   };

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infobip RTC Showcase</title>
+</head>
+<body>
+<div>
+  <h2>{{title}}</h2>
+  <h4>Logged as: <span>{{identity || 'None'}}</span></h4>
+</div>
+<div>
+  <audio #remoteAudio autoPlay></audio>
+  <input type="text" (change)="onChange($event)" placeholder="Enter conference ID"/>
+  <br/> <br/>
+  <button [disabled]="activeConference" (click)="join()">Join</button>
+  <button [disabled]="shouldDisableLeaveButton()" (click)="leave()">Leave</button>
+</div>
+</body>
+</html>
