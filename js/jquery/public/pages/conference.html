@@ -15,9 +15,30 @@
 <audio id="remoteAudio" autoplay></audio>
 
 <input type="text" name="conferenceId" id="conferenceId" placeholder="Enter conference ID">
-<br/> <br/>
+<br/><br/>
 <button id="join-btn">Join</button>
+<button id="join-video-btn">Join with Video</button>
 <button id="leave-btn" disabled>Leave</button>
+<br/><br/>
+<button id="toggle-camera-video-btn" disabled>Toggle Camera Video</button>
+<button id="toggle-share-screen-btn" disabled>Toggle Share Screen</button>
+<div id="localVideos" hidden>
+    <br/><br/>
+    <h3>Local video/screenshare</h3>
+    <video id="localCameraVideo" autoplay muted
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+    <video id="localScreenShare" autoplay
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+</div>
+<div id="remoteVideos" hidden>
+    <br/><br/>
+    <h3>Remote videos/screenshares</h3>
+    <div id="videos"></div>
+</div>
 
 <script type="application/javascript" src="../js/conference.js"></script>
 </body>
