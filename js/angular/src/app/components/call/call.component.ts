@@ -94,8 +94,7 @@ export class CallComponent implements OnInit {
         this.status = 'Call established with: ' + this.destination;
         console.log('Call established with ' + this.destination);
 
-        // @ts-ignore
-        that.setMediaStream(this.activeCall, event);
+        this.setMediaStream(this.activeCall, event);
       });
       this.activeCall.on('hangup', event => {
         this.removeMediaStream();
