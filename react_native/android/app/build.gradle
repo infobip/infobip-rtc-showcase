@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.react_native"
+        applicationId "com.infobip.rtc.showcase"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
