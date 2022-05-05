@@ -36,6 +36,10 @@ function listenForConferenceEvents() {
         console.log('Joined conference with ID: ' + getConferenceId());
         setMediaStream($('#remoteAudio')[0], event.stream);
         setValuesAfterJoiningConference();
+        if (event.users.length) {
+            $("#users").append("<br/><b>Users:</b><br/>");
+            event.users.forEach(user => this.addUser(user.identity));
+        }
     });
     activeConference.on('left', function (event) {
         $('#status').html('Left conference with ID: ' + getConferenceId());
@@ -46,10 +50,12 @@ function listenForConferenceEvents() {
     activeConference.on('user-joined', function (event) {
         $('#status').html('User ' + event.user.identity + ' joined conference');
         console.log('User ' + event.user.identity + ' joined conference');
+        this.addUser(event.user.identity);
     });
     activeConference.on('user-left', function (event) {
         $('#status').html('User ' + event.user.identity + ' left conference');
         console.log('User ' + event.user.identity + ' left conference');
+        this.removeUser(event.user.identity);
     });
     activeConference.on('user-muted', function (event) {
         $('#status').html('User ' + event.user.identity + ' is now muted');
@@ -191,4 +197,12 @@ function removeVideoElement(identity, type) {
     if (!videos.firstChild) {
         $('#remoteVideos').prop('hidden', true);
     }
+}
+
+function addUser(identity) {
+    $("#users").append("<div id='" + identity + "'>" + identity + "</div>");
+}
+
+function removeUser(identity) {
+    document.getElementById(identity).innerHTML = '';
 }
