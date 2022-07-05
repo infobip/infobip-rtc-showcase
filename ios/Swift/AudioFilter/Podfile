@@ -1,0 +1,8 @@
+platform :ios, '12.0'
+
+target 'InfobipWebRTCShowcase' do
+  use_frameworks!
+
+  pod 'InfobipRTC', '~> 1.4.58'
+  pod 'Alamofire'
+end
