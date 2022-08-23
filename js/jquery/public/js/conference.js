@@ -21,6 +21,7 @@ function setOnClickEventListeners() {
 function join(video = false) {
     let conferenceOptions = ConferenceOptions.builder()
         .setVideo(video)
+        .setAutoReconnect(true)
         .build();
 
     activeConference = infobipRTC.joinConference(getConferenceId(), conferenceOptions);
@@ -111,6 +112,25 @@ function listenForConferenceEvents() {
     activeConference.on('error', function (event) {
         $('#status').html('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+    });
+
+    activeConference.on('reconnected', function (event) {
+        $('#status').html('Reconnected to conference with ID: ' + getConferenceId());
+        console.log('Reconnected to conference with ID: ' + getConferenceId());
+        setMediaStream($('#remoteAudio')[0], event.stream);
+        setValuesAfterJoiningConference();
+        if (event.users.length) {
+            $("#users").append("<br/><b>Users:</b><br/>");
+            event.users?.forEach(user => this.addUser(user.identity));
+        }
+    });
+
+    activeConference.on('reconnecting', function (event) {
+        $('#status').html('You are being disconnected from conference with ID: ' + getConferenceId() + '. We will try to get you back...');
+        console.log('You are being disconnected from conference with ID: ' + getConferenceId() + '. We will try to get you back...');
+        removeMediaStreams();
+        setValuesAfterLeavingConference();
+        this.users = [];
     });
 }
 

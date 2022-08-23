@@ -121,6 +121,17 @@ export class ConferenceComponent {
       this.activeConference.on('error', event => {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
       });
+      this.activeConference.on('reconnecting', () => {
+        this.status = 'You are being disconnected from conference with ID: ' + this.conferenceId + '. We will try to get you back...';
+        console.log('You are being disconnected from conference with ID: ' + this.conferenceId + '. We will try to get you back...');
+        this.users = [];
+      });
+      this.activeConference.on('reconnected', event => {
+        this.status = 'Reconnected to conference with ID: ' + this.conferenceId;
+        console.log('Reconnected to conference with ID: ' + this.conferenceId);
+        event.users?.forEach(user => this.addUser(user.identity));
+        this.setMediaStream(this.remoteAudio, event.stream);
+      });
     }
   };
 
@@ -132,6 +143,7 @@ export class ConferenceComponent {
     if (this.conferenceId) {
       const conferenceOptions = ConferenceOptions.builder()
         .setVideo(video)
+        .setAutoReconnect(true)
         .build();
 
       this.activeConference = this.infobipRTC.joinConference(this.conferenceId, conferenceOptions);
