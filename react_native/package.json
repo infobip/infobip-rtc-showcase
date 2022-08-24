@@ -13,13 +13,13 @@
     "dev": "rm -rf yarn.lock &&  rm -rf node_modules/infobip-rtc-react-native && yarn install && (cd ios && pod deintegrate && pod install --repo-update) && yarn start"
   },
   "dependencies": {
-    "@react-native-community/cli-platform-ios": "^4.13.0",
+    "@react-native-community/cli-platform-ios": "^9.0.0",
     "@react-native-firebase/app": "^9.0.0",
     "@react-native-firebase/messaging": "^8.0.1",
     "axios": "0.21.1",
     "infobip-rtc-react-native": "0.4.0",
     "react": "16.13.1",
-    "react-native": "0.64.1",
+    "react-native": "0.69.4",
     "react-native-callkeep": "^4.0.1",
     "react-native-voip-push-notification": "3.1.0",
     "react-native-device-info": "^8.0.1"
