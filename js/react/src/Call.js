@@ -234,13 +234,13 @@ class Call extends Component {
                 <br/><br/>
 
                 <video width="700" height="700"
-                       style={{"object-fit": "cover"}}
+                       style={{"objectFit": "cover"}}
                        autoPlay
                        muted={this.state.isIphoneOrIpad}
                        ref="remoteVideo"/>
 
                 <video width="700" height="700"
-                       style={{"object-fit": "cover"}}
+                       style={{"objectFit": "cover"}}
                        autoPlay muted
                        ref="localVideo"/>
             </div>

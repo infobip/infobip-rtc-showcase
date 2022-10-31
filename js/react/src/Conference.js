@@ -222,11 +222,11 @@ class Conference extends Component {
                     <br/><br/>
                     <h3>Local video/screenshare</h3>
                     <video width="300" height="300"
-                           style={{"object-fit": "cover"}}
+                           style={{"objectFit": "cover"}}
                            autoPlay
                            ref="localCameraVideo"/>
                     <video width="300" height="300"
-                           style={{"object-fit": "cover"}}
+                           style={{"objectFit": "cover"}}
                            autoPlay
                            ref="localScreenShare"/>
                     <br/><br/>
@@ -239,7 +239,7 @@ class Conference extends Component {
                             <video
                                 ref={element => this.setVideo(element, video)}
                                 width="300" height="300"
-                                style={{"object-fit": "cover"}}
+                                style={{"objectFit": "cover"}}
                                 autoPlay/>
                         )}
                     )}
