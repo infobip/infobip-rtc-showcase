@@ -5,7 +5,7 @@ async function connectInfobipRTC() {
             type: 'POST',
             contentType: 'application/json',
             success: function (data) {
-                infobipRTC = new InfobipRTC(data.token, { debug: true });
+                infobipRTC = createInfobipRtc(data.token, { debug: true });
                 infobipRTC.on('connected', function (event) {
                     console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     resolve(event.identity);
@@ -21,7 +21,7 @@ async function connectInfobipRTC() {
 
 let infobipRTC;
 let activeCall;
-let activeConference;
+let activeRoomCall;
 
 $(window).on("beforeunload", function () {
     if (infobipRTC) {
@@ -30,7 +30,7 @@ $(window).on("beforeunload", function () {
 });
 
 $(window).ready(function(){
-    const page = window.location.hash === '' ? 'call' : window.location.hash.substring(1);
+    const page = window.location.hash === '' ? 'webrtc-call' : window.location.hash.substring(1);
     $.get('pages/' + page + '.html', function (pageContent) {
         $(".page-container").html(pageContent);
     });

@@ -4,13 +4,25 @@
     <string name="call_button_label">Call</string>
     <string name="video_call_button">Video Call</string>
     <string name="call_phone_number_button_label">Call Phone Number</string>
+    <string name="join_room_button_label">Join Room</string>
     <string name="hangup_button_label">Hangup</string>
     <string name="accept_button_label">Accept</string>
+    <string name="accept_video_button_label">Accept Video</string>
     <string name="decline_button_label">Decline</string>
-    <string name="idle_label"/>
+    <string name="idle_label" />
     <string name="calling_label">Calling</string>
     <string name="ringing_label">Ringing</string>
     <string name="incoming_call_label">Incoming Call</string>
-    <string name="in_a_call_label">In A Call</string>
     <string name="flip_camera">Flip camera</string>
+    <string name="camera_on">Camera On</string>
+    <string name="camera_off">Camera Off</string>
+    <string name="screen_share_on">Screen Share On</string>
+    <string name="screen_share_off">Screen Share Off</string>
+    <string name="mute">Mute</string>
+    <string name="unmute">Unmute</string>
+    <string name="user_muted">User is muted</string>
+    <string name="webrtc_type">WebRTC</string>
+    <string name="phone_type">Phone</string>
+    <string name="room_type">Rooms</string>
+    <string name="participants">Participants:</string>
 </resources>

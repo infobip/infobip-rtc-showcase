@@ -14,12 +14,12 @@ class CallKitAdapter: NSObject {
         callKitProvider.setDelegate(self, queue: nil)
     }
     
-    func reportIncomingCall(_ call: Call) {
+    func reportIncomingCall(_ call: WebrtcCall) {
         guard let uuid = UUID(uuidString: call.id()) else { return }
         calls[call.id()] = CallRecord(uuid, call)
         let callUpdate = CXCallUpdate()
-        callUpdate.remoteHandle = CXHandle(type: .phoneNumber, value: call.source().identity)
-        callUpdate.hasVideo = call.hasLocalVideo()
+        callUpdate.remoteHandle = CXHandle(type: .phoneNumber, value: call.source().identifier())
+        callUpdate.hasVideo = call.hasCameraVideo()
         callKitProvider.reportNewIncomingCall(with: uuid, update: callUpdate){ (error) in
             if let err = error {
                 print("Failed to report incoming call: %@", err.localizedDescription)
@@ -39,7 +39,7 @@ class CallKitAdapter: NSObject {
 
 extension CallKitAdapter: CXProviderDelegate {
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        if let incomingCall = calls[action.callUUID.uuidString.lowercased()]?.call as? IncomingCall {
+        if let incomingCall = calls[action.callUUID.uuidString.lowercased()]?.call as? IncomingWebrtcCall {
             incomingCall.accept()
             action.fulfill()
         } else {
@@ -54,7 +54,7 @@ extension CallKitAdapter: CXProviderDelegate {
     
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
         guard let call = calls[action.callUUID.uuidString.lowercased()]?.call else { return }
-        if let incoming = call as? IncomingCall, incoming.status != .ESTABLISHED {
+        if let incoming = call as? IncomingWebrtcCall, incoming.status != .established {
             incoming.decline()
         } else {
             call.hangup()
@@ -64,8 +64,12 @@ extension CallKitAdapter: CXProviderDelegate {
     
     func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
         if let call = calls[action.callUUID.uuidString.lowercased()]?.call {
-            call.mute(action.isMuted)
-            action.fulfill()
+            do {
+                try call.mute(action.isMuted)
+                action.fulfill()
+            } catch {
+                action.fail()
+            }
         }
     }
     

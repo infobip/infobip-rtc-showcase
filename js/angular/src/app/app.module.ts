@@ -5,20 +5,23 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import {AppComponent} from './app.component';
-import {CallComponent} from './components/call/call.component';
-import {ConferenceComponent} from './components/conference/conference.component';
+import {WebrtcCallComponent} from './components/webrtc-call/webrtc-call.component';
+import {PhoneCallComponent} from './components/phone-call/phone-call.component';
+import {RoomCallComponent} from './components/room-call/room-call.component';
 
 const appRoutes: Routes = [
-  { path: 'call', component: CallComponent },
-  { path: 'conference', component: ConferenceComponent },
-  { path: '', pathMatch: 'full', redirectTo: 'call' },
+  { path: 'webrtc-call', component: WebrtcCallComponent },
+  { path: 'phone-call', component: PhoneCallComponent },
+  { path: 'room', component: RoomCallComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'webrtc-call' },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CallComponent,
-    ConferenceComponent
+    PhoneCallComponent,
+    WebrtcCallComponent,
+    RoomCallComponent
   ],
   imports: [
     BrowserModule,

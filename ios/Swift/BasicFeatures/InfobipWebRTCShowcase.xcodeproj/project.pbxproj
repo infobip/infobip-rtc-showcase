@@ -7,21 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B4DD415932CD5884BF16BF2 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A538342D6A28AF1B28D2CDE /* Pods_InfobipWebRTCShowcase.framework */; };
+		468EA80F297F2DF9009435CF /* WebrtcCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468EA80E297F2DF9009435CF /* WebrtcCallController.swift */; };
+		468EA811297F3217009435CF /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468EA810297F3217009435CF /* MainController.swift */; };
+		46D2210429788D07009584A6 /* PhoneCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2210329788D07009584A6 /* PhoneCallController.swift */; };
+		46D2210629788D19009584A6 /* RoomCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2210529788D19009584A6 /* RoomCallController.swift */; };
 		DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */; };
 		DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2178245B3DA900C85FAA /* Runtime.swift */; };
 		DDA3A0612459B24F00F4A924 /* PushHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA3A0602459B24F00F4A924 /* PushHandler.swift */; };
 		DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */; };
 		DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24A234F75BF00263857 /* AppDelegate.swift */; };
-		DDFEE24F234F75BF00263857 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24E234F75BF00263857 /* AppController.swift */; };
 		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
 		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
 		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
 		E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0891DF82595F70C00842857 /* VideoCallExtension.swift */; };
-		EFE9341A18B9384CD6391BA0 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01105E86B3D97929A354A7B2 /* Pods_InfobipWebRTCShowcase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		01105E86B3D97929A354A7B2 /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		468EA80E297F2DF9009435CF /* WebrtcCallController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebrtcCallController.swift; sourceTree = "<group>"; };
+		468EA810297F3217009435CF /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		46D2210329788D07009584A6 /* PhoneCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCallController.swift; sourceTree = "<group>"; };
+		46D2210529788D19009584A6 /* RoomCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCallController.swift; sourceTree = "<group>"; };
+		5A538342D6A28AF1B28D2CDE /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79CCEF700DF2D04AAFB2D312 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.debug.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.debug.xcconfig"; sourceTree = "<group>"; };
 		C0BDB6E5DF9E606CADC8EEAB /* Pods-InfobipWebRTCShowcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.release.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.release.xcconfig"; sourceTree = "<group>"; };
 		DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitAdapter.swift; sourceTree = "<group>"; };
@@ -31,7 +38,6 @@
 		DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
 		DDFEE247234F75BF00263857 /* InfobipWebRTCShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfobipWebRTCShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFEE24A234F75BF00263857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DDFEE24E234F75BF00263857 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		DDFEE251234F75BF00263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -44,17 +50,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFE9341A18B9384CD6391BA0 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */,
+				3B4DD415932CD5884BF16BF2 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46D2210229788B07009584A6 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				468EA810297F3217009435CF /* MainController.swift */,
+				468EA80E297F2DF9009435CF /* WebrtcCallController.swift */,
+				46D2210329788D07009584A6 /* PhoneCallController.swift */,
+				46D2210529788D19009584A6 /* RoomCallController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
 		8B191EABF9E0DEB80A62A22F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				01105E86B3D97929A354A7B2 /* Pods_InfobipWebRTCShowcase.framework */,
+				5A538342D6A28AF1B28D2CDE /* Pods_InfobipWebRTCShowcase.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -89,9 +106,9 @@
 		DDFEE249234F75BF00263857 /* InfobipWebRTCShowcase */ = {
 			isa = PBXGroup;
 			children = (
+				46D2210229788B07009584A6 /* controller */,
 				DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */,
 				DDFEE24A234F75BF00263857 /* AppDelegate.swift */,
-				DDFEE24E234F75BF00263857 /* AppController.swift */,
 				DDFEE250234F75BF00263857 /* Main.storyboard */,
 				DDFEE253234F75C000263857 /* Assets.xcassets */,
 				DDFEE255234F75C000263857 /* LaunchScreen.storyboard */,
@@ -220,12 +237,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D2210629788D19009584A6 /* RoomCallController.swift in Sources */,
 				E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */,
-				DDFEE24F234F75BF00263857 /* AppController.swift in Sources */,
 				DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */,
 				DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */,
 				DDA3A0612459B24F00F4A924 /* PushHandler.swift in Sources */,
+				468EA80F297F2DF9009435CF /* WebrtcCallController.swift in Sources */,
+				468EA811297F3217009435CF /* MainController.swift in Sources */,
 				DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */,
+				46D2210429788D07009584A6 /* PhoneCallController.swift in Sources */,
 				DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

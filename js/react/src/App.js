@@ -1,30 +1,34 @@
 import React from 'react';
-import Call from "./Call";
-import Conference from "./Conference";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
 } from "react-router-dom";
+import RoomCall from "./RoomCall";
+import WebrtcCall from "./WebrtcCall";
+import PhoneCall from "./PhoneCall";
 
 function App() {
     return (
         <Router>
             <div>
                 <nav>
-                    <Link to="/call">Call</Link> | <Link to="/conference">Conference</Link>
+                    <Link to="/webrtc-call">WebRTC Call</Link> | <Link to="/phone-call">Phone Call</Link> | <Link to="/room-call">Room Call</Link>
                 </nav>
                 <hr/>
                 <Switch>
-                    <Route path="/call">
-                        <Call/>
+                    <Route path="/webrtc-call">
+                        <WebrtcCall/>
                     </Route>
-                    <Route path="/conference">
-                        <Conference/>
+                    <Route path="/phone-call">
+                        <PhoneCall/>
+                    </Route>
+                    <Route path="/room-call">
+                        <RoomCall/>
                     </Route>
                     <Route path="/">
-                        <Call/>
+                        <WebrtcCall/>
                     </Route>
                 </Switch>
             </div>

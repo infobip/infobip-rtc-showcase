@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infobip RTC Showcase</title>
+</head>
+<body>
+<div>
+  <h2>{{title}}</h2>
+  <h4>Logged as: <span>{{identity || 'None'}}</span></h4>
+</div>
+<div>
+  <audio #remoteAudio autoPlay></audio>
+
+  <input type="text" (change)="onChange($event)" placeholder="Enter room name"/>
+  <br/><br/>
+
+  <button [disabled]="activeRoomCall" (click)="join(false)">Join</button>
+  <button [disabled]="activeRoomCall" (click)="join(true)">Join with Video</button>
+  <button [disabled]="!activeRoomCall" (click)="leave()">Leave</button>
+  <br/><br/>
+
+  <button [disabled]="!activeRoomCall" (click)="toggleCameraVideo()">Toggle Camera Video</button>
+  <button [disabled]="!activeRoomCall" (click)="toggleShareScreen()">Toggle Share Screen</button>
+  <br/><br/>
+
+  <h4><span>{{status}}</span></h4>
+  <br/><br/>
+
+  <div [hidden]="!shouldShowRemoteVideos()">
+    <h3>Remote videos/screenshares</h3>
+    <video *ngFor="let videoElement of remoteVideos"
+           [srcObject]="videoElement.video"
+           width="300" height="300"
+           style="object-fit: cover" autoPlay>
+    </video>
+  </div>
+
+  <div [hidden]="!shouldShowLocalVideos()">
+    <h3>Local video/screenshare</h3>
+    <video #localCameraVideo autoplay muted
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+    <video #localScreenShare autoplay
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+  </div>
+</div>
+</body>
+</html>

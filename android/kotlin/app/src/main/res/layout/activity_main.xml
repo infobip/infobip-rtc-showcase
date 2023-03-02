@@ -1,152 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
     <FrameLayout
-            android:id="@+id/video_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+        android:id="@+id/video_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
-        <com.infobip.webrtc.sdk.api.video.VideoRenderer
-                android:id="@+id/remote_video"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:keepScreenOn="true" />
+        <com.infobip.webrtc.sdk.api.model.video.VideoRenderer
+            android:id="@+id/remote_big_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:keepScreenOn="true"
+            android:layout_marginBottom="40dp"
+            android:visibility="gone" />
 
-        <com.infobip.webrtc.sdk.api.video.VideoRenderer
-                android:id="@+id/local_video"
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="15dp" />
+        <com.infobip.webrtc.sdk.api.model.video.VideoRenderer
+            android:id="@+id/remote_small_video"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="97dp"
+            android:visibility="gone" />
+
+        <com.infobip.webrtc.sdk.api.model.video.VideoRenderer
+            android:id="@+id/local_camera_video"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="15dp"
+            android:visibility="gone" />
+
+        <com.infobip.webrtc.sdk.api.model.video.VideoRenderer
+            android:id="@+id/local_screen_share"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="15dp"
+            android:visibility="gone" />
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/room_participants_layout"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/participants_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/participants"
+            android:layout_gravity="center">
+        </TextView>
+        <ScrollView
+            android:id="@+id/room_participants_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="10">
+            android:visibility="visible">
+            <LinearLayout
+                android:id="@+id/room_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:tabBackground="@color/colorPrimary"
+            app:tabGravity="fill">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/webrtcCall"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
+                android:icon="@drawable/computer_icon"
+                android:text="@string/webrtc_type" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/phoneCall"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
+                android:icon="@drawable/pstn_icon"
+                android:text="@string/phone_type" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/roomCall"
+                style="@style/Widget.MaterialComponents.TabLayout.Colored"
+                android:icon="@drawable/group"
+                android:text="@string/room_type" />
+
+        </com.google.android.material.tabs.TabLayout>
 
         <LinearLayout
-                android:id="@+id/other_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="9"
-                android:gravity="center"
-                android:orientation="vertical">
+            android:id="@+id/other_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/application_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="120dp"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/application_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/remote_audio_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/user_muted"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/application_state" />
 
             <EditText
-                    android:id="@+id/destination"
-                    android:layout_width="200dp"
-                    android:layout_height="46dp"
-                    android:layout_gravity="center"
-                    android:ems="10"
-                    android:hint="@string/destination_input_label"
-                    android:inputType="text"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@id/application_state" />
+                android:id="@+id/destination"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/destination_input_label"
+                android:ems="10"
+                android:hint="@string/destination_input_label"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@id/remote_audio_state" />
+
+            <Switch
+                android:id="@+id/toggle_audio_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:checked="true"
+                android:text="Audio"
+                app:layout_constraintTop_toBottomOf="@+id/destination" />
 
             <Button
-                    android:id="@+id/call"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/call_button_label"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/destination" />
+                android:id="@+id/call"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/call_button_label"
+                app:layout_constraintTop_toBottomOf="@+id/toggle_audio_switch" />
 
             <Button
-                    android:id="@+id/video_call"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/video_call_button"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/call" />
+                android:id="@+id/video_call"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/video_call_button"
+                app:layout_constraintTop_toBottomOf="@+id/call" />
 
             <Button
-                    android:id="@+id/call_phone_number"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/call_phone_number_button_label"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/video_call" />
+                android:id="@+id/call_phone_number"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="@string/call_phone_number_button_label"
+                app:layout_constraintTop_toBottomOf="@+id/video_call" />
 
             <Button
-                    android:id="@+id/hangup"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/hangup_button_label"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/call_phone_number" />
-
-            <Button
-                    android:id="@+id/accept"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/accept_button_label"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/hangup" />
-
-            <Button
-                    android:id="@+id/decline"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/decline_button_label"
-                    android:visibility="gone"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toBottomOf="@+id/accept" />
+                android:id="@+id/join_room"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="@string/join_room_button_label"
+                app:layout_constraintTop_toBottomOf="@+id/call_phone_number" />
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/video_buttons"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            android:id="@+id/incoming_call_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_button_label" />
+
+            <Button
+                android:id="@+id/accept_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_video_button_label" />
+
+            <Button
+                android:id="@+id/decline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/decline_button_label" />
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="bottom"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/linearLayoutVideos"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/hangup_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/hangup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hangup_button_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/active_call_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/toggle_audio_button"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:background="@android:color/black"
-                android:gravity="bottom|center_horizontal"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_gravity="center"
+                android:text="@string/mute" />
 
             <Button
-                    android:id="@+id/video_hangup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/hangup_button_label" />
+                android:id="@+id/toggle_camera_button"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/camera_on" />
 
             <Button
-                    android:id="@+id/flip_camera_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/flip_camera" />
+                android:id="@+id/toggle_screen_share_button"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/screen_share_on" />
+
+            <Button
+                android:id="@+id/flip_camera_button"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/flip_camera" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

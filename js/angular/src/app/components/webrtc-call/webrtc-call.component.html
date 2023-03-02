@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infobip RTC Showcase</title>
+</head>
+<body>
+  <div>
+    <h2>{{title}}</h2>
+    <h4>Logged as: <span>{{identity || 'None'}}</span></h4>
+  </div>
+
+  <audio #remoteAudio autoPlay></audio>
+
+  <input type="text" (change)="onChange($event)" placeholder="Enter destination to call..."/>
+  <br/><br/>
+
+  <button [disabled]="activeCall" (click)="call(false)">Call</button>
+  <button [disabled]="activeCall" (click)="call(true)">Video Call</button>
+  <br/><br/>
+
+  <button [disabled]="!activeCall" (click)="toggleCameraVideo()">Toggle Camera Video</button>
+  <button [disabled]="!activeCall" (click)="toggleShareScreen()">Toggle Share Screen</button>
+
+  <h4><span>{{status}}</span></h4>
+  <br/><br/>
+
+  <div [hidden]="!shouldShowButtonsOnIncomingCall()">
+    <button (click)="accept()">Accept</button>
+    <button (click)="decline()">Decline</button>
+    <br/><br/>
+  </div>
+
+  <button [disabled]="shouldDisableHangupButton()" (click)="hangup()">Hangup</button>
+  <br/><br/>
+
+  <div *ngIf="iPhoneOrIpad">
+    <button (click)="unmuteVideo()">Tap to Unmute</button>
+    <br/><br/>
+  </div>
+
+  <div [hidden]="!shouldShowRemoteVideos()">
+    <h3>Remote video/screenshare</h3>
+    <video #remoteCameraVideo autoplay muted
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+    <video #remoteScreenShare autoplay
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+  </div>
+
+  <div [hidden]="!shouldShowLocalVideos()">
+    <h3>Local video/screenshare</h3>
+    <video #localCameraVideo autoplay muted
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+    <video #localScreenShare autoplay
+           style="object-fit: cover"
+           width="300" height="300">
+    </video>
+  </div>
+</body>
+</html>

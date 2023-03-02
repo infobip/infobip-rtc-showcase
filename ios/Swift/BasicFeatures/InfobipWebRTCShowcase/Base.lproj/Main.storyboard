@@ -1,138 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--App Controller-->
+        <!--WebRTC Call Scene-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="AppController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController title="WebRTC Call Scene" id="BYZ-38-t0r" customClass="WebrtcCallController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="View" customClass="web">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-jK-wwz">
-                                <rect key="frame" x="30" y="435.5" width="354" height="35"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="ev0-UJ-cd1"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lHl-TB-Dub">
-                                <rect key="frame" x="30" y="500.5" width="354" height="35"/>
-                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="9N8-Vx-8SL"/>
-                                </constraints>
-                                <state key="normal" title="Call">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="call:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sdA-N5-UFp"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ik-9z-pJ7">
-                                <rect key="frame" x="30" y="545.5" width="354" height="35"/>
-                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="49z-Kg-lPh"/>
-                                </constraints>
-                                <state key="normal" title="Call Video">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="callVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h3o-Bs-fzo"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OHR-C8-9jT">
-                                <rect key="frame" x="30" y="590.5" width="354" height="35"/>
-                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="YSC-fY-vQU"/>
-                                </constraints>
-                                <state key="normal" title="Call Phone Number">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="callPhone:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IDo-7f-bCu"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRm-vm-lm7">
-                                <rect key="frame" x="0.0" y="89" width="414" height="30"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="cP9-gh-ZxZ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="FcQ-v8-n01">
-                                <rect key="frame" x="254" y="129" width="130" height="165"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="165" id="0Bc-6C-tAm"/>
-                                    <constraint firstAttribute="width" constant="130" id="9bt-Nc-eU5"/>
-                                </constraints>
-                            </view>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9d8-DX-BrH">
-                                <rect key="frame" x="37" y="792" width="340" height="35"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p8k-gC-HWw">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
-                                        <color key="backgroundColor" systemColor="systemRedColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="35" id="teb-5C-teK"/>
-                                            <constraint firstAttribute="width" constant="100" id="vxn-r4-blO"/>
-                                        </constraints>
-                                        <state key="normal" title="Hangup">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="hangup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VVY-Jx-WCR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEt-sw-LEg">
-                                        <rect key="frame" x="120" y="0.0" width="100" height="35"/>
-                                        <color key="backgroundColor" systemColor="systemTealColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="9hK-dP-cwY"/>
-                                            <constraint firstAttribute="height" constant="35" id="TDF-zo-ehe"/>
-                                        </constraints>
-                                        <state key="normal" title="Flip Camera">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="flipCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xlD-kf-zDl"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17a-XI-J2y">
-                                        <rect key="frame" x="240" y="0.0" width="100" height="35"/>
-                                        <color key="backgroundColor" systemColor="systemTealColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="IhX-yK-aQt"/>
-                                            <constraint firstAttribute="height" constant="35" id="TYL-BI-7FM"/>
-                                        </constraints>
-                                        <state key="normal" title="Enable Video">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="toggleVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wxO-bf-vrt"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-X4-c8g">
-                                <rect key="frame" x="0.0" y="44" width="414" height="40"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="G4v-V5-0B6"/>
+                                    <constraint firstAttribute="height" constant="40" id="9r2-6G-RDU"/>
                                 </constraints>
                                 <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -142,53 +30,632 @@
                                     <navigationItem title="Infobip RTC Showcase" id="hQT-I7-wFR"/>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="67q-Yz-YRz" userLabel="Status Label">
+                                <rect key="frame" x="207" y="108" width="0.0" height="25"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Uf0-CP-DJd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="FcQ-v8-n01" userLabel="Local Camera Video View">
+                                <rect key="frame" x="277" y="153" width="110" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="b76-a1-o0x"/>
+                                    <constraint firstAttribute="width" constant="110" id="yXM-De-8co"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="OER-nq-FWd" userLabel="Local Screen Share View">
+                                <rect key="frame" x="27" y="153" width="110" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="9p0-Cg-8a1"/>
+                                    <constraint firstAttribute="width" constant="110" id="w7i-u8-YMk"/>
+                                </constraints>
+                            </view>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9R5-5Z-uKx" userLabel="Call Buttons Stack">
+                                <rect key="frame" x="89.5" y="495.5" width="235" height="20"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E1q-KR-svi" userLabel="Webrtc Call Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="5mo-bf-abZ"/>
+                                            <constraint firstAttribute="height" constant="20" id="Jxf-Ya-KGn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Audio Call">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="call:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pmo-mb-OEF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="WdM-tU-9TR" userLabel="Webrtc Call Video Button">
+                                        <rect key="frame" x="125" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="ekI-dv-h3Y"/>
+                                            <constraint firstAttribute="height" constant="20" id="qzK-hg-GZU"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Video Call">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="callVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ngH-gG-PJY"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vzP-jK-wwz">
+                                <rect key="frame" x="27" y="430.5" width="360" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="360" id="P48-Cu-fap"/>
+                                    <constraint firstAttribute="height" constant="35" id="szV-uh-6rN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9d8-DX-BrH" userLabel="Video Buttons Stack">
+                                <rect key="frame" x="89.5" y="725" width="235" height="20"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEt-sw-LEg">
+                                        <rect key="frame" x="-110" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="SpN-mf-sIc"/>
+                                            <constraint firstAttribute="height" constant="20" id="YiS-Vb-ft8"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Flip Camera">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="flipCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="imn-IA-Kfo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17a-XI-J2y" userLabel="Toggle Camera Video Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="876-3r-fzd"/>
+                                            <constraint firstAttribute="width" constant="110" id="gdP-KJ-iMk"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Camera Video">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleCameraVideo:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DpT-yd-8x6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ygR-8d-o32" userLabel="Toggle Screen Share Button">
+                                        <rect key="frame" x="125" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Axn-Wa-42l"/>
+                                            <constraint firstAttribute="width" constant="110" id="bge-Di-Ny9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Screen Share">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleScreenShare:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cB3-h3-feR"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ypU-zP-C2L" userLabel="Remote Camera Video View">
+                                <rect key="frame" x="277" y="545" width="110" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="aGz-Bf-gJE"/>
+                                    <constraint firstAttribute="width" constant="110" id="wfl-AF-NH8"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="P6u-cg-SCO" userLabel="Call Actions Buttons Stack">
+                                <rect key="frame" x="207" y="765" width="0.0" height="20"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jnr-NQ-kaG" userLabel="Mute Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="tXm-Gj-Sd2"/>
+                                            <constraint firstAttribute="width" constant="110" id="tzZ-Xd-qBD"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Mute">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="mute:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cMz-VI-LPw"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iSL-NO-Nn9">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="C33-3y-DK7"/>
+                                            <constraint firstAttribute="height" constant="20" id="WbT-wf-fDh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Hangup">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hangup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f7w-wE-QFK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="sMb-Wu-icC"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vzP-jK-wwz" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="2xm-DI-lDn"/>
-                            <constraint firstItem="L0b-X4-c8g" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3sr-gs-sKA"/>
-                            <constraint firstItem="5ik-9z-pJ7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="E7u-KT-fTh"/>
-                            <constraint firstItem="5ik-9z-pJ7" firstAttribute="top" secondItem="lHl-TB-Dub" secondAttribute="bottom" constant="10" id="H0e-9Z-S06"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="lHl-TB-Dub" secondAttribute="centerX" id="HOb-FW-52z"/>
-                            <constraint firstItem="bRm-vm-lm7" firstAttribute="top" secondItem="L0b-X4-c8g" secondAttribute="bottom" constant="5" id="IK4-jc-cwb"/>
-                            <constraint firstItem="FcQ-v8-n01" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="85" id="JCD-8H-kXL"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="bRm-vm-lm7" secondAttribute="centerX" id="Jwp-SD-aMu"/>
-                            <constraint firstItem="vzP-jK-wwz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="R4d-Q8-0nr"/>
-                            <constraint firstItem="OHR-C8-9jT" firstAttribute="top" secondItem="5ik-9z-pJ7" secondAttribute="bottom" constant="10" id="Rh3-wY-4S0"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FcQ-v8-n01" secondAttribute="trailing" constant="30" id="Vdp-S4-ys6"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9d8-DX-BrH" secondAttribute="bottom" constant="35" id="Vfk-6N-Vwo"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="5ik-9z-pJ7" secondAttribute="centerX" id="ZZQ-Bw-TU3"/>
-                            <constraint firstItem="L0b-X4-c8g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="bKE-Nu-xXd"/>
-                            <constraint firstItem="lHl-TB-Dub" firstAttribute="top" secondItem="vzP-jK-wwz" secondAttribute="bottom" constant="30" id="eE2-3f-DeC"/>
-                            <constraint firstItem="lHl-TB-Dub" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="eZS-Fl-vmP"/>
-                            <constraint firstItem="9d8-DX-BrH" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fAj-jH-C1J"/>
-                            <constraint firstItem="OHR-C8-9jT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="gNf-Ql-S6Z"/>
-                            <constraint firstItem="bRm-vm-lm7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="h6t-Up-V5E"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="OHR-C8-9jT" secondAttribute="centerX" id="jL0-UI-jdP"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="centerX" secondItem="vzP-jK-wwz" secondAttribute="centerX" id="pUo-7e-cBc"/>
-                            <constraint firstItem="L0b-X4-c8g" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="rC5-Dc-N1g"/>
+                            <constraint firstItem="FcQ-v8-n01" firstAttribute="leading" secondItem="ypU-zP-C2L" secondAttribute="leading" id="771-FS-tPG"/>
+                            <constraint firstItem="vzP-jK-wwz" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8tD-wI-wTX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="P6u-cg-SCO" secondAttribute="bottom" constant="28" id="99L-GJ-jh9"/>
+                            <constraint firstItem="OER-nq-FWd" firstAttribute="top" secondItem="FcQ-v8-n01" secondAttribute="top" id="D27-VA-Le0"/>
+                            <constraint firstItem="67q-Yz-YRz" firstAttribute="top" secondItem="L0b-X4-c8g" secondAttribute="bottom" constant="20" id="EEH-Kq-Su9"/>
+                            <constraint firstItem="FcQ-v8-n01" firstAttribute="trailing" secondItem="vzP-jK-wwz" secondAttribute="trailing" id="LlV-q0-fqT"/>
+                            <constraint firstItem="FcQ-v8-n01" firstAttribute="trailing" secondItem="ypU-zP-C2L" secondAttribute="trailing" id="MyI-eH-Bbi"/>
+                            <constraint firstItem="9R5-5Z-uKx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="N2i-Dn-ij2"/>
+                            <constraint firstItem="9d8-DX-BrH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O5Q-bz-nsM"/>
+                            <constraint firstItem="9R5-5Z-uKx" firstAttribute="top" secondItem="vzP-jK-wwz" secondAttribute="bottom" constant="30" id="Q3A-c4-vwV"/>
+                            <constraint firstItem="P6u-cg-SCO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SY3-gH-Wnl"/>
+                            <constraint firstItem="FcQ-v8-n01" firstAttribute="top" secondItem="67q-Yz-YRz" secondAttribute="bottom" constant="20" id="XE2-cu-YXB"/>
+                            <constraint firstItem="OER-nq-FWd" firstAttribute="leading" secondItem="vzP-jK-wwz" secondAttribute="leading" id="XPX-CT-7UF"/>
+                            <constraint firstItem="9d8-DX-BrH" firstAttribute="top" secondItem="ypU-zP-C2L" secondAttribute="bottom" constant="20" id="Y40-YV-9C2"/>
+                            <constraint firstItem="L0b-X4-c8g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="d3s-Zx-oRT"/>
+                            <constraint firstItem="P6u-cg-SCO" firstAttribute="top" secondItem="9d8-DX-BrH" secondAttribute="bottom" constant="20" id="ktw-hY-ffc"/>
+                            <constraint firstItem="OER-nq-FWd" firstAttribute="top" secondItem="67q-Yz-YRz" secondAttribute="bottom" constant="20" id="qmU-Zc-OSA"/>
+                            <constraint firstItem="L0b-X4-c8g" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sTW-vm-DLq"/>
+                            <constraint firstItem="67q-Yz-YRz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vtP-Ez-txp"/>
+                            <constraint firstItem="OER-nq-FWd" firstAttribute="bottom" secondItem="FcQ-v8-n01" secondAttribute="bottom" id="xeM-3g-WBg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="L0b-X4-c8g" secondAttribute="top" id="yuj-bG-83e"/>
+                            <constraint firstItem="vzP-jK-wwz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z4j-b0-FzE"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="WebRTC" image="person.2.fill" catalog="system" id="Sz3-pV-6qk"/>
                     <connections>
-                        <outlet property="callButton" destination="lHl-TB-Dub" id="SVf-Vb-cwv"/>
-                        <outlet property="callButtonsStack" destination="9d8-DX-BrH" id="3p8-AK-5KP"/>
-                        <outlet property="callPhoneButton" destination="OHR-C8-9jT" id="PxP-4A-x3g"/>
-                        <outlet property="callVideoButton" destination="5ik-9z-pJ7" id="MJz-9Q-PuB"/>
-                        <outlet property="destinationInput" destination="vzP-jK-wwz" id="FJa-Ph-AOZ"/>
-                        <outlet property="flipCameraButton" destination="nEt-sw-LEg" id="1QG-ul-F0Z"/>
-                        <outlet property="hangupButton" destination="p8k-gC-HWw" id="lNg-bo-WOz"/>
-                        <outlet property="localVideoView" destination="FcQ-v8-n01" id="GJI-uY-zch"/>
-                        <outlet property="statusLabel" destination="bRm-vm-lm7" id="hv3-zu-DkC"/>
-                        <outlet property="toggleVideoButton" destination="17a-XI-J2y" id="vdw-bc-X9s"/>
+                        <outlet property="callButton" destination="E1q-KR-svi" id="0Um-Cs-h1E"/>
+                        <outlet property="callButtonsStack" destination="9R5-5Z-uKx" id="jqu-WQ-O8n"/>
+                        <outlet property="callVideoButton" destination="WdM-tU-9TR" id="Wz1-a5-HGF"/>
+                        <outlet property="destinationInput" destination="vzP-jK-wwz" id="ezM-JI-ITc"/>
+                        <outlet property="flipCameraButton" destination="nEt-sw-LEg" id="sOE-xZ-ZrP"/>
+                        <outlet property="hangupButton" destination="iSL-NO-Nn9" id="Mqw-ry-Kwe"/>
+                        <outlet property="localCameraVideoView" destination="FcQ-v8-n01" id="7wa-Mr-rne"/>
+                        <outlet property="localScreenShareView" destination="OER-nq-FWd" id="1d5-SY-oID"/>
+                        <outlet property="muteButton" destination="jnr-NQ-kaG" id="gsa-D7-xlM"/>
+                        <outlet property="remoteCameraVideoView" destination="ypU-zP-C2L" id="J3w-2k-Uux"/>
+                        <outlet property="statusLabel" destination="67q-Yz-YRz" id="Fis-rU-9MV"/>
+                        <outlet property="toggleCameraVideoButton" destination="17a-XI-J2y" id="rwf-Mh-XJC"/>
+                        <outlet property="toggleScreenShareButton" destination="ygR-8d-o32" id="bkT-t2-672"/>
+                        <outlet property="videoButtonsStack" destination="9d8-DX-BrH" id="41a-NB-SyY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1132" y="1310"/>
+        </scene>
+        <!--Room Call Scene-->
+        <scene sceneID="DLv-4W-R0r">
+            <objects>
+                <viewController title="Room Call Scene" id="Dit-y0-asn" customClass="RoomCallController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YlT-u6-9yb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QrC-yF-5KX">
+                                <rect key="frame" x="0.0" y="48" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="CGz-LK-Qyw"/>
+                                </constraints>
+                                <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Infobip RTC Showcase" id="f1N-wU-o4S"/>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dE-wK-Ynq" userLabel="Status Label">
+                                <rect key="frame" x="207" y="108" width="0.0" height="25"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Uzl-iC-fbQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ckn-sA-G38" userLabel="Participants Label">
+                                <rect key="frame" x="207" y="138" width="0.0" height="25"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Kzs-fg-BZp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="W3I-Vg-Aam" userLabel="Remote Videos Stack">
+                                <rect key="frame" x="27" y="173" width="360" height="620"/>
+                                <subviews>
+                                    <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="dEp-Un-Om2" userLabel="Remote Top Video View">
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="360" id="O2O-qx-KFs"/>
+                                        </constraints>
+                                    </view>
+                                    <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="8V4-nV-EYW" userLabel="Remote Bottom Video View">
+                                        <rect key="frame" x="0.0" y="0.0" width="360" height="0.0"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="360" id="VHk-Cc-c2x"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="8V4-nV-EYW" firstAttribute="height" secondItem="dEp-Un-Om2" secondAttribute="height" id="RIu-7D-cnk"/>
+                                    <constraint firstAttribute="width" constant="360" id="xne-HW-CMc"/>
+                                </constraints>
+                            </stackView>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="F0E-KV-t2c" userLabel="Local Camera Video View">
+                                <rect key="frame" x="272" y="178" width="110" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="160" id="4dT-iL-0I2"/>
+                                    <constraint firstAttribute="width" constant="110" id="Ae1-oq-cb4"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="msF-Wn-Vg3" userLabel="Local Screen Share View">
+                                <rect key="frame" x="32" y="178" width="110" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="6gv-L1-zaX"/>
+                                    <constraint firstAttribute="height" constant="160" id="FwZ-vg-Ldd"/>
+                                </constraints>
+                            </view>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Room Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WQn-Sv-F04">
+                                <rect key="frame" x="32" y="430.5" width="350" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="JeR-BS-tlU"/>
+                                    <constraint firstAttribute="width" constant="350" id="uds-zV-tyN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="LTn-qi-9P1" userLabel="Call Buttons Stack">
+                                <rect key="frame" x="89.5" y="495.5" width="235" height="20"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B8e-sp-PZE" userLabel="Audio Room Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="lL6-XN-XgE"/>
+                                            <constraint firstAttribute="width" constant="110" id="ykb-Dv-wFY"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Join Audio Room">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="joinAudioRoom:" destination="Dit-y0-asn" eventType="touchUpInside" id="fya-8e-wqe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="gIM-CC-FuB" userLabel="Video Room Button">
+                                        <rect key="frame" x="125" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="3Jn-LU-YbO"/>
+                                            <constraint firstAttribute="height" constant="20" id="iZR-1u-7cv"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Join Video Room">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="joinVideoRoom:" destination="Dit-y0-asn" eventType="touchUpInside" id="wtE-4f-bpj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="mkK-Ua-lMH" userLabel="Video Buttons Stack">
+                                <rect key="frame" x="89.5" y="715" width="235" height="20"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6jb-jW-lFE">
+                                        <rect key="frame" x="-110" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Lbn-mw-jgp"/>
+                                            <constraint firstAttribute="width" constant="110" id="OM4-VP-WhE"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Flip Camera">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="flipCamera:" destination="Dit-y0-asn" eventType="touchUpInside" id="p0W-aH-eRB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZr-02-L8I" userLabel="Toggle Camera Video Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="6G8-Vs-deJ"/>
+                                            <constraint firstAttribute="height" constant="20" id="vY6-rv-iP2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Camera Video">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleCameraVideo:" destination="Dit-y0-asn" eventType="touchUpInside" id="QLY-Ha-hRR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rSg-LX-0iV" userLabel="Toggle Screen Share Button">
+                                        <rect key="frame" x="125" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="jlu-1z-TfO"/>
+                                            <constraint firstAttribute="width" constant="110" id="qon-qG-Pm3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Screen Share">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleScreenShare:" destination="Dit-y0-asn" eventType="touchUpInside" id="i5o-0M-ijA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="QZr-Ht-uND" userLabel="Call Actions Buttons Stack">
+                                <rect key="frame" x="207" y="765" width="0.0" height="20"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a06-dX-A12" userLabel="Mute Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Tfm-mV-4N8"/>
+                                            <constraint firstAttribute="width" constant="110" id="xNg-Sz-X1n"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Mute">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="mute:" destination="Dit-y0-asn" eventType="touchUpInside" id="fee-It-xIU"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tiN-Xz-PBR">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="JdW-Ia-NZe"/>
+                                            <constraint firstAttribute="width" constant="110" id="OS0-qS-IqS"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Leave">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="leave:" destination="Dit-y0-asn" eventType="touchUpInside" id="5v9-s3-UMN"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="zJG-Dj-9CC"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="F5V-Nq-JXe"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="F5V-Nq-JXe" firstAttribute="bottom" secondItem="W3I-Vg-Aam" secondAttribute="bottom" constant="20" id="0F1-BC-tm0"/>
+                            <constraint firstItem="msF-Wn-Vg3" firstAttribute="leading" secondItem="WQn-Sv-F04" secondAttribute="leading" id="4zD-n0-UCH"/>
+                            <constraint firstItem="4dE-wK-Ynq" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="8iR-KY-tPX"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="top" secondItem="F5V-Nq-JXe" secondAttribute="top" id="D4M-7e-Su5"/>
+                            <constraint firstItem="WQn-Sv-F04" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="Iam-LL-C2e"/>
+                            <constraint firstItem="F0E-KV-t2c" firstAttribute="bottom" secondItem="msF-Wn-Vg3" secondAttribute="bottom" id="MnY-Jg-Jc9"/>
+                            <constraint firstItem="Ckn-sA-G38" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="Pci-6D-fTu"/>
+                            <constraint firstItem="LTn-qi-9P1" firstAttribute="top" secondItem="WQn-Sv-F04" secondAttribute="bottom" constant="30" id="Qkz-fh-b0l"/>
+                            <constraint firstItem="msF-Wn-Vg3" firstAttribute="top" secondItem="Ckn-sA-G38" secondAttribute="bottom" constant="15" id="Vwx-Hb-98B"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="X2b-rs-9fd"/>
+                            <constraint firstItem="F5V-Nq-JXe" firstAttribute="bottom" secondItem="mkK-Ua-lMH" secondAttribute="bottom" constant="78" id="Z1D-70-5pw"/>
+                            <constraint firstItem="W3I-Vg-Aam" firstAttribute="top" secondItem="Ckn-sA-G38" secondAttribute="bottom" constant="10" id="aAO-21-GkH"/>
+                            <constraint firstItem="WQn-Sv-F04" firstAttribute="centerY" secondItem="YlT-u6-9yb" secondAttribute="centerY" id="bjH-gB-F1p"/>
+                            <constraint firstItem="W3I-Vg-Aam" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="dvF-vF-47f"/>
+                            <constraint firstItem="QZr-Ht-uND" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="ecQ-gY-KXC"/>
+                            <constraint firstItem="F0E-KV-t2c" firstAttribute="top" secondItem="Ckn-sA-G38" secondAttribute="bottom" constant="15" id="f0K-a2-xrQ"/>
+                            <constraint firstItem="F5V-Nq-JXe" firstAttribute="bottom" secondItem="QZr-Ht-uND" secondAttribute="bottom" constant="28" id="khY-Uc-Aa9"/>
+                            <constraint firstItem="LTn-qi-9P1" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="nPu-tP-dRn"/>
+                            <constraint firstItem="4dE-wK-Ynq" firstAttribute="top" secondItem="QrC-yF-5KX" secondAttribute="bottom" constant="20" id="rlz-i5-o7z"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="leading" secondItem="YlT-u6-9yb" secondAttribute="leading" id="t36-Id-dBr"/>
+                            <constraint firstItem="F0E-KV-t2c" firstAttribute="trailing" secondItem="WQn-Sv-F04" secondAttribute="trailing" id="tZL-CS-wWC"/>
+                            <constraint firstItem="Ckn-sA-G38" firstAttribute="top" secondItem="4dE-wK-Ynq" secondAttribute="bottom" constant="5" id="tte-Kb-tAi"/>
+                            <constraint firstItem="F0E-KV-t2c" firstAttribute="top" secondItem="msF-Wn-Vg3" secondAttribute="top" id="uMJ-Xi-oTX"/>
+                            <constraint firstItem="mkK-Ua-lMH" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="vVM-Tf-JZZ"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Room" image="person.3.sequence.fill" catalog="system" id="83S-Ua-3b5"/>
+                    <connections>
+                        <outlet property="flipCameraButton" destination="6jb-jW-lFE" id="Aoc-t9-SY7"/>
+                        <outlet property="joinButton" destination="B8e-sp-PZE" id="RRD-Sw-EQi"/>
+                        <outlet property="joinButtonsStack" destination="LTn-qi-9P1" id="vK5-qY-Yp8"/>
+                        <outlet property="joinVideoButton" destination="gIM-CC-FuB" id="ZNS-J4-Hhw"/>
+                        <outlet property="leaveButton" destination="tiN-Xz-PBR" id="Qbj-ro-HIb"/>
+                        <outlet property="localCameraVideoView" destination="F0E-KV-t2c" id="bck-js-Rqs"/>
+                        <outlet property="localScreenShareView" destination="msF-Wn-Vg3" id="Zfc-42-ed6"/>
+                        <outlet property="muteButton" destination="a06-dX-A12" id="5fs-uh-U6I"/>
+                        <outlet property="participantsLabel" destination="Ckn-sA-G38" id="hyw-zM-kcj"/>
+                        <outlet property="remoteBottomVideoView" destination="8V4-nV-EYW" id="5X5-ds-kgf"/>
+                        <outlet property="remoteTopVideoView" destination="dEp-Un-Om2" id="wGE-sZ-Cac"/>
+                        <outlet property="remoteVideosStack" destination="W3I-Vg-Aam" id="7bS-BX-4yq"/>
+                        <outlet property="roomNameInput" destination="WQn-Sv-F04" id="P2r-Yy-L3X"/>
+                        <outlet property="statusLabel" destination="4dE-wK-Ynq" id="Exf-XG-NPa"/>
+                        <outlet property="toggleCameraVideoButton" destination="TZr-02-L8I" id="GSM-MO-Czb"/>
+                        <outlet property="toggleScreenShareButton" destination="rSg-LX-0iV" id="vTL-uY-rzl"/>
+                        <outlet property="videoButtonsStack" destination="mkK-Ua-lMH" id="vTp-dJ-Qdb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C7u-64-zSL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1131.8840579710145" y="593.97321428571422"/>
+        </scene>
+        <!--Phone Call Scene-->
+        <scene sceneID="yKX-OB-vTJ">
+            <objects>
+                <viewController title="Phone Call Scene" id="fBc-Aq-FZO" customClass="PhoneCallController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MOT-lj-JIe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGM-Z8-FaJ">
+                                <rect key="frame" x="0.0" y="48" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="pHT-pE-JQb"/>
+                                </constraints>
+                                <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Infobip RTC Showcase" id="RGD-CQ-gng"/>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sg7-0i-FeC" userLabel="Status Label">
+                                <rect key="frame" x="207" y="108" width="0.0" height="25"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Rhg-Dc-6qj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destination" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ubl-gQ-xZI">
+                                <rect key="frame" x="27" y="430.5" width="360" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="360" id="nRE-cD-zkj"/>
+                                    <constraint firstAttribute="height" constant="35" id="pv7-81-edB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CVZ-2d-ZjK" userLabel="Call Button">
+                                <rect key="frame" x="152" y="495.5" width="110" height="20"/>
+                                <color key="backgroundColor" red="0.0" green="0.65227406440000002" blue="0.22955158889999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="DEe-bg-vWW"/>
+                                    <constraint firstAttribute="width" constant="110" id="lXc-6U-ov3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Call">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="callPhone:" destination="fBc-Aq-FZO" eventType="touchUpInside" id="7TE-4r-ctq"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="PuY-iw-0Tq" userLabel="Call Actions Buttons Stack">
+                                <rect key="frame" x="207" y="765" width="0.0" height="20"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R0k-hg-umC" userLabel="Mute Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="lW7-U2-5rC"/>
+                                            <constraint firstAttribute="height" constant="20" id="rVr-pc-ofu"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Mute">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="mute:" destination="fBc-Aq-FZO" eventType="touchUpInside" id="AyA-io-i62"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T4w-vE-UK0">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="20"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="EYa-lp-jSE"/>
+                                            <constraint firstAttribute="width" constant="110" id="z32-lI-ehP"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="Hangup">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hangup:" destination="fBc-Aq-FZO" eventType="touchUpInside" id="yMk-PN-C1g"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Dex-Wv-hgv"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1a2-4U-QI0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="BGM-Z8-FaJ" firstAttribute="leading" secondItem="MOT-lj-JIe" secondAttribute="leading" id="2y4-ym-myp"/>
+                            <constraint firstItem="1a2-4U-QI0" firstAttribute="top" secondItem="BGM-Z8-FaJ" secondAttribute="top" id="PhH-HI-Nbs"/>
+                            <constraint firstItem="Sg7-0i-FeC" firstAttribute="top" secondItem="BGM-Z8-FaJ" secondAttribute="bottom" constant="20" id="WgB-Ze-mcr"/>
+                            <constraint firstItem="1a2-4U-QI0" firstAttribute="bottom" secondItem="PuY-iw-0Tq" secondAttribute="bottom" constant="28" id="Z08-Sb-9fb"/>
+                            <constraint firstItem="ubl-gQ-xZI" firstAttribute="centerX" secondItem="MOT-lj-JIe" secondAttribute="centerX" id="biW-Xh-WHR"/>
+                            <constraint firstItem="PuY-iw-0Tq" firstAttribute="centerX" secondItem="MOT-lj-JIe" secondAttribute="centerX" id="dke-LA-XkS"/>
+                            <constraint firstItem="CVZ-2d-ZjK" firstAttribute="centerX" secondItem="MOT-lj-JIe" secondAttribute="centerX" id="jie-l9-fuW"/>
+                            <constraint firstItem="CVZ-2d-ZjK" firstAttribute="top" secondItem="ubl-gQ-xZI" secondAttribute="bottom" constant="30" id="kBO-DK-y5c"/>
+                            <constraint firstItem="ubl-gQ-xZI" firstAttribute="centerY" secondItem="MOT-lj-JIe" secondAttribute="centerY" id="lte-d5-I2e"/>
+                            <constraint firstItem="Sg7-0i-FeC" firstAttribute="centerX" secondItem="MOT-lj-JIe" secondAttribute="centerX" id="rqP-0L-6He"/>
+                            <constraint firstItem="BGM-Z8-FaJ" firstAttribute="centerX" secondItem="Sg7-0i-FeC" secondAttribute="centerX" id="rv0-Y8-aye"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Phone" image="iphone.gen1" catalog="system" id="YRg-lN-Nrx"/>
+                    <connections>
+                        <outlet property="callPhoneButton" destination="CVZ-2d-ZjK" id="SUg-ey-rk5"/>
+                        <outlet property="destinationInput" destination="ubl-gQ-xZI" id="bqd-S7-ARA"/>
+                        <outlet property="hangupButton" destination="T4w-vE-UK0" id="g5e-qN-x4d"/>
+                        <outlet property="muteButton" destination="R0k-hg-umC" id="CGU-q3-J7P"/>
+                        <outlet property="statusLabel" destination="Sg7-0i-FeC" id="s7p-lo-fIi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HRP-kY-fyH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1132" y="-12"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="dxm-dJ-wAm">
+            <objects>
+                <tabBarController id="tuE-Tr-uXB" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vgP-4F-dmQ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="tdZ-GX-iYZ"/>
+                        <segue destination="fBc-Aq-FZO" kind="relationship" relationship="viewControllers" id="9A6-bV-Lux"/>
+                        <segue destination="Dit-y0-asn" kind="relationship" relationship="viewControllers" id="7Pz-gi-slN"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G57-qO-u26" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="834"/>
         </scene>
     </scenes>
     <resources>
+        <image name="iphone.gen1" catalog="system" width="112" height="128"/>
+        <image name="person.2.fill" catalog="system" width="128" height="81"/>
+        <image name="person.3.sequence.fill" catalog="system" width="128" height="59"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
@@ -196,7 +663,7 @@
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
-            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

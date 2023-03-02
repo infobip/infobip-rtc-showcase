@@ -2,20 +2,14 @@ import UIKit
 import InfobipRTC
 import os.log
 
-class AppController: UIViewController {
+class WebrtcCallController: MainController {
+
+    var activeCall: WebrtcCall?
     
-    private let unknown = "Unknown"
-    private var state: State = .IDLE
-    private var token: String?
-    private var identity: String?
-    var callType: CallType?
-    var activeCall: BasicCall?
-    
-    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var destinationInput: UITextField!
     @IBOutlet weak var callButton: UIButton!
     @IBOutlet weak var callVideoButton: UIButton!
-    @IBOutlet weak var callPhoneButton: UIButton!
+    @IBOutlet weak var muteButton: UIButton!
     @IBOutlet weak var hangupButton: UIButton!
     @IBOutlet weak var flipCameraButton: UIButton!
     @IBOutlet weak var toggleCameraVideoButton: UIButton!
@@ -35,19 +29,11 @@ class AppController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
-        self.setStatusBarStyle()
         
-        self.statusLabel.text = "Connecting..."
         TokenProvider.shared.get { token, error in
             guard let accessToken = token else {
-                self.statusLabel.text = "Failed to connect."
                 return
             }
-            self.statusLabel.text = "Connected as \(accessToken.identity)"
-            self.dialPadVisibility(.VISIBLE)
-            self.token = accessToken.token
-            self.identity = accessToken.identity
             self.createPushRegistry(accessToken.token)
         }
     }
@@ -60,23 +46,19 @@ class AppController: UIViewController {
         self.makeCall(callType: .webrtc_video)
     }
     
-    @IBAction func callPhone(_ sender: Any) {
-        self.makeCall(callType: .phone_number)
-    }
-    
     @IBAction func hangup(_ sender: Any) {
         self.activeCall?.hangup()
     }
     
     @IBAction func flipCamera(_ sender: UIButton) {
-        if let activeCall = self.activeCall as? WebrtcCall {
+        if let activeCall = self.activeCall {
             activeCall.cameraOrientation(activeCall.cameraOrientation() == .front ? .back : .front)
         }
     }
     
     @available(iOS 11, *)
     @IBAction func toggleScreenShare(_ sender: UIButton) {
-        if let activeCall = self.activeCall as? WebrtcCall {
+        if let activeCall = self.activeCall {
             do {
                 let hasScreenShare = activeCall.hasScreenShare()
                 try activeCall.screenShare(screenShare: !hasScreenShare)
@@ -87,7 +69,7 @@ class AppController: UIViewController {
     }
     
     @IBAction func toggleCameraVideo(_ sender: UIButton) {
-        if let activeCall = self.activeCall as? WebrtcCall {
+        if let activeCall = self.activeCall {
             do {
                 let hasCameraVideo = activeCall.hasCameraVideo()
                 try activeCall.cameraVideo(cameraVideo: !hasCameraVideo)
@@ -97,21 +79,30 @@ class AppController: UIViewController {
         }
     }
     
-    func dialPadVisibility(_ visibility: DialpadVisibility) {
+    @IBAction func mute(_ sender: UIButton) {
+        if let activeCall = self.activeCall {
+            do {
+                let isMuted = activeCall.muted()
+                try activeCall.mute(!isMuted)
+                self.muteButton.setTitle(isMuted ? "Mute" : "Unmute", for: .normal)
+            } catch {
+                self.showErrorAlert(message: "Something unexpected happened")
+            }
+        }
+    }
+    
+    override func dialPadVisibility(_ visibility: DialpadVisibility) {
         let isHidden = visibility == .HIDDEN
         self.destinationInput.isHidden = isHidden
         self.callButtonsStack.isHidden = isHidden
     }
     
-    private func setStatusBarStyle() {
-        let sharedApplication = UIApplication.shared
-        if #available(iOS 13.0, *) {
-            let statusBar = UIView(frame: (sharedApplication.delegate?.window??.windowScene?.statusBarManager?.statusBarFrame)!)
-            statusBar.backgroundColor = .orange
-            self.view.addSubview(statusBar)
-        } else {
-            sharedApplication.statusBarView?.backgroundColor = .orange
-        }
+    func handleIncomingCall() {
+        self.callType = self.activeCall!.hasCameraVideo() ? .webrtc_video : .webrtc_audio
+        self.activeCall?.webrtcCallEventListener = self
+        self.statusLabel.text = self.callType == .webrtc_video ? "Incoming video call..." : "Incoming audio call..."
+        self.dialPadVisibility(.HIDDEN)
+        self.hangupButton.isHidden = false
     }
     
     private func makeCall(callType: CallType) {
@@ -120,16 +111,11 @@ class AppController: UIViewController {
             return
         }
         do {
-            self.callType = callType
-            if callType == .phone_number {
-                let callRequest = CallPhoneRequest(token, destination, self)
-                self.activeCall = try InfobipRTC.callPhone(callRequest)
-            } else {
-                let callRequest = CallWebrtcRequest(token, destination, self)
-                let hasVideo = callType == .webrtc_video
-                let webrtcCallOptions = WebrtcCallOptions(video: hasVideo)
-                self.activeCall = try InfobipRTC.callWebrtc(callRequest, webrtcCallOptions)
-            }
+            let callRequest = CallWebrtcRequest(token, destination: destination, webrtcCallEventListener: self)
+            let hasVideo = callType == .webrtc_video
+            let webrtcCallOptions = WebrtcCallOptions(video: hasVideo)
+            self.activeCall = try infobipRTC.callWebrtc(callRequest, webrtcCallOptions)
+            
             self.statusLabel.text = "Calling \(destination)..."
             self.dialPadVisibility(.HIDDEN)
             self.hangupButton.isHidden = false
@@ -137,19 +123,9 @@ class AppController: UIViewController {
             os_log("Failed to make a call: %@", error.localizedDescription)
         }
     }
-    
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
 }
 
-extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
+extension WebrtcCallController: PhoneCallEventListener, WebrtcCallEventListener {
     
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         self.statusLabel.text = "Ringing"
@@ -163,9 +139,10 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         let remote = getRemote()
         self.statusLabel.text = "In a call with: \(remote)"
         
-        if self.callType != .phone_number {
+        if let activeCall = self.activeCall {
             self.videoButtonsStack.isHidden = false
-            self.flipCameraButton.isHidden = !(self.activeCall as! WebrtcCall).hasCameraVideo()
+            self.muteButton.isHidden = false
+            self.flipCameraButton.isHidden = !activeCall.hasCameraVideo()
         }
     }
     
@@ -173,12 +150,12 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         self.callCleanup(callHangupEvent.errorCode.description)
     }
     
-    func onError(_ callErrorEvent: CallErrorEvent) {
-        self.callCleanup(callErrorEvent.reason.description)
-        self.showErrorAlert(message: callErrorEvent.reason.description)
+    func onError(_ errorEvent: ErrorEvent) {
+        self.callCleanup(errorEvent.errorCode.description)
+        self.showErrorAlert(message: errorEvent.errorCode.description)
     }
     
-    func onCameraVideoAdded(cameraVideoAddedEvent: CameraVideoAddedEvent) {
+    func onCameraVideoAdded(_ cameraVideoAddedEvent: CameraVideoAddedEvent) {
         self.addLocalCameraVideoView()
         cameraVideoAddedEvent.track.addRenderer(self.localCameraView!)
         
@@ -187,7 +164,7 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         self.turnSpeakerphoneOn()
     }
     
-    func onCameraVideoUpdated(cameraVideoUpdatedEvent: CameraVideoUpdatedEvent) {
+    func onCameraVideoUpdated(_ cameraVideoUpdatedEvent: CameraVideoUpdatedEvent) {
         cameraVideoUpdatedEvent.track.addRenderer(self.localCameraView!)
     }
     
@@ -195,7 +172,7 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         self.hideLocalCameraVideoView()
     }
     
-    func onScreenShareAdded(screenShareAddedEvent: ScreenShareAddedEvent) {
+    func onScreenShareAdded(_ screenShareAddedEvent: ScreenShareAddedEvent) {
         self.addLocalScreenShareView()
         screenShareAddedEvent.track.addRenderer(self.localScreenView!)
         
@@ -207,8 +184,8 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         self.hideLocalScreenShareView()
     }
     
-    func onRemoteCameraVideoAdded(cameraVideoAddedEvent: CameraVideoAddedEvent) {
-        if let webrtcCall = self.activeCall as? WebrtcCall {
+    func onRemoteCameraVideoAdded(_ cameraVideoAddedEvent: CameraVideoAddedEvent) {
+        if let webrtcCall = self.activeCall {
             if webrtcCall.hasRemoteScreenShare() {
                 self.addRemoteSmallView()
                 cameraVideoAddedEvent.track.addRenderer(self.remoteSmallView!)
@@ -223,7 +200,7 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
     }
     
     func onRemoteCameraVideoRemoved() {
-        if let webrtcCall = self.activeCall as? WebrtcCall {
+        if let webrtcCall = self.activeCall {
             if webrtcCall.hasRemoteScreenShare() {
                 self.hideRemoteSmallView()
             } else {
@@ -232,8 +209,8 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         }
     }
 
-    func onRemoteScreenShareAdded(screenShareAddedEvent: ScreenShareAddedEvent) {
-        if let webrtcCall = self.activeCall as? WebrtcCall {
+    func onRemoteScreenShareAdded(_ screenShareAddedEvent: ScreenShareAddedEvent) {
+        if let webrtcCall = self.activeCall {
             if webrtcCall.hasRemoteCameraVideo() {
                 self.hideRemoteFullView()
                 
@@ -258,7 +235,7 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
     }
     
     func onRemoteScreenShareRemoved() {
-        if let webrtcCall = self.activeCall as? WebrtcCall {
+        if let webrtcCall = self.activeCall {
             self.hideRemoteFullView()
             if webrtcCall.hasRemoteCameraVideo() {
                 self.addRemoteFullView()
@@ -287,18 +264,10 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
         }
         self.dialPadVisibility(.VISIBLE)
         self.videoButtonsStack.isHidden = true
+        self.muteButton.isHidden = true
         self.hangupButton.isHidden = true
-        os_log("Call finished: %@", reason)
+        os_log("Webrtc call has finished: %@", reason)
         self.statusLabel.text = "Connected as \(self.identity ?? self.unknown)"
-    }
-    
-    func showErrorAlert(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        self.present(alertController, animated: true, completion: nil)
-        let when = DispatchTime.now() + 2
-        DispatchQueue.main.asyncAfter(deadline: when){
-            alertController.dismiss(animated: true, completion: nil)
-        }
     }
     
     private func getRemote() -> String {
@@ -306,28 +275,5 @@ extension AppController: PhoneCallEventListener, WebrtcCallEventListener {
             return call.counterpart().identifier()
         }
         return unknown
-    }
-}
-
-enum State {
-    case IDLE
-    case CONNECTING
-    case CONNECTED
-}
-
-enum DialpadVisibility {
-    case VISIBLE
-    case HIDDEN
-}
-
-enum CallType {
-    case webrtc_video
-    case webrtc_audio
-    case phone_number
-}
-
-extension UIApplication {
-    var statusBarView: UIView? {
-        return value(forKey: "statusBar") as? UIView
     }
 }
