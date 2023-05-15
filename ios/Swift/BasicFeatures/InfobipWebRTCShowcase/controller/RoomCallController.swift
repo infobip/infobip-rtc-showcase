@@ -151,7 +151,7 @@ extension RoomCallController: RoomCallEventListener {
         self.turnSpeakerphoneOn()
     }
     
-    func onScreenShareRemoved() {
+    func onScreenShareRemoved(_ screenShareRemovedEvent: ScreenShareRemovedEvent) {
         self.hideLocalScreenShareView()
     }
     

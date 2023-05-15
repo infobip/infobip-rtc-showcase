@@ -180,7 +180,7 @@ extension WebrtcCallController: PhoneCallEventListener, WebrtcCallEventListener 
         self.turnSpeakerphoneOn()
     }
     
-    func onScreenShareRemoved() {
+    func onScreenShareRemoved(_ screenShareRemovedEvent: ScreenShareRemovedEvent) {
         self.hideLocalScreenShareView()
     }
     

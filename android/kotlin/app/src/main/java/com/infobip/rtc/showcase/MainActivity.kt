@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         handleScreenShareAdded(screenShareAddedEvent!!)
     }
 
-    override fun onScreenShareRemoved() {
+    override fun onScreenShareRemoved(screenShareRemovedEvent: ScreenShareRemovedEvent) {
         handleScreenShareRemoved()
     }
 
