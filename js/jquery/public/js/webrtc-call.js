@@ -42,7 +42,7 @@ function listenForIncomingCall() {
     $('#toggle-share-screen-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
 
-    infobipRTC.on('incoming-webrtc-call', function (incomingCallEvent) {
+    infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, function (incomingCallEvent) {
         let incomingWebrtcCall = incomingCallEvent.incomingCall;
         console.log('Received incoming call from: ' + incomingWebrtcCall.counterpart().identifier);
         activeCall = incomingWebrtcCall;

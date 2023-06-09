@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {
+  CallsApiEvent,
   createInfobipRtc,
   InfobipRTC,
-  PhoneCallOptions,
-  CallsApiEvent,
-  PhoneCall
+  InfobipRTCEvent,
+  PhoneCall,
+  PhoneCallOptions
 } from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
@@ -38,11 +39,11 @@ export class PhoneCallComponent implements OnInit {
       .then((response: Response) => {
         // @ts-ignore
         this.infobipRTC = createInfobipRtc(response.token, { debug: true });
-        this.infobipRTC.on('connected', event => {
+        this.infobipRTC.on(InfobipRTCEvent.CONNECTED, event => {
           this.identity = event.identity;
           console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
         });
-        this.infobipRTC.on('disconnected', event => {
+        this.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();

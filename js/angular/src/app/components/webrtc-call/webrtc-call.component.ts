@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {
-  WebrtcCallOptions,
-  InfobipRTC,
+  CallsApiEvent,
   createInfobipRtc,
-  WebrtcCall,
   IncomingWebrtcCall,
-  CallsApiEvent
+  InfobipRTC,
+  InfobipRTCEvent,
+  WebrtcCall,
+  WebrtcCallOptions
 } from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
@@ -55,11 +56,11 @@ export class WebrtcCallComponent implements OnInit {
       .then((response: Response) => {
         // @ts-ignore
         this.infobipRTC = createInfobipRtc(response.token, { debug: true });
-        this.infobipRTC.on('connected', event => {
+        this.infobipRTC.on(InfobipRTCEvent.CONNECTED, event => {
           this.identity = event.identity;
           console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
         });
-        this.infobipRTC.on('disconnected', event => {
+        this.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
@@ -68,13 +69,14 @@ export class WebrtcCallComponent implements OnInit {
   };
 
   listenForIncomingWebrtcCall = () => {
-    this.infobipRTC.on('incoming-webrtc-call', incomingCallEvent => {
+    this.infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, incomingCallEvent => {
       const incomingWebrtcCall = incomingCallEvent.incomingCall;
       console.log('Received incoming call from: ' + incomingWebrtcCall.source().identifier);
 
       this.activeCall = incomingWebrtcCall;
       this.isIncomingCall = true;
-      this.status = 'Incoming ' + (incomingWebrtcCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingWebrtcCall.source().identifier;
+      this.status = 'Incoming ' + (incomingWebrtcCall.options().video ? 'video' : 'audio') +
+        ' call from: ' + incomingWebrtcCall.source().identifier;
 
       this.listenForWebrtcCallEvents();
     });

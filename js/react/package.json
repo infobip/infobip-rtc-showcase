@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.21.2",
-    "infobip-rtc": "2.0.19",
+    "infobip-rtc": "2.0.23",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^4.3.1",

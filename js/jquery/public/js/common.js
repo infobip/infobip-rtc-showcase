@@ -6,11 +6,11 @@ async function connectInfobipRTC() {
             contentType: 'application/json',
             success: function (data) {
                 infobipRTC = createInfobipRtc(data.token, { debug: true });
-                infobipRTC.on('connected', function (event) {
+                infobipRTC.on(InfobipRTCEvent.CONNECTED, function (event) {
                     console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     resolve(event.identity);
                 });
-                infobipRTC.on('disconnected', function (event) {
+                infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
                     console.warn('Disconnected from Infobip RTC Cloud.');
                 });
                 infobipRTC.connect();

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {CallsApiEvent, createInfobipRtc, WebrtcCallOptions} from "infobip-rtc";
+import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, WebrtcCallOptions} from "infobip-rtc";
 import httpClient from "axios";
 
 class WebrtcCall extends Component {
@@ -28,11 +28,11 @@ class WebrtcCall extends Component {
 
                 this.setState((state) => {
                     state.infobipRTC = createInfobipRtc(token, { debug: true });
-                    state.infobipRTC.on('connected',  (event) => {
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  (event) => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
-                    state.infobipRTC.on('disconnected', function (event) {
+                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
@@ -47,7 +47,7 @@ class WebrtcCall extends Component {
 
     listenForIncomingCall = () => {
         let that = this;
-        this.state.infobipRTC.on('incoming-webrtc-call', function (incomingCallEvent) {
+        this.state.infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, function (incomingCallEvent) {
             const incomingCall = incomingCallEvent.incomingCall;
             console.log('Received incoming call from: ' + incomingCall.counterpart().identifier);
 
