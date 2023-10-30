@@ -16,10 +16,25 @@ let counter = 1;
 
 app.post('/token', (req, res) => {
     let identity = IDENTITY_PREFIX + counter;
-    let body = JSON.stringify({identity: identity, applicationId: config.INFOBIP_APP_ID});
+    let body = JSON.stringify({identity: identity});
     https.post(config.INFOBIP_API_HOST, config.INFOBIP_RTC_TOKEN_PATH, body, AUTH)
         .then(tokenResponse => {
             counter++;
+            let response = JSON.parse(tokenResponse);
+            response.identity = identity;
+            res.json(response);
+        })
+        .catch(err => {
+            console.error(err);
+            res.sendStatus(500);
+        });
+});
+
+app.post('/token/:identity', (req, res) => {
+    let identity = req.params.identity;
+    let body = JSON.stringify({identity: identity});
+    https.post(config.INFOBIP_API_HOST, config.INFOBIP_RTC_TOKEN_PATH, body, AUTH)
+        .then(tokenResponse => {
             let response = JSON.parse(tokenResponse);
             response.identity = identity;
             res.json(response);

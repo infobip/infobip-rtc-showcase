@@ -8,8 +8,7 @@ Create `config.json` file in the `./token/node` project directory, and fill it w
   "HTTP_PORT": 8080,
   "INFOBIP_API_HOST": "api.infobip.com",
   "INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",
-  "INFOBIP_API_KEY": "YOUR_API_KEY",
-  "INFOBIP_APP_ID": "YOUR_APPLICATION_ID"
+  "INFOBIP_API_KEY": "YOUR_API_KEY"
 }
 ```
 

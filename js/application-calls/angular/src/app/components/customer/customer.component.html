@@ -1,0 +1,45 @@
+<div>
+  <div>
+    <h4>Logged-in as: <span>{{identity || 'None'}}</span></h4>
+  </div>
+  <div>
+    <audio #remoteAudio autoPlay></audio>
+
+    <button [disabled]="activeCall" (click)="videoCallWithAgent()">Video call with agent</button>
+    <button [disabled]="activeCall" (click)="phoneCall()">Phone call</button>
+    <br/><br/>
+
+    <button [hidden]="!activeCall" (click)="hangup()">Leave</button>
+    <br/><br/>
+
+    <div [hidden]="!shouldShowVideoActions()">
+      <button (click)="toggleCameraVideo()">Toggle Camera Video</button>
+      <button (click)="toggleShareScreen()">Toggle Share Screen</button>
+      <br/><br/>
+    </div>
+
+    <h4><span>{{status}}</span></h4>
+    <br/><br/>
+
+    <div [hidden]="!shouldShowRemoteVideos()">
+      <h3>Remote videos/screenshares</h3>
+      <video *ngFor="let videoElement of remoteVideos"
+             [srcObject]="videoElement.video"
+             width="300" height="300"
+             style="object-fit: cover" autoPlay>
+      </video>
+    </div>
+
+    <div [hidden]="!shouldShowLocalVideos()">
+      <h3>Local video/screenshare</h3>
+      <video #localCameraVideo autoplay muted
+             style="object-fit: cover"
+             width="300" height="300">
+      </video>
+      <video #localScreenShare autoplay
+             style="object-fit: cover"
+             width="300" height="300">
+      </video>
+    </div>
+  </div>
+</div>
