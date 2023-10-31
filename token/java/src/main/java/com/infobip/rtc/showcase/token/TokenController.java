@@ -2,6 +2,7 @@ package com.infobip.rtc.showcase.token;
 
 import com.infobip.rtc.showcase.token.infobip.TokenService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,5 +21,11 @@ public class TokenController {
     @PostMapping("/token")
     public TokenResponse generate() {
         return tokenService.nextToken();
+    }
+
+    @CrossOrigin
+    @PostMapping("/token/{identity}")
+    public TokenResponse generateFixedIdentity(@PathVariable String identity) {
+        return tokenService.nextToken(identity);
     }
 }
