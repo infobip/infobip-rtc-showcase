@@ -1,4 +1,4 @@
-## Calls Showcase - Getting Started
+## Calls API Showcase - Getting Started
 
 Calls API Showcase App serves as a demonstration of implementing the
 [Infobip Calls API](https://www.infobip.com/docs/api/channels/voice/calls) and handling 

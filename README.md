@@ -1,101 +1,33 @@
-## Token Application - Node.js
+## Infobip RTC Showcase
 
-You need to have `Node.js` installed on your computer (https://nodejs.org/en/).
+This showcase is a comprehensive demonstration of the capabilities and features of the Infobip RTC SDKs. If you're
+looking to harness the power of real-time audio and video communication in your web or mobile applications, this
+repository serves as your starting point.
 
-Create `config.json` file in the `./token/node` project directory, and fill it with data:
-```
-{  
-  "HTTP_PORT": 8080,
-  "INFOBIP_API_HOST": "api.infobip.com",
-  "INFOBIP_RTC_TOKEN_PATH": "/webrtc/1/token",
-  "INFOBIP_API_KEY": "YOUR_API_KEY"
-}
-```
+The RTC Showcase Apps are designed to help developers, from beginners to experts, explore and understand the
+capabilities of the Infobip RTC SDKs. The RTC Showcase Apps are a well-structured, fully functional codebase that you
+can leverage to accelerate your development process.
 
-Then in the `./token/node` project directory:
- 
-- install needed dependencies by running:
-    ### `npm install`
-    
-- start the application by running:
-    ### `npm start`
+### Key Features:
 
-You can verify that app is running by executing:
+**Real-time Audio and Video Calls**: Explore and understand how to seamlessly connect two or more participants by making
+phone calls, WebRTC calls, and/or room calls.
 
-### `curl -X POST http://localhost:8080/token`
+**Application Calls**: Learn how to integrate with the
+[Calls API](https://www.infobip.com/docs/api/channels/voice/calls) and make application calls.
 
-## Token Application - Java
+**Data channels**: Discover how to enable and utilize data channels within calls for exchanging text with other
+participants.
 
-In the `./token/java` project directory:
+**Cross-Platform Compatibility**: The Showcase Apps provide examples on using Infobip RTC SDKs across various platforms,
+including web browsers, iOS, and Android.
 
-### `mvn spring-boot:run`
+## Getting Started
 
-Runs the app.
+To start exploring and utilizing one or more RTC Showcase Apps, please refer to the documentations and installation
+instructions available in the subdirectories. You'll find detailed guidance on setting up the environment, running the
+applications, and testing the SDK features.
 
-Before that, you should export `INFOBIP_API_KEY` environment variable and set it to your Infobip API key.
-
-You can verify that app is running by executing:
-
-### `curl -X POST http://localhost:8080/token`
-
-
-## Infobip RTC Showcase - jQuery
-
-You need to have `Node.js` installed on your computer (https://nodejs.org/en/).
-
-In `./js/jquery` project directory:
- 
-- install needed dependencies by running:
-    ### `npm install`
-    
-- start the application by running:
-    ### `npm start`
-
-Open [http://localhost:8010](http://localhost:8010) to view it in the browser.
-
-
-## Infobip RTC Showcase - React
-
-You need to have `Node.js` installed on your computer (https://nodejs.org/en/).
-
-In `./js/react` project directory:
- 
-- install needed dependencies by running:
-    ### `npm install`
-    
-- start the application by running:
-    ### `npm start`
-
-Open [http://localhost:8020](http://localhost:8020) to view it in the browser.
-
-The page will reload if you make edits.  
-You will also see any lint errors in the console.
-
-## Infobip RTC Showcase - Angular
-
-You need to have `Node.js` installed on your computer (https://nodejs.org/en/).
-
-In `./js/angular` project directory:
- 
-- install needed dependencies by running:
-    ### `npm install`
-    
-- start the application by running:
-    ### `npm start`
-Runs the app.
-
-Open [http://localhost:8030](http://localhost:8030) to view it in the browser.
-
-The page will reload if you make edits.  
-You will also see any lint errors in the console.
-
-## Infobip RTC Showcase - Android Kotlin
-Add your `google-services.json` to folder `./android/kotlin/infobip-rtc-showcase-android` so that you could receive notifications about incoming calls.  
-Provided that you run token application on your machine, you can run Android app on emulator on the same machine.  
-  
-There is known issue with receiving push notifications for incoming calls on subsequent runs on emulator, so it is recommended to wipe data on your emulator before running the app again.
-  
-You can also run Android app on a real device. In that case, the running token application must be accessible from your device.  
-Easiest way to do so is use tool like [ngrok](https://ngrok.com/). It allows you to expose your local port on public internet via simple command:  
-#### `ngrok http 8080`
-Then you can access publicly exposed token app from your physical Android device using the URL provided by ngrok.
+It is important to note that the prerequisite to running the Showcase Apps is running the
+[Token App](https://github.com/infobip/infobip-rtc-showcase/tree/master/token), available in both Node.js and Java. You
+can find detailed guidance on how to run the Token App in its respective subdirectory.
