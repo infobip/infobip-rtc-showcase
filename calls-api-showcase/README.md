@@ -9,7 +9,7 @@ RTC SDKs, hence it is recommended to use this secondary app together with the Ap
 - Application Calls Showcase App (Javascript)
     * jQuery
     * [AngularJS](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/application-calls/angular)
-    * ReactJS
+    * [React](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/application-calls/react)
 - Application Calls Showcase App (Android)
 - Application Calls Showcase App (iOS)
 
@@ -36,10 +36,16 @@ scenario. Replace `{phone-number}` with the desired phone number to receive the 
 In the project directory `./calls-showcase/node`:
 
 - install the required dependencies by running:
-  ### `npm install`
+
+```shell
+npm install
+```
 
 - start the application by running:
-  ### `npm start` or `npm start --phone-number={phone-number}`
+
+```shell
+npm start --phone-number={phone-number}
+```
 
 After successfully running the app, access it by opening a localhost URL in your web browser:
 [http://localhost:8090](http://localhost:8090).

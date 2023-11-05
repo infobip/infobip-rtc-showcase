@@ -5,16 +5,20 @@
   <div>
     <audio #remoteAudio autoPlay></audio>
 
-    <button [disabled]="activeCall" (click)="videoCallWithAgent()">Video call with agent</button>
-    <button [disabled]="activeCall" (click)="phoneCall()">Phone call</button>
-    <br/><br/>
-
-    <button [hidden]="!activeCall" (click)="hangup()">Leave</button>
-    <br/><br/>
+    <div [hidden]="activeCall">
+      <button (click)="videoCallWithAgent()">Video call with agent</button>
+      <button (click)="phoneCall()">Phone call</button>
+      <br/><br/>
+    </div>
 
     <div [hidden]="!shouldShowVideoActions()">
       <button (click)="toggleCameraVideo()">Toggle Camera Video</button>
-      <button (click)="toggleShareScreen()">Toggle Share Screen</button>
+      <button (click)="toggleScreenShare()">Toggle Screen Share</button>
+      <br/><br/>
+    </div>
+
+    <div [hidden]="!activeCall">
+      <button (click)="hangup()">Leave</button>
       <br/><br/>
     </div>
 

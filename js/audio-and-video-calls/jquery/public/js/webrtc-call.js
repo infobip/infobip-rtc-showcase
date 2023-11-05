@@ -8,10 +8,10 @@ $(document).ready(function () {
 
     const userAgent = window.navigator.userAgent;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
-        document.getElementById("remoteCameraVideo").muted = true;
-        $("<button id='playBtn'>Tap to Unmute</button><br><br>").insertBefore("#remoteCameraVideo")
-        $("#playBtn").click(function (){
-            document.getElementById("remoteCameraVideo").muted = false;
+        document.getElementById("remote-camera-video").muted = true;
+        $("<button id='play-btn'>Tap to Unmute</button><br><br>").insertBefore("#remote-camera-video")
+        $("#play-btn").click(function (){
+            document.getElementById("remote-camera-video").muted = false;
         })
     }
 });
@@ -23,7 +23,7 @@ function setOnClickEventListeners() {
     $('#call-video-btn').click(function () {
         call(true);
     });
-    $('#toggle-share-screen-btn').click(toggleShareScreen);
+    $('#toggle-screen-share-btn').click(toggleScreenShare);
     $('#toggle-camera-video-btn').click(toggleCameraVideo);
     $('#accept-btn').click(accept);
     $('#decline-btn').click(decline);
@@ -39,7 +39,7 @@ function call(video = false) {
 }
 
 function listenForIncomingCall() {
-    $('#toggle-share-screen-btn').prop('disabled', true);
+    $('#toggle-screen-share-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
 
     infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, function (incomingCallEvent) {
@@ -57,7 +57,7 @@ function listenForIncomingCall() {
 function listenForCallEvents() {
     $('#call-btn').prop('disabled', true);
     $('#call-video-btn').prop('disabled', true);
-    $('#toggle-share-screen-btn').prop('disabled', true);
+    $('#toggle-screen-share-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
     $('#hangup-btn').prop('disabled', false);
 
@@ -66,11 +66,11 @@ function listenForCallEvents() {
         console.log('Call is ringing...');
     });
     activeCall.on(CallsApiEvent.ESTABLISHED, function (event) {
-        $('#toggle-share-screen-btn').prop('disabled', false);
+        $('#toggle-screen-share-btn').prop('disabled', false);
         $('#toggle-camera-video-btn').prop('disabled', false);
         $('#status').html('Call established with: ' + activeCall.counterpart().identifier);
         console.log('Call established with ' + activeCall.counterpart().identifier);
-        setMediaStream($('#remoteAudio')[0], event.stream);
+        setMediaStream($('#remote-audio')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.HANGUP, function (event) {
         $('#status').html('Call finished: ' + event.errorCode.name);
@@ -84,48 +84,48 @@ function listenForCallEvents() {
     activeCall.on(CallsApiEvent.CAMERA_VIDEO_ADDED, function (event) {
         $('#status').html('Local camera video has been added');
         console.log('Local camera video has been added');
-        setMediaStream($('#localCameraVideo')[0], event.stream);
+        setMediaStream($('#local-camera-video')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, function (event) {
         $('#status').html('Local camera video has been updated');
         console.log('Local camera video has been updated');
-        setMediaStream($('#localCameraVideo')[0], event.stream);
+        setMediaStream($('#local-camera-video')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, function () {
         $('#status').html('Local camera video has been removed');
         console.log('Local camera video has been removed');
-        setMediaStream($('#localCameraVideo')[0], null);
+        setMediaStream($('#local-camera-video')[0], null);
     });
     activeCall.on(CallsApiEvent.SCREEN_SHARE_ADDED, function (event) {
         $('#status').html('Local screenshare has been added');
         console.log('Local screenshare has been added');
-        setMediaStream($('#localScreenShare')[0], event.stream);
+        setMediaStream($('#local-screen-share')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.SCREEN_SHARE_REMOVED, function () {
         $('#status').html('Local screenshare has been removed');
         console.log('Local screenshare has been removed');
-        setMediaStream($('#localScreenShare')[0], null);
+        setMediaStream($('#local-screen-share')[0], null);
     });
 
     activeCall.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_ADDED, function (event) {
         $('#status').html('Remote camera video has been added');
         console.log('Remote camera video has been added');
-        setMediaStream($('#remoteCameraVideo')[0], event.stream);
+        setMediaStream($('#remote-camera-video')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_REMOVED, function () {
         $('#status').html('Remote camera video has been removed');
         console.log('Remote camera video has been removed');
-        setMediaStream($('#remoteCameraVideo')[0], null);
+        setMediaStream($('#remote-camera-video')[0], null);
     });
     activeCall.on(CallsApiEvent.REMOTE_SCREEN_SHARE_ADDED, function (event) {
         $('#status').html('Remote screenshare has been added');
         console.log('Remote screenshare has been added');
-        setMediaStream($('#remoteScreenShare')[0], event.stream);
+        setMediaStream($('#remote-screen-share')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.REMOTE_SCREEN_SHARE_REMOVED, function () {
         $('#status').html('Remote screenshare has been removed');
         console.log('Remote screenshare has been removed');
-        setMediaStream($('#remoteScreenShare')[0], null);
+        setMediaStream($('#remote-screen-share')[0], null);
     });
 
     activeCall.on(CallsApiEvent.REMOTE_MUTED, function () {
@@ -138,7 +138,7 @@ function listenForCallEvents() {
     });
 }
 
-function toggleShareScreen() {
+function toggleScreenShare() {
     if (activeCall) {
         activeCall.screenShare(!activeCall.hasScreenShare());
     }
@@ -152,8 +152,8 @@ function toggleCameraVideo() {
 
 function setMediaStream(element, stream) {
     element.srcObject = stream;
-    $('#localVideos').prop('hidden', !shouldShowLocalVideos());
-    $('#remoteVideos').prop('hidden', !shouldShowRemoteVideos());
+    $('#local-videos').prop('hidden', !shouldShowLocalVideos());
+    $('#remote-videos').prop('hidden', !shouldShowRemoteVideos());
 }
 
 function accept() {
@@ -175,20 +175,20 @@ function hangup() {
     $('#hangup-btn').prop('disabled', true);
     $('#call-btn').prop('disabled', false);
     $('#call-video-btn').prop('disabled', false);
-    $('#toggle-share-screen-btn').prop('disabled', true);
+    $('#toggle-screen-share-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
     removeAllMediaStreams();
 }
 
 function removeAllMediaStreams() {
-    $('#remoteCameraVideo')[0].srcObject = null;
-    $('#remoteScreenShare')[0].srcObject = null;
-    $('#localCameraVideo')[0].srcObject = null;
-    $('#localScreenShare')[0].srcObject = null;
-    $('#remoteAudio')[0].srcObject = null;
+    $('#remote-camera-video')[0].srcObject = null;
+    $('#remote-screen-share')[0].srcObject = null;
+    $('#local-camera-video')[0].srcObject = null;
+    $('#local-screen-share')[0].srcObject = null;
+    $('#remote-audio')[0].srcObject = null;
 
-    $('#localVideos').prop('hidden', true);
-    $('#remoteVideos').prop('hidden', true);
+    $('#local-videos').prop('hidden', true);
+    $('#remote-videos').prop('hidden', true);
 }
 
 function getDestination() {

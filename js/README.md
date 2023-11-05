@@ -21,7 +21,8 @@ should be regarded as its prerequisite.
 Additionally, before running the Application Calls Showcase App, create a `config.json` file in the following directory
 for your chosen framework:
 
-- Angular.js: `./js/application-calls/angular/src/assets`
+- Angular: `./js/application-calls/angular/src/assets`
+- React: `./js/application-calls/react/src`
 
 and populate it with the following data:
 
@@ -33,20 +34,26 @@ and populate it with the following data:
 
 ## Running the Showcase Apps
 
-You need to have `Node.js` installed on your computer (https://nodejs.org/en/).
+You need to have [Node.js](https://nodejs.org/en/) installed on your computer.
 
 In the corresponding project directory:
 
 - install needed dependencies by running:
-  ### `npm install`
+
+```shell
+npm install
+```
 
 - start the application by running:
-  ### `npm start`
+
+```shell
+npm start
+```
 
 After successfully running the app, you can access it by opening a localhost URL in your web browser. This URL
 will display the application's user interface and functionality.
 
-|                       | JQuery                                         | ReactJS                                        | AngularJS                                      |
-|-----------------------|------------------------------------------------|------------------------------------------------|------------------------------------------------|
+|                       | JQuery                                         | React                                        | AngularJS                                      |
+|-----------------------|------------------------------------------------|----------------------------------------------|------------------------------------------------|
 | Audio and video calls | [http://localhost:8010](http://localhost:8010) | [http://localhost:8020](http://localhost:8020) | [http://localhost:8030](http://localhost:8030) |
 | Application calls     | [http://localhost:8040](http://localhost:8040) | [http://localhost:8050](http://localhost:8050) | [http://localhost:8060](http://localhost:8060) |

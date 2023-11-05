@@ -28,11 +28,9 @@ function listenForCallEvents() {
         console.log('Call is ringing...');
     });
     activeCall.on(CallsApiEvent.ESTABLISHED, function (event) {
-        $('#toggle-share-screen-btn').prop('disabled', false);
-        $('#toggle-camera-video-btn').prop('disabled', false);
         $('#status').html('Call established with: ' + getDestination());
         console.log('Call established with ' + getDestination());
-        setMediaStream($('#remoteAudio')[0], event.stream);
+        setMediaStream($('#remote-audio')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.HANGUP, function (event) {
         $('#status').html('Call finished: ' + event.errorCode.name);
@@ -56,7 +54,7 @@ function hangup() {
     $('#status').html('');
     $('#hangup-btn').prop('disabled', true);
     $('#call-btn').prop('disabled', false);
-    setMediaStream($('#remoteAudio')[0], null);
+    setMediaStream($('#remote-audio')[0], null);
 }
 
 function getDestination() {

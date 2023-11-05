@@ -137,7 +137,7 @@ class WebrtcCall extends Component {
 
         call.on(CallsApiEvent.REMOTE_MUTED, function () {
             that.setState({status: 'Remote participant has been muted'});
-            console.log('RRemote participant has been muted');
+            console.log('Remote participant has been muted');
         });
         call.on(CallsApiEvent.REMOTE_UNMUTED, function () {
             that.setState({status: 'Remote participant has been unmuted'});

@@ -150,7 +150,7 @@ class RoomCall extends Component {
         this.state.activeRoomCall.leave();
     };
 
-    toggleShareScreen = () => {
+    toggleScreenShare = () => {
         this.state.activeRoomCall.screenShare(!this.state.activeRoomCall.hasScreenShare())
             .catch(error => console.log('Error toggling screen share {}', error));
     }
@@ -173,8 +173,7 @@ class RoomCall extends Component {
             status: null,
             activeRoomCall: null,
             participants: [],
-            hasLocalVideo: false,
-            hasRemoteVideo: false
+            hasLocalVideo: false
         });
     }
 
@@ -230,7 +229,7 @@ class RoomCall extends Component {
                 <br/><br/>
 
                 <button disabled={!this.state.activeRoomCall} onClick={() => this.toggleCameraVideo()}>Toggle Camera Video</button>
-                <button disabled={!this.state.activeRoomCall} onClick={() => this.toggleShareScreen()}>Toggle Share Screen</button>
+                <button disabled={!this.state.activeRoomCall} onClick={() => this.toggleScreenShare()}>Toggle Screen Share</button>
 
                 <h4><span>{this.state.status}</span></h4>
 

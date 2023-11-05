@@ -170,7 +170,7 @@ export class RoomCallComponent {
     element.nativeElement.srcObject = stream;
   }
 
-  toggleShareScreen = () => {
+  toggleScreenShare = () => {
     this.activeRoomCall.screenShare(!this.activeRoomCall.hasScreenShare())
       .catch(error => console.log('Error toggling screen share {}', error));
   }

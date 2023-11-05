@@ -219,7 +219,7 @@ export class WebrtcCallComponent implements OnInit {
     this.activeCall.cameraVideo(!this.activeCall.hasCameraVideo());
   }
 
-  toggleShareScreen = () => {
+  toggleScreenShare = () => {
     this.activeCall.screenShare(!this.activeCall.hasScreenShare());
   }
 

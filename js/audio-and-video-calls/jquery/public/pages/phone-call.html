@@ -1,28 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
-            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
-            crossorigin="anonymous"></script>
-    <script src="//rtc.cdn.infobip.com/latest/infobip.rtc.js"></script>
-    <meta charset="UTF-8">
-    <title>Infobip RTC Showcase</title>
-</head>
-<body>
-<h2>Infobip RTC Call Showcase</h2>
-<h4>Logged as: <span id="identity">None</span></h4>
+<div>
+    <h4>Logged as: <span id="identity">None</span></h4>
 
-<audio id="remoteAudio" autoplay></audio>
+    <audio id="remote-audio" autoplay></audio>
 
-<input type="text" name="destination" id="destination" placeholder="Enter phone number to call...">
-<br/> <br/>
-<button id="call-btn">Call</button>
+    <input type="text" id="destination" placeholder="Enter phone number to call...">
+    <br/><br/>
 
-<h4><span id="status"></span></h4>
+    <button id="call-btn">Call</button>
 
-<button id="hangup-btn" disabled>Hangup</button>
-<br/><br/>
+    <h4><span id="status"></span></h4>
 
-<script type="application/javascript" src="../js/phone-call.js"></script>
-</body>
-</html>
+    <button id="hangup-btn" disabled>Hangup</button>
+    <br/><br/>
+
+    <script type="application/javascript" src="../js/phone-call.js"></script>
+</div>

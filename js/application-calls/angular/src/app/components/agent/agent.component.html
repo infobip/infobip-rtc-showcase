@@ -5,20 +5,22 @@
 
   <audio #remoteAudio autoPlay></audio>
 
-  <h4><span>{{status}}</span></h4>
-  <br/><br/>
-
   <div [hidden]="!shouldShowButtonsOnIncomingCall()">
     <button (click)="accept()">Accept</button>
     <button (click)="decline()">Decline</button>
     <br/><br/>
   </div>
 
-  <button [hidden]="!shouldShowCallActions()" (click)="toggleCameraVideo()">Toggle Camera Video</button>
-  <button [hidden]="!shouldShowCallActions()" (click)="toggleShareScreen()">Toggle Share Screen</button>
-  <br/><br/>
+  <div [hidden]="!shouldShowCallActions()">
+    <button (click)="toggleCameraVideo()">Toggle Camera Video</button>
+    <button (click)="toggleScreenShare()">Toggle Screen Share</button>
+    <br/><br/>
 
-  <button [hidden]="!shouldShowCallActions()" (click)="hangup()">Hangup</button>
+    <button (click)="hangup()">Hangup</button>
+    <br/><br/>
+  </div>
+
+  <h4><span>{{status}}</span></h4>
   <br/><br/>
 
   <div [hidden]="!shouldShowRemoteVideos()">

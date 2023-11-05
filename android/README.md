@@ -40,6 +40,8 @@ from your device.
 Easiest way to do so is use tool like [ngrok](https://ngrok.com/). It allows you to expose your local port on public
 internet via simple command:
 
-#### `ngrok http 8080`
+```shell
+ngrok http 8080
+```
 
 Then you can access publicly exposed token app from your physical Android device using the URL provided by ngrok.

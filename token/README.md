@@ -22,25 +22,35 @@ Create `config.json` file in the `./token/node` project directory, and fill it w
 Then in the `./token/node` project directory:
 
 - install needed dependencies by running:
-  ### `npm install`
+
+```shell
+npm install
+```
 
 - start the application by running:
-  ### `npm start`
+
+```shell
+npm start
+```
 
 You can verify that app is running by executing:
 
-### `curl -X POST http://localhost:8080/token`
+```shell
+curl -X POST http://localhost:8080/token
+```
 
 ## Token App - Java
 
-In the `./token/java` project directory:
+In the `./token/java` project directory, start the application by running:
 
-### `mvn spring-boot:run`
-
-Runs the app.
+```shell
+mvn spring-boot:run
+```
 
 Before that, you should export `INFOBIP_API_KEY` environment variable and set it to your Infobip API key.
 
 You can verify that app is running by executing:
 
-### `curl -X POST http://localhost:8080/token`
+```shell
+curl -X POST http://localhost:8080/token
+```

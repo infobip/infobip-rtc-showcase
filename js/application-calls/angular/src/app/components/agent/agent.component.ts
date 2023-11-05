@@ -212,7 +212,7 @@ export class AgentComponent {
     element.nativeElement.srcObject = stream;
   }
 
-  toggleShareScreen() {
+  toggleScreenShare() {
     this.activeCall.screenShare(!this.activeCall.hasScreenShare())
       .catch(error => console.log('Error toggling screen share {}', error));
   }
