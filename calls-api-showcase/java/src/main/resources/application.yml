@@ -1,0 +1,5 @@
+server.port: ${HTTP_PORT:8090}
+infobip:
+  api-host: ${INFOBIP_API_HOST}
+  api-key: ${INFOBIP_API_KEY}
+phone-number: ${PHONE_NUMBER:#{null}}

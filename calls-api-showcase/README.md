@@ -13,9 +13,17 @@ RTC SDKs, hence it is recommended to use this secondary app together with the Ap
 - Application Calls Showcase App (Android)
 - Application Calls Showcase App (iOS)
 
-## Prerequisite
+The Calls API Showcase App is available in two programming languages:
+- [Node.js](https://github.com/infobip/infobip-rtc-showcase/tree/master/calls-api-showcase/node)
+- [Java](https://github.com/infobip/infobip-rtc-showcase/tree/master/calls-api-showcase/java)
 
-Before running the Calls API Showcase App, create a `config.json` file in the `./calls-showcase/node` directory and 
+## Calls API Showcase - Node.js
+
+### Prerequisite
+
+Ensure that you have [Node.js](https://nodejs.org/en/) installed on your computer.
+
+Before running the Calls API Showcase App, create a `config.json` file in the `./calls-api-showcase/node` directory and 
 populate it with the following data:
 
 ```
@@ -26,14 +34,12 @@ populate it with the following data:
 }
 ```
 
-## Running the Calls Showcase App
-
-Ensure that you have [Node.js]((https://nodejs.org/en/)) installed on your computer.
+### Running the Calls Showcase App
 
 When running the application, use an additional argument `--phone-number={phone-number}` to enable a phone call 
 scenario. Replace `{phone-number}` with the desired phone number to receive the call.
 
-In the project directory `./calls-showcase/node`:
+In the project directory `./calls-api-showcase/node`:
 
 - install the required dependencies by running:
 
@@ -49,6 +55,36 @@ npm start --phone-number={phone-number}
 
 After successfully running the app, access it by opening a localhost URL in your web browser:
 [http://localhost:8090](http://localhost:8090).
+
+## Calls API Showcase - Java
+
+### Prerequisite
+
+Ensure that you have a version of Java 17 installed on your system.
+
+Before running the Calls API Showcase app, configure the `application.yml` file in the 
+`./calls-api-showcase/java/src/main/resources` directory as follows:
+
+```yml
+server.port: ${HTTP_PORT:8090}
+infobip:
+  api-host: ${INFOBIP_API_HOST:api.infobip.com}
+  api-key: ${INFOBIP_API_KEY:YOUR_API_KEY}
+phone-number: ${PHONE_NUMBER:YOUR_PHONE_NUMBER}
+```
+
+### Running the Calls Showcase App
+
+In order to run the Java Calls API Showcase app, navigate to `./calls-api-showcase/java` and 
+issue the following command:
+
+### `mvn spring-boot:run`
+
+After successfully running the app, access it by opening a localhost URL in your web browser:
+[http://localhost:8090](http://localhost:8090).
+
+> In order to receive Calls API events, your application needs to be exposed to the public internet,
+  we explain a simple way to do this with [ngrok](https://ngrok.com/) in the following sections.
 
 ## Exposing the Calls API Showcase App with Webhooks to the public Internet
 
