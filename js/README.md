@@ -5,7 +5,7 @@ The Javascript Infobip RTC Showcase offers code samples demonstrating the implem
 - [audio and video calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/audio-and-video-calls),
 - [application calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/application-calls).
 
-Code samples are available in AngularJS, JQuery, and ReactJS, utilizing the
+Code samples are available in AngularJS, jQuery, and React, utilizing the
 [Infobip RTC SDK](https://github.com/infobip/infobip-rtc-js).
 
 ## Getting Started
@@ -21,8 +21,9 @@ should be regarded as its prerequisite.
 Additionally, before running the Application Calls Showcase App, create a `config.json` file in the following directory
 for your chosen framework:
 
-- Angular: `./js/application-calls/angular/src/assets`
+- AngularJS: `./js/application-calls/angular/src/assets`
 - React: `./js/application-calls/react/src`
+- jQuery: `./js/application-calls/jquery/public/config`
 
 and populate it with the following data:
 
@@ -53,7 +54,7 @@ npm start
 After successfully running the app, you can access it by opening a localhost URL in your web browser. This URL
 will display the application's user interface and functionality.
 
-|                       | JQuery                                         | React                                        | AngularJS                                      |
+|                       | jQuery                                         | React                                        | AngularJS                                      |
 |-----------------------|------------------------------------------------|----------------------------------------------|------------------------------------------------|
 | Audio and video calls | [http://localhost:8010](http://localhost:8010) | [http://localhost:8020](http://localhost:8020) | [http://localhost:8030](http://localhost:8030) |
 | Application calls     | [http://localhost:8040](http://localhost:8040) | [http://localhost:8050](http://localhost:8050) | [http://localhost:8060](http://localhost:8060) |

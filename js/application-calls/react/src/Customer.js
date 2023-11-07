@@ -66,7 +66,7 @@ class Customer extends Component {
             event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
         });
         call.on(CallsApiEvent.CONFERENCE_LEFT, function (event) {
-            that.setState({status: 'Left dialog, errorCode: ' + event.errorCode.name});
+            that.setState({status: 'Left conference, errorCode: ' + event.errorCode.name});
             console.log('Left conference, errorCode: ' + event.errorCode.name);
             that.setValuesAfterLeavingConferenceOrDialog();
         });

@@ -1,0 +1,41 @@
+<div>
+    <h4>Logged-in as: <span id="identity">None</span></h4>
+
+    <audio id="remote-audio" autoplay></audio>
+
+    <div id="incoming-call-actions" hidden>
+        <button id="accept-btn">Accept</button>
+        <button id="decline-btn">Decline</button>
+        <br/><br/>
+    </div>
+
+    <div id="call-actions" hidden>
+        <button id="toggle-camera-video-btn">Toggle Camera Video</button>
+        <button id="toggle-screen-share-btn">Toggle Screen Share</button>
+        <br/><br/>
+        <button id="hangup-btn">Hangup</button>
+    </div>
+
+    <h4><span id="status"></span></h4>
+    <br/><br/>
+
+    <div id="remote-videos" hidden>
+        <br/><br/>
+        <h3>Remote videos/screenshares</h3>
+        <div id="videos"></div>
+    </div>
+
+    <div id="local-videos" hidden>
+        <h3>Local video/screenshare</h3>
+        <video id="local-camera-video" autoplay muted
+               style="object-fit: cover"
+               width="300" height="300">
+        </video>
+        <video id="local-screen-share" autoplay
+               style="object-fit: cover"
+               width="300" height="300">
+        </video>
+    </div>
+
+    <script type="application/javascript" src="../js/agent.js"></script>
+</div>

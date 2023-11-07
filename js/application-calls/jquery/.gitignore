@@ -1,0 +1,5 @@
+.idea/
+node_modules/
+
+# Config file
+public/config/config.json
