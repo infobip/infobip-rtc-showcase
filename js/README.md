@@ -3,7 +3,8 @@
 The Javascript Infobip RTC Showcase offers code samples demonstrating the implementation of:
 
 - [audio and video calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/audio-and-video-calls),
-- [application calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/application-calls).
+- [application calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/application-calls),
+- [datachannels showcase](https://github.com/infobip/infobip-rtc-showcase/tree/master/js/datachannels).
 
 Code samples are available in AngularJS, jQuery, and React, utilizing the
 [Infobip RTC SDK](https://github.com/infobip/infobip-rtc-js).
@@ -54,7 +55,8 @@ npm start
 After successfully running the app, you can access it by opening a localhost URL in your web browser. This URL
 will display the application's user interface and functionality.
 
-|                       | jQuery                                         | React                                        | AngularJS                                      |
-|-----------------------|------------------------------------------------|----------------------------------------------|------------------------------------------------|
+|                       | jQuery                                         | React                                          | AngularJS                                      |
+| --------------------- | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
 | Audio and video calls | [http://localhost:8010](http://localhost:8010) | [http://localhost:8020](http://localhost:8020) | [http://localhost:8030](http://localhost:8030) |
 | Application calls     | [http://localhost:8040](http://localhost:8040) | [http://localhost:8050](http://localhost:8050) | [http://localhost:8060](http://localhost:8060) |
+| Data channel showcase | [http://localhost:9000](http://localhost:9000) | [http://localhost:9010](http://localhost:9010) | [http://localhost:9020](http://localhost:9020) |
