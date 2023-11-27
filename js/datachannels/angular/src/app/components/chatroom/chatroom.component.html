@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <h4>Logged-in as: <span>{{identity || 'None'}}</span></h4>
+  </div>
+  <div>
+    <input [formControl]="roomName" type="text" placeholder="Enter room name"/>
+    <br/><br/>
+
+    <button [disabled]="activeRoomCall" (click)="join()">Join</button>
+    <button [disabled]="!activeRoomCall" (click)="leave()">Leave</button>
+    <br/><br/>
+
+    <h4><span>{{status}}</span></h4>
+
+    <input [formControl]="currentMessage" type="text" placeholder="Type a message..."/>
+    <input [formControl]="to" type="text" placeholder="To... (Optional)"/>
+
+    <button [disabled]="currentMessage.invalid || !activeRoomCall" (click)="send()">Send</button>
+    <br/><br/>
+
+    <p>Sent and received messages will appear in the box below</p>
+    <br/>
+
+    <p *ngIf="roomId && roomId.length > 0">Room id: {{roomId}}</p>
+
+    <div [class]="'chat-room'">
+      <ng-container *ngFor="let message of messages">
+        <app-received-message *ngIf="message.type === 'received_message'" [message]="message"></app-received-message>
+        <app-sent-message *ngIf="message.type === 'sent_message'" [message]="message"></app-sent-message>
+        <app-received-broadcast *ngIf="message.type === 'received_broadcast'" [message]="message"></app-received-broadcast>
+      </ng-container>
+    </div>
+  </div>
+</div>
