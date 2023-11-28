@@ -1,0 +1,25 @@
+<div>
+    <h4>Logged-in as: <span id="identity">None</span></h4>
+    <div id="join-room-actions" hidden>
+        <input id="room-name" type="text" placeholder="Enter room name"/>
+        <br/><br/>
+        <button id="join-btn">Join</button>
+        <button id="leave-btn" disabled>Leave</button>
+    </div>
+
+    <h4><span id="status"></span></h4>
+
+    <div id="chat-actions" hidden>
+        <input id="current-message" type="text" placeholder="Type a message..."/>
+        <input id="to" type="text" placeholder="To... (Optional)"/>
+        <br/><br/>
+        <button id="send-btn">Send</button>
+    </div>
+
+    <p>Sent and received messages will appear in the box below</p>
+    <p id="room-id" hidden></p>
+
+    <div id="chat-box" style="width: 300px; height: 300px; border: 1px solid grey; display: flex; flex-direction: column; overflow: auto;">
+    </div>
+    <script type="application/javascript" src="../js/chatroom.js"></script>
+</div>
