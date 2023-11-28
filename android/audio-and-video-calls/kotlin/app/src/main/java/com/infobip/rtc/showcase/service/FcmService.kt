@@ -5,8 +5,6 @@ import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.infobip.rtc.showcase.MainActivity
-import com.infobip.rtc.showcase.MainActivity.Companion.CALL_FINISHED
-import com.infobip.rtc.showcase.MainActivity.Companion.INCOMING_CALL_START
 import com.infobip.webrtc.sdk.api.InfobipRTC
 import com.infobip.webrtc.sdk.api.event.call.CallHangupEvent
 import com.infobip.webrtc.sdk.api.event.listener.IncomingCallEventListener
@@ -14,16 +12,13 @@ import com.infobip.webrtc.sdk.api.event.rtc.IncomingWebrtcCallEvent
 import com.infobip.webrtc.sdk.api.model.CallStatus
 import com.infobip.webrtc.sdk.impl.event.listener.DefaultWebrtcCallEventListener
 
-class FcmService : FirebaseMessagingService() {
-    companion object {
-        const val TAG = "INFOBIP_RTC"
-        private val infobipRTC: InfobipRTC = InfobipRTC.getInstance()
-    }
+const val TAG = "INFOBIP_RTC"
 
+class FcmService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "Received push: $remoteMessage")
-        if (infobipRTC.isIncomingCall(remoteMessage.data)) {
-            infobipRTC.handleIncomingCall(
+        if (InfobipRTC.getInstance().isIncomingCall(remoteMessage.data)) {
+            InfobipRTC.getInstance().handleIncomingCall(
                 remoteMessage.data,
                 applicationContext,
                 incomingCallEventListener()
@@ -37,13 +32,13 @@ class FcmService : FirebaseMessagingService() {
 
             incomingCall?.eventListener = object : DefaultWebrtcCallEventListener() {
                 override fun onHangup(callHangupEvent: CallHangupEvent) {
-                    ServiceHelper.startService(applicationContext, CALL_FINISHED)
+                    startService(applicationContext, CALL_FINISHED)
                 }
             }
 
-            val activeCall = infobipRTC.activeCall
+            val activeCall = InfobipRTC.getInstance().activeCall
             if (activeCall != null && activeCall.status() != CallStatus.FINISHED) {
-                ServiceHelper.startService(applicationContext, INCOMING_CALL_START)
+                startService(applicationContext, INCOMING_CALL_START)
                 showIncomingCall()
             }
         }

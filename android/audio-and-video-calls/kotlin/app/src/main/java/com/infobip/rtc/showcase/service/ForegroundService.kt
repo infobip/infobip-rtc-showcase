@@ -8,10 +8,6 @@ import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.infobip.rtc.showcase.MainActivity
-import com.infobip.rtc.showcase.MainActivity.Companion.CALL_FINISHED
-import com.infobip.rtc.showcase.MainActivity.Companion.CALL_IN_PROGRESS
-import com.infobip.rtc.showcase.MainActivity.Companion.INCOMING_CALL_START
-import com.infobip.rtc.showcase.MainActivity.Companion.OUTGOING_CALL_START
 import com.infobip.rtc.showcase.R
 import com.infobip.webrtc.sdk.api.InfobipRTC
 import com.infobip.webrtc.sdk.api.call.Call
@@ -19,13 +15,14 @@ import com.infobip.webrtc.sdk.api.call.RoomCall
 import com.infobip.webrtc.sdk.api.call.WebrtcCall
 import com.infobip.webrtc.sdk.api.model.CallStatus
 
-class ForegroundService : Service() {
-    companion object {
-        const val NOTIFICATION_ID = 1
-        const val CHANNEL_ID = "Infobip RTC Showcase"
-        private val infobipRTC: InfobipRTC = InfobipRTC.getInstance()
-    }
+const val NOTIFICATION_ID = 1
+const val CHANNEL_ID = "Infobip RTC Showcase"
+const val OUTGOING_CALL_START = "outgoing_call_start"
+const val INCOMING_CALL_START = "incoming_call_start"
+const val CALL_IN_PROGRESS = "call_in_progress"
+const val CALL_FINISHED = "call_finished"
 
+class ForegroundService : Service() {
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -41,33 +38,32 @@ class ForegroundService : Service() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action ?: return START_NOT_STICKY
 
-        val activeCall: Call? = infobipRTC.activeCall
-        val activeRoomCall: RoomCall? = infobipRTC.activeRoomCall
-        val peer = if (activeCall != null) activeCall.destination().identifier()
-            else activeRoomCall?.name()
+        val activeCall: Call? = InfobipRTC.getInstance().activeCall
+        val activeRoomCall: RoomCall? = InfobipRTC.getInstance().activeRoomCall
+        val peer = if (activeCall != null) activeCall.destination()
+            .identifier() else activeRoomCall?.name()
 
         when (action) {
             INCOMING_CALL_START -> {
                 if (activeCall != null && activeCall.status() != CallStatus.FINISHED && activeCall is WebrtcCall) {
-                    val isVideo =
-                        activeCall.hasCameraVideo() || activeCall.hasRemoteCameraVideo()
+                    val isVideo = activeCall.hasCameraVideo() || activeCall.hasRemoteCameraVideo()
+                    val callType = if (isVideo) "video" else "audio"
                     startForegroundService(
-                        "Incoming " + (if (isVideo) "video" else "audio") + " call",
+                        "Incoming $callType call",
                         peer = activeCall.source().identifier()
                     )
                 }
             }
+
             OUTGOING_CALL_START -> {
-                startForegroundService(
-                    "Calling...", peer
-                )
+                startForegroundService("Calling...", peer)
             }
+
             CALL_IN_PROGRESS -> {
-                startForegroundService(
-                    "In a ${if (activeRoomCall != null) "room call" else "call"}",
-                    peer
-                )
+                val callType = if (activeRoomCall != null) "room call" else "call"
+                startForegroundService("In a $callType", peer)
             }
+
             CALL_FINISHED -> {
                 stopForegroundService()
             }

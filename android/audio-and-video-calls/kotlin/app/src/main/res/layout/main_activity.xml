@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/login_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/logged_in_status"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/webrtc_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/webrtc_type" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/phone_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_type" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/room_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/room_type" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/destination"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="@string/destination_input_label"
+                android:hint="@string/destination_input_label"
+                android:inputType="text" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/toggle_audio_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:text="@string/audio" />
+
+            <LinearLayout
+                android:id="@+id/webrtc_tab_buttons"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_button_label" />
+
+                <Button
+                    android:id="@+id/video_call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/video_call_button" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/phone_tab_buttons"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/call_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_phone_number_button_label" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/room_tab_buttons"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/join_room"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/join_room_button_label" />
+
+                <Button
+                    android:id="@+id/join_room_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/join_room_with_video" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/incoming_call_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/incoming_call_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/incoming_call_label" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <Button
+                android:id="@+id/accept"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/accept_button_label" />
+
+            <Button
+                android:id="@+id/accept_video"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/accept_video_button_label" />
+
+            <Button
+                android:id="@+id/decline"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/decline_button_label" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/in_call_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/call_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/remote_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:id="@+id/room_participants_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/number_of_participants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/number_of_participants_title" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/participants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remote_videos_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remote_videos" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <LinearLayout
+                    android:id="@+id/remote_videos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/local_videos_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/local_videos" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <LinearLayout
+                    android:id="@+id/local_videos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/audio_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/toggle_audio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/mute" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/video_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/toggle_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/toggle_camera" />
+
+            <Button
+                android:id="@+id/toggle_screen_share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/toggle_screen_share" />
+
+            <Button
+                android:id="@+id/flip_camera_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/flip_camera" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/hangup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hangup"
+        android:visibility="gone" />
+</LinearLayout>

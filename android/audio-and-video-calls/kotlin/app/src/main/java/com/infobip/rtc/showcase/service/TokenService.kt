@@ -6,10 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.POST
 import java.util.*
 
+private const val TOKEN_API_BASE_URL = "http://10.0.2.2:8080/"
+
 object TokenService {
-
-    private const val TOKEN_API_BASE_URL = "http://10.0.2.2:8080/"
-
     private val accessTokenService = Retrofit.Builder()
         .baseUrl(TOKEN_API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -34,7 +33,7 @@ object TokenService {
     }
 }
 
-data class AccessToken (
+data class AccessToken(
     val token: String,
     val identity: String,
     val expirationTime: Date

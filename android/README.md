@@ -12,19 +12,50 @@ Code samples are available in Kotlin for Android, utilizing the
 
 ### Audio and Video Calls Showcase App
 
-Add your `google-services.json` to the folder `./android/audio-and-video-calls/kotlin` so that you could receive
-notifications about incoming calls.
+In order to enable push notifications, you need to create a push configuration. For more information how to do
+this, please refer to the
+corresponding [documentation](https://www.infobip.com/docs/voice-and-video/webrtc#declare-a-webrtc-application-getstartedwith-rtc-sdk).
+
+Before running the Application Calls Showcase App, edit the `Config.kt` file in the following directory for your chosen
+framework:
+
+- Kotlin: `./android/audio-and-video-calls/kotlin/app/src/main/java/com/infobip/rtc/showcase`
+
+and populate it with the following data:
+
+```
+const val PUSH_CONFIG_ID = "YOUR_PUSH_CONFIG_ID"
+```
+
+Finally, add your `google-services.json` to the folder `./android/audio-and-video-calls/kotlin/app` so that you could
+receive notifications about incoming calls.
 
 ### Application Calls Showcase App
 
-Please note that, before running the Application Calls Showcase, it is necessary to consult the instructions on how to
-set up and use the
-[Calls API Showcase App](https://github.com/infobip/infobip-rtc-showcase/tree/master/calls-api--showcase). Running the
-Calls API Showcase App is essential for enabling the full functionality of the Application Calls Showcase and should be
-regarded as its prerequisite.
+Please note that, before running the Application Calls Showcase App, it is necessary to consult the instructions on how
+to set up and use the
+[Calls API Showcase App](https://github.com/infobip/infobip-rtc-showcase/tree/master/calls-api-showcase). Running the
+Calls API Showcase App is essential for enabling the full functionality of the Application Calls Showcase App and
+should be regarded as its prerequisite.
 
-Add your `google-services.json` to the folder `./android/application-calls/kotlin` so that you could receive
-notifications about incoming calls.
+In order to enable push notifications, you need to create a push configuration. For more information how to do
+this, please refer to the
+corresponding [documentation](https://www.infobip.com/docs/voice-and-video/webrtc#declare-a-webrtc-application-getstartedwith-rtc-sdk).
+
+Before running the Application Calls Showcase App, edit the `Config.kt` file in the following directory for your chosen
+framework:
+
+- Kotlin: `./android/application-calls/kotlin/app/src/main/java/com/infobip/rtc/showcase`
+
+and populate it with the following data:
+
+```
+const val APPLICATION_ID = "YOUR_APPLICATION_ID"
+const val PUSH_CONFIG_ID = "YOUR_PUSH_CONFIG_ID"
+```
+
+Finally, add your `google-services.json` to the folder `./android/application-calls/kotlin/app` so that you could
+receive notifications about incoming calls.
 
 ## Running the Showcase Apps
 

@@ -3,4 +3,3 @@ infobip:
   api-host: ${INFOBIP_API_HOST:api.infobip.com}
   rtc-token-path: ${INFOBIP_RTC_TOKEN_PATH:/webrtc/1/token}
   api-key: ${INFOBIP_API_KEY}
-  application-id: ${INFOBIP_APP_ID}
