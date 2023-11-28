@@ -156,7 +156,6 @@ extension RoomCallController: RoomCallEventListener {
     }
     
     func onError(_ error: ErrorEvent) {
-        self.callCleanup(error.errorCode.description)
         self.showErrorAlert(message: error.errorCode.description)
     }
     
@@ -174,6 +173,14 @@ extension RoomCallController: RoomCallEventListener {
     
     func onRoomLeft(_ roomLeftEvent: RoomLeftEvent) {
         self.callCleanup(roomLeftEvent.errorCode.description)
+    }
+    
+    func onRoomRejoining(_ roomRejoiningEvent: RoomRejoiningEvent) {
+        
+    }
+    
+    func onRoomRejoined(_ roomRejoinedEvent: RoomRejoinedEvent) {
+        
     }
     
     func onParticipantJoining(_ participantJoiningEvent: ParticipantJoiningEvent) {

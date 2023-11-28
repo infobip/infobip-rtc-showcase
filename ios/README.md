@@ -9,6 +9,21 @@ Code samples are available in Swift, utilizing the [Infobip RTC SDK](https://git
 
 ## Getting Started
 
+### Audio and Video Calls Showcase App
+
+In order to enable push notifications, it is necessary to create a WebRTC push configuration. For more information on
+the creation of a push configuration, please refer to the
+corresponding [documentation](https://www.infobip.com/docs/voice-and-video/webrtc#declare-a-webrtc-application-getstartedwith-rtc-sdk).
+
+Before running the Application Calls Showcase App, make sure to edit the `Config.swift` file and populate it with the 
+following data:
+
+```swift
+struct Config {
+    static let pushConfigId = "your_push_config_id"
+}
+```
+
 ### Application Calls Showcase App
 
 Please note that, before running the Application Calls Showcase App, it is necessary to consult the instructions on how

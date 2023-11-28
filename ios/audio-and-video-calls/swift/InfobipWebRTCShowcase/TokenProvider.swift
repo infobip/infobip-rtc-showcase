@@ -1,5 +1,4 @@
 import Alamofire
-import os.log
 
 class TokenProvider {
     private static let TOKEN_API_URL = "http://localhost:8080/token"

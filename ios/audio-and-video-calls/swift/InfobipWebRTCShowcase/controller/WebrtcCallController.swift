@@ -151,7 +151,6 @@ extension WebrtcCallController: PhoneCallEventListener, WebrtcCallEventListener 
     }
     
     func onError(_ errorEvent: ErrorEvent) {
-        self.callCleanup(errorEvent.errorCode.description)
         self.showErrorAlert(message: errorEvent.errorCode.description)
     }
     

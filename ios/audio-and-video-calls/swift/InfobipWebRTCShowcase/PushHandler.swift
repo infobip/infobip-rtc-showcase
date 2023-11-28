@@ -7,9 +7,9 @@ extension WebrtcCallController: PKPushRegistryDelegate, IncomingCallEventListene
             TokenProvider.shared.get { (accessToken, error) in
                 do {
                     #if DEBUG
-                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, debug: true)
+                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, debug: true, pushConfigId: Config.pushConfigId)
                     #else
-                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials)
+                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, pushConfigId: Config.pushConfigId)
                     #endif
                 } catch {
                     print("Failed to register for push: %@", error.localizedDescription)
@@ -43,12 +43,12 @@ extension WebrtcCallController: PKPushRegistryDelegate, IncomingCallEventListene
     }
     
     private func handleIncomingCallOnSimulator(_ incomingCall: IncomingWebrtcCall) {
-        let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identifier(), preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identifier(), preferredStyle: .alert)
                 
-        alert.addAction(UIAlertAction(title: "Accept", style: UIAlertAction.Style.default, handler: {action in
+        alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: {action in
             incomingCall.accept()
         }))
-        alert.addAction(UIAlertAction(title: "Decline", style: UIAlertAction.Style.cancel, handler: {action in
+        alert.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: {action in
             incomingCall.decline(DeclineOptions(true))
         }))
         

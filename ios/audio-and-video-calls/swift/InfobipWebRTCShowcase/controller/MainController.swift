@@ -1,6 +1,5 @@
 import UIKit
 import InfobipRTC
-import os.log
 
 class MainController: UIViewController {
     
