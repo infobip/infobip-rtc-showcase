@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Agent Scene-->
+        <scene sceneID="DLv-4W-R0r">
+            <objects>
+                <viewController title="Room Call Scene" id="Dit-y0-asn" userLabel="Agent Scene" customClass="AgentController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YlT-u6-9yb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QrC-yF-5KX">
+                                <rect key="frame" x="0.0" y="48" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="CGz-LK-Qyw"/>
+                                </constraints>
+                                <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Infobip RTC Showcase" id="f1N-wU-o4S"/>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dE-wK-Ynq" userLabel="Status Label">
+                                <rect key="frame" x="207" y="108" width="0.0" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Uzl-iC-fbQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="F5V-Nq-JXe"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4dE-wK-Ynq" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="8iR-KY-tPX"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="top" secondItem="F5V-Nq-JXe" secondAttribute="top" id="D4M-7e-Su5"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="centerX" secondItem="YlT-u6-9yb" secondAttribute="centerX" id="X2b-rs-9fd"/>
+                            <constraint firstItem="4dE-wK-Ynq" firstAttribute="top" secondItem="QrC-yF-5KX" secondAttribute="bottom" constant="20" id="rlz-i5-o7z"/>
+                            <constraint firstItem="QrC-yF-5KX" firstAttribute="leading" secondItem="YlT-u6-9yb" secondAttribute="leading" id="t36-Id-dBr"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Agent" image="rectangle.inset.filled.and.person.filled" catalog="system" selectedImage="rectangle.inset.filled.and.person.filled" id="83S-Ua-3b5" userLabel="Agent">
+                        <color key="badgeColor" red="0.93725490570000003" green="0.52941179279999995" blue="0.20000001789999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </tabBarItem>
+                    <connections>
+                        <outlet property="statusLabel" destination="4dE-wK-Ynq" id="Exf-XG-NPa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C7u-64-zSL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1131.8840579710145" y="593.97321428571422"/>
+        </scene>
+        <!--Application Call Controller-->
+        <scene sceneID="9e4-re-bMT">
+            <objects>
+                <viewController storyboardIdentifier="ApplicationCallController" id="6OH-hd-HvE" customClass="ApplicationCallController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="edw-EQ-38R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tr6-qR-QSF" userLabel="Status Label">
+                                <rect key="frame" x="25" y="73" width="364" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="40" id="IbQ-wF-Tqj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Gp-E3-TI6" userLabel="Participants Label">
+                                <rect key="frame" x="25" y="88" width="364" height="0.0"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YDF-2f-Fwf" userLabel="Video Scroll View">
+                                <rect key="frame" x="10" y="98" width="394" height="644"/>
+                                <subviews>
+                                    <stackView autoresizesSubviews="NO" opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1Eq-WT-xq2" userLabel="Remote Videos Stack">
+                                        <rect key="frame" x="2" y="0.0" width="360" height="500"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="360" id="AOC-Bj-Smp"/>
+                                            <constraint firstAttribute="height" constant="500" id="HNh-kv-5on"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="1Eq-WT-xq2" firstAttribute="top" secondItem="YDF-2f-Fwf" secondAttribute="top" id="kxj-ba-Zlp"/>
+                                    <constraint firstItem="1Eq-WT-xq2" firstAttribute="centerX" secondItem="YDF-2f-Fwf" secondAttribute="centerX" id="tpK-rk-xVC"/>
+                                    <constraint firstAttribute="bottom" secondItem="1Eq-WT-xq2" secondAttribute="bottom" id="xe9-U2-rhj"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="VTH-5F-RIT"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="5nD-Zf-7sp"/>
+                            </scrollView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="C7U-eQ-Kaa" userLabel="Video Buttons Stack">
+                                <rect key="frame" x="89.5" y="757" width="235" height="30"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4x-ie-ze4">
+                                        <rect key="frame" x="-110" y="0.0" width="110" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="hnR-XC-Or5"/>
+                                            <constraint firstAttribute="width" constant="110" id="r78-SD-MV4"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Flip Camera">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="flipCamera:" destination="6OH-hd-HvE" eventType="touchUpInside" id="Tg9-iF-Ao0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H53-4w-xOz" userLabel="Toggle Camera Video Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="YpG-tg-I4i"/>
+                                            <constraint firstAttribute="height" constant="30" id="vHD-mu-TSQ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Camera Video">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleCameraVideo:" destination="6OH-hd-HvE" eventType="touchUpInside" id="aH4-SV-0ga"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="F65-98-Alk" userLabel="Toggle Screen Share Button">
+                                        <rect key="frame" x="125" y="0.0" width="110" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="e1R-Ew-NrG"/>
+                                            <constraint firstAttribute="height" constant="30" id="h5Q-SW-UIt"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Screen Share">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleScreenShare:" destination="6OH-hd-HvE" eventType="touchUpInside" id="74U-25-BBi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="XHu-FR-YMA"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ES2-6j-SVs" userLabel="Call Actions Buttons Stack">
+                                <rect key="frame" x="207" y="802" width="0.0" height="30"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLY-DU-3ep" userLabel="Mute Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Tpj-Yp-6Sm"/>
+                                            <constraint firstAttribute="width" constant="110" id="Zc9-JB-0Dp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Mute">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="mute:" destination="6OH-hd-HvE" eventType="touchUpInside" id="t5t-zp-c6n"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IJV-y8-zJy" userLabel="Hangup">
+                                        <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="110" id="ftA-1e-fIS"/>
+                                            <constraint firstAttribute="height" constant="30" id="pWj-hI-xUU"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Hangup">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="hangup:" destination="6OH-hd-HvE" eventType="touchUpInside" id="KmP-aj-QKx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6U8-w1-77w"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ETR-dF-MBX"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="9Gp-E3-TI6" firstAttribute="leading" secondItem="ETR-dF-MBX" secondAttribute="leading" constant="25" id="3gr-AL-dAy"/>
+                            <constraint firstItem="ES2-6j-SVs" firstAttribute="top" secondItem="C7U-eQ-Kaa" secondAttribute="bottom" constant="15" id="DeE-CV-DQi"/>
+                            <constraint firstItem="ETR-dF-MBX" firstAttribute="trailing" secondItem="9Gp-E3-TI6" secondAttribute="trailing" constant="25" id="HG8-RG-mhT"/>
+                            <constraint firstItem="9Gp-E3-TI6" firstAttribute="top" secondItem="tr6-qR-QSF" secondAttribute="bottom" constant="15" id="OKB-uQ-JTN"/>
+                            <constraint firstItem="C7U-eQ-Kaa" firstAttribute="centerX" secondItem="ETR-dF-MBX" secondAttribute="centerX" id="Quz-tY-anA"/>
+                            <constraint firstItem="ETR-dF-MBX" firstAttribute="bottom" secondItem="YDF-2f-Fwf" secondAttribute="bottom" constant="120" id="RMK-2t-HQP"/>
+                            <constraint firstItem="tr6-qR-QSF" firstAttribute="centerX" secondItem="ETR-dF-MBX" secondAttribute="centerX" id="V36-5G-anY"/>
+                            <constraint firstItem="YDF-2f-Fwf" firstAttribute="top" secondItem="9Gp-E3-TI6" secondAttribute="bottom" constant="10" id="XwK-Of-pTJ"/>
+                            <constraint firstItem="ETR-dF-MBX" firstAttribute="bottom" secondItem="ES2-6j-SVs" secondAttribute="bottom" constant="30" id="YOp-Zz-i4M"/>
+                            <constraint firstItem="ETR-dF-MBX" firstAttribute="trailing" secondItem="YDF-2f-Fwf" secondAttribute="trailing" constant="25" id="cri-vS-bHB"/>
+                            <constraint firstItem="tr6-qR-QSF" firstAttribute="top" secondItem="ETR-dF-MBX" secondAttribute="top" constant="25" id="evc-sh-wv4"/>
+                            <constraint firstItem="ES2-6j-SVs" firstAttribute="centerX" secondItem="ETR-dF-MBX" secondAttribute="centerX" id="gxe-ak-9aS"/>
+                            <constraint firstItem="ETR-dF-MBX" firstAttribute="trailing" secondItem="tr6-qR-QSF" secondAttribute="trailing" constant="25" id="n6K-D8-p44"/>
+                            <constraint firstItem="YDF-2f-Fwf" firstAttribute="leading" secondItem="ETR-dF-MBX" secondAttribute="leading" constant="25" id="nQt-9l-ccD"/>
+                            <constraint firstItem="9Gp-E3-TI6" firstAttribute="centerX" secondItem="ETR-dF-MBX" secondAttribute="centerX" id="uuA-Va-2Lp"/>
+                            <constraint firstItem="tr6-qR-QSF" firstAttribute="leading" secondItem="ETR-dF-MBX" secondAttribute="leading" constant="25" id="yVg-po-PVk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="callActionsButtonsStack" destination="ES2-6j-SVs" id="6B2-yG-u4W"/>
+                        <outlet property="flipCameraButton" destination="y4x-ie-ze4" id="LVj-jw-lU6"/>
+                        <outlet property="hangupButton" destination="IJV-y8-zJy" id="SPS-7x-dgN"/>
+                        <outlet property="muteButton" destination="dLY-DU-3ep" id="0NM-3v-BCt"/>
+                        <outlet property="participantsLabel" destination="9Gp-E3-TI6" id="xvq-Oq-ig6"/>
+                        <outlet property="statusLabel" destination="tr6-qR-QSF" id="plA-JS-zM8"/>
+                        <outlet property="toggleCameraVideoButton" destination="H53-4w-xOz" id="jUd-Ku-kB3"/>
+                        <outlet property="toggleScreenShareButton" destination="F65-98-Alk" id="n73-Qr-M4O"/>
+                        <outlet property="videoButtonsStack" destination="C7U-eQ-Kaa" id="pjY-dN-TTz"/>
+                        <outlet property="videosStack" destination="1Eq-WT-xq2" id="ChM-Kv-8Iq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ttg-se-62x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2922" y="309"/>
+        </scene>
+        <!--Customer Scene-->
+        <scene sceneID="yKX-OB-vTJ">
+            <objects>
+                <viewController title="Phone Call Scene" id="fBc-Aq-FZO" userLabel="Customer Scene" customClass="CustomerController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MOT-lj-JIe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BGM-Z8-FaJ">
+                                <rect key="frame" x="0.0" y="48" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="pHT-pE-JQb"/>
+                                </constraints>
+                                <color key="barTintColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Infobip RTC Showcase" id="RGD-CQ-gng"/>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sg7-0i-FeC" userLabel="Status Label">
+                                <rect key="frame" x="207" y="108" width="0.0" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Rhg-Dc-6qj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CdC-fE-80l" userLabel="Call Buttons Stack">
+                                <rect key="frame" x="79.5" y="415.5" width="255" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aC3-Ts-u3W" userLabel="Phone Call Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="Rch-Fe-NUN"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="Xcq-Oc-ibN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Phone Call">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="callPhone:" destination="fBc-Aq-FZO" eventType="touchUpInside" id="BxS-sx-a8a"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dFy-DK-SPs" userLabel="Agent Video Call Button">
+                                        <rect key="frame" x="135" y="0.0" width="120" height="30"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="B2U-n0-W3K"/>
+                                            <constraint firstAttribute="height" constant="30" id="p8R-RA-gam"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="Agent Video Call">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="videoCallAgent:" destination="fBc-Aq-FZO" eventType="touchUpInside" id="zgG-vG-GxI"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1a2-4U-QI0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BGM-Z8-FaJ" firstAttribute="leading" secondItem="MOT-lj-JIe" secondAttribute="leading" id="2y4-ym-myp"/>
+                            <constraint firstItem="CdC-fE-80l" firstAttribute="centerX" secondItem="1a2-4U-QI0" secondAttribute="centerX" id="6Ej-5C-fpK"/>
+                            <constraint firstItem="CdC-fE-80l" firstAttribute="centerY" secondItem="1a2-4U-QI0" secondAttribute="centerY" id="OBh-st-nLP"/>
+                            <constraint firstItem="1a2-4U-QI0" firstAttribute="top" secondItem="BGM-Z8-FaJ" secondAttribute="top" id="PhH-HI-Nbs"/>
+                            <constraint firstItem="Sg7-0i-FeC" firstAttribute="top" secondItem="BGM-Z8-FaJ" secondAttribute="bottom" constant="20" id="WgB-Ze-mcr"/>
+                            <constraint firstItem="Sg7-0i-FeC" firstAttribute="centerX" secondItem="MOT-lj-JIe" secondAttribute="centerX" id="rqP-0L-6He"/>
+                            <constraint firstItem="BGM-Z8-FaJ" firstAttribute="centerX" secondItem="Sg7-0i-FeC" secondAttribute="centerX" id="rv0-Y8-aye"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Customer" image="person.fill" catalog="system" selectedImage="person.fill" id="YRg-lN-Nrx" userLabel="Customer"/>
+                    <connections>
+                        <outlet property="callPhoneButton" destination="aC3-Ts-u3W" id="4HF-k9-HbE"/>
+                        <outlet property="statusLabel" destination="Sg7-0i-FeC" id="s7p-lo-fIi"/>
+                        <outlet property="videoCallAgentButton" destination="dFy-DK-SPs" id="Suv-G9-zcC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HRP-kY-fyH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1132" y="-12"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="dxm-dJ-wAm">
+            <objects>
+                <tabBarController id="tuE-Tr-uXB" customClass="TabBarController" customModule="InfobipWebRTCShowcase" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="vgP-4F-dmQ">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.93725490570000003" green="0.52941179279999995" blue="0.20000001789999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="fBc-Aq-FZO" kind="relationship" relationship="viewControllers" id="9A6-bV-Lux"/>
+                        <segue destination="Dit-y0-asn" kind="relationship" relationship="viewControllers" id="7Pz-gi-slN"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G57-qO-u26" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138" y="834"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="rectangle.inset.filled.and.person.filled" catalog="system" width="128" height="89"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
