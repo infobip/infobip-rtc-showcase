@@ -255,9 +255,7 @@ extension WebrtcCallController: PhoneCallEventListener, WebrtcCallEventListener 
     }
     
     private func callCleanup(_ reason: String) {
-        if let call = self.activeCall {
-            CallKitAdapter.shared.endCall(call)
-        }
+        CallKitAdapter.shared.endCall()
         if self.localCameraView != nil || self.localScreenView != nil || self.remoteFullView != nil || self.remoteSmallView != nil {
             self.finalizeVideoCallPreview()
         }

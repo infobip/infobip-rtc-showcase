@@ -89,10 +89,7 @@ extension PhoneCallController: PhoneCallEventListener {
     }
     
     private func callCleanup(_ reason: String) {
-        if let call = self.activeCall {
-            CallKitAdapter.shared.endCall(call)
-        }
-        
+        CallKitAdapter.shared.endCall()
         self.dialPadVisibility(.VISIBLE)
         self.muteButton.isHidden = true
         self.hangupButton.isHidden = true

@@ -5,7 +5,7 @@ import AVFoundation
 class CallKitAdapter: NSObject {
     static let shared = CallKitAdapter()
     
-    private var calls: [String: CallRecord] = [:]
+    private var callRecord: CallRecord?
     private var callKitProvider = CXProvider(configuration: CXProviderConfiguration(localizedName: "InfobipRTC"))
     private let callKitCallController = CXCallController()
     
@@ -16,7 +16,7 @@ class CallKitAdapter: NSObject {
     
     func reportIncomingCall(_ call: WebrtcCall) {
         guard let uuid = UUID(uuidString: call.id()) else { return }
-        calls[call.id()] = CallRecord(uuid, call)
+        callRecord = CallRecord(uuid, call)
         let callUpdate = CXCallUpdate()
         callUpdate.remoteHandle = CXHandle(type: .phoneNumber, value: call.source().identifier())
         callUpdate.hasVideo = call.hasCameraVideo()
@@ -29,17 +29,17 @@ class CallKitAdapter: NSObject {
         }
     }
     
-    func endCall(_ call: Call) {
-        if let uuid = calls[call.id()]?.uuid {
+    func endCall() {
+        if let uuid = callRecord?.uuid {
             callKitProvider.reportCall(with: uuid, endedAt: nil, reason: .remoteEnded)
-            calls.removeValue(forKey: call.id())
+            callRecord = nil
         }
     }
 }
 
 extension CallKitAdapter: CXProviderDelegate {
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        if let incomingCall = calls[action.callUUID.uuidString.lowercased()]?.call as? IncomingWebrtcCall {
+        if let incomingCall = callRecord?.call as? IncomingWebrtcCall {
             incomingCall.accept()
             action.fulfill()
         } else {
@@ -53,7 +53,7 @@ extension CallKitAdapter: CXProviderDelegate {
     }
     
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        guard let call = calls[action.callUUID.uuidString.lowercased()]?.call else { return }
+        guard let call = callRecord?.call else { return }
         if let incoming = call as? IncomingWebrtcCall, incoming.status != .established {
             incoming.decline()
         } else {
@@ -63,7 +63,7 @@ extension CallKitAdapter: CXProviderDelegate {
     }
     
     func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
-        if let call = calls[action.callUUID.uuidString.lowercased()]?.call {
+        if let call = callRecord?.call {
             do {
                 try call.mute(action.isMuted)
                 action.fulfill()
