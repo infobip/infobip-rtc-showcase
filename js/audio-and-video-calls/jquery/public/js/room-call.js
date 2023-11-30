@@ -21,6 +21,7 @@ function setOnClickEventListeners() {
 function join(video = false) {
     let roomCallOptions = RoomCallOptions.builder()
         .setVideo(video)
+        .setAutoRejoin(true)
         .build();
 
     activeRoomCall = infobipRTC.joinRoom(getRoomName(), roomCallOptions);
@@ -43,6 +44,20 @@ function listenForRoomCallEvents() {
         console.log('Left room: ' + event.errorCode.name);
         removeMediaStreams();
         setValuesAfterLeavingRoom();
+    });
+    activeRoomCall.on(CallsApiEvent.ROOM_REJOINING, function (event) {
+        $('#status').html('Rejoining room: ' + getRoomName());
+        console.log('Rejoining room: ' + getRoomName());
+    });
+    activeRoomCall.on(CallsApiEvent.ROOM_REJOINED, function (event) {
+        $('#status').html('Rejoined room: ' + getRoomName());
+        console.log('Rejoined room: ' + getRoomName());
+        setMediaStream($('#remote-audio')[0], event.stream);
+        setValuesAfterJoiningRoom();
+        if (event.participants.length) {
+            $("#participants").append("<br/><b>Participants:</b><br/>");
+            event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
+        }
     });
     activeRoomCall.on(CallsApiEvent.PARTICIPANT_JOINING, function (event) {
         $('#status').html('Participant ' + event.participant.endpoint.identifier + ' is joining room');

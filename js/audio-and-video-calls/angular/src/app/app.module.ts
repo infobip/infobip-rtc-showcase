@@ -12,7 +12,7 @@ import {RoomCallComponent} from './components/room-call/room-call.component';
 const appRoutes: Routes = [
   { path: 'webrtc-call', component: WebrtcCallComponent },
   { path: 'phone-call', component: PhoneCallComponent },
-  { path: 'room', component: RoomCallComponent },
+  { path: 'room-call', component: RoomCallComponent },
   { path: '', pathMatch: 'full', redirectTo: 'webrtc-call' },
 ];
 

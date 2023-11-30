@@ -62,6 +62,17 @@ export class RoomCallComponent {
       this.setValuesAfterLeavingRoom();
     });
 
+    this.activeRoomCall.on(CallsApiEvent.ROOM_REJOINING, () => {
+      this.status = 'Rejoining room: ' + this.roomName;
+      console.log('Rejoining room: ' + this.roomName);
+    });
+    this.activeRoomCall.on(CallsApiEvent.ROOM_REJOINED, event => {
+      this.status = 'Rejoined room: ' + this.roomName;
+      console.log('Rejoined room: ' + this.roomName);
+      this.setMediaStream(this.remoteAudio, event.stream);
+      event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
+    });
+
     this.activeRoomCall.on(CallsApiEvent.PARTICIPANT_JOINING, event => {
       this.status = 'Participant ' + event.participant.endpoint.identifier + ' is joining room';
       console.log('Participant ' + event.participant.endpoint.identifier + ' is joining room');
@@ -148,6 +159,7 @@ export class RoomCallComponent {
     if (this.roomName) {
       const roomCallOptions = RoomCallOptions.builder()
         .setVideo(video)
+        .setAutoRejoin(true)
         .build();
 
       this.activeRoomCall = this.infobipRTC.joinRoom(this.roomName, roomCallOptions);

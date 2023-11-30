@@ -47,6 +47,7 @@ class RoomCall extends Component {
         if (this.state.roomName) {
             const roomCallOptions = RoomCallOptions.builder()
                 .setVideo(video)
+                .setAutoRejoin(true)
                 .build();
 
             const activeRoomCall = this.state.infobipRTC.joinRoom(this.state.roomName, roomCallOptions);
@@ -59,7 +60,7 @@ class RoomCall extends Component {
         let that = this;
         roomCall.on(CallsApiEvent.ROOM_JOINED, event => {
             that.setState({status: 'Joined room: ' + that.state.roomName});
-            console.log('Joined room: ' + that.roomName);
+            console.log('Joined room: ' + that.state.roomName);
             that.setMediaStream(that.refs.remoteAudio, event.stream);
             event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
         });
@@ -67,6 +68,17 @@ class RoomCall extends Component {
             that.setState({status: 'Left room: ' + event.errorCode.name});
             console.log('Left room: ' + event.errorCode.name);
             that.setValuesAfterLeavingRoom();
+        });
+
+        roomCall.on(CallsApiEvent.ROOM_REJOINING, event => {
+            that.setState({status: 'Rejoining room: ' + that.state.roomName});
+            console.log('Rejoining room: ' + that.roomName);
+        });
+        roomCall.on(CallsApiEvent.ROOM_REJOINED, event => {
+            that.setState({status: 'Rejoined room: ' + that.state.roomName});
+            console.log('Rejoined room: ' + that.state.roomName);
+            that.setMediaStream(that.refs.remoteAudio, event.stream);
+            event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
         });
 
         roomCall.on(CallsApiEvent.PARTICIPANT_JOINING, event => {
