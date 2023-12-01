@@ -32,6 +32,7 @@
     <string name="ringing_label">Ringing…</string>
     <string name="in_call">In a call</string>
     <string name="joined_room">Joined room</string>
+    <string name="rejoining_room">Rejoining room…</string>
     <string name="hangup_message">Hangup: %1$s</string>
     <string name="left_room">Left room: %1$s</string>
     <string name="error_message">Error: %1$s</string>

@@ -517,20 +517,23 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
     }
 
     override fun onRoomRejoining(roomRejoiningEvent: RoomRejoiningEvent?) {
-        val message = "Rejoining..."
+        val message = "Rejoining room..."
         Log.d(TAG, message)
 
         runOnUiThread {
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+            setCallStatus(message)
+            setCallStatus(R.string.rejoining_room)
         }
     }
 
     override fun onRoomRejoined(roomRejoinedEvent: RoomRejoinedEvent?) {
-        val message = "Rejoined"
+        val message = "Rejoined room"
         Log.d(TAG, message)
 
         runOnUiThread {
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+            setCallStatus(R.string.joined_room)
         }
     }
 
@@ -1089,7 +1092,8 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             this
         )
         val phoneCallOptions = PhoneCallOptions.builder().audio(audioEnabled).from(FROM).build()
-        InfobipRTC.getInstance().callPhone(callPhoneRequest, phoneCallOptions)
+        val call = InfobipRTC.getInstance().callPhone(callPhoneRequest, phoneCallOptions)
+        Log.d(TAG, "Outgoing phone call with id ${call.id()}")
     }
 
     private fun webrtcCall(destination: String, video: Boolean) {
@@ -1100,14 +1104,17 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             this
         )
         val webrtcCallOptions = WebrtcCallOptions.builder().audio(audioEnabled).video(video).build()
-        InfobipRTC.getInstance().callWebrtc(webrtcCallRequest, webrtcCallOptions)
+        val call = InfobipRTC.getInstance().callWebrtc(webrtcCallRequest, webrtcCallOptions)
+        Log.d(TAG, "Outgoing webrtc call with id ${call.id()}")
     }
 
     private fun roomCall(destination: String, video: Boolean) {
         val roomCallRequest =
             RoomRequest(TokenService.getAccessToken().token, applicationContext, this, destination)
-        val roomCallOptions = RoomCallOptions.builder().audio(audioEnabled).video(video).build()
-        InfobipRTC.getInstance().joinRoom(roomCallRequest, roomCallOptions)
+        val roomCallOptions =
+            RoomCallOptions.builder().audio(audioEnabled).video(video).autoRejoin(true).build()
+        val call = InfobipRTC.getInstance().joinRoom(roomCallRequest, roomCallOptions)
+        Log.d(TAG, "Outgoing room call with id ${call.id()}")
     }
 
     private fun showOutgoingCallLayout() {
