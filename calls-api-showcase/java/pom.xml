@@ -8,14 +8,17 @@
 		<version>3.1.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.infobip.rtc.calls</groupId>
 	<artifactId>showcase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>showcase</name>
 	<description>Application that showcases features of Infobip Calls API.</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -27,12 +30,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -43,5 +40,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
