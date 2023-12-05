@@ -1,41 +1,33 @@
 import PushKit
 import InfobipRTC
 
-extension WebrtcCallController: PKPushRegistryDelegate, IncomingCallEventListener {
+extension MainController: PKPushRegistryDelegate, IncomingCallEventListener {
     func pushRegistry(_ registry: PKPushRegistry, didUpdate pushCredentials: PKPushCredentials, for type: PKPushType) {
         if type == .voIP {
-            TokenProvider.shared.get { (accessToken, error) in
-                do {
-                    #if DEBUG
-                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, debug: true, pushConfigId: Config.pushConfigId)
-                    #else
-                    try self.infobipRTC.enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, pushConfigId: Config.pushConfigId)
-                    #endif
-                } catch {
-                    print("Failed to register for push: %@", error.localizedDescription)
-                }
+            TokenProvider.shared.get { accessToken, error in
+#if DEBUG
+                getInfobipRTCInstance().enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, debug: true, pushConfigId: Config.pushConfigId)
+#else
+                getInfobipRTCInstance().enablePushNotification(accessToken!.token, pushCredentials: pushCredentials, Config.pushConfigId)
+#endif
             }
         }
     }
-
+    
     func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, for type: PKPushType) {
         if type == .voIP {
-            if infobipRTC.isIncomingCall(payload) {
-                infobipRTC.handleIncomingCall(payload, self)
+            if getInfobipRTCInstance().isIncomingCall(payload) {
+                getInfobipRTCInstance().handleIncomingCall(payload, self)
             }
         }
     }
-
+    
     func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenFor type: PKPushType) {
-        TokenProvider.shared.get { (accessToken, error) in
-            do {
-                try self.infobipRTC.disablePushNotification(accessToken!.token)
-            } catch {
-                print("Failed to disable push notifications.")
-            }
+        TokenProvider.shared.get { accessToken, error in
+            getInfobipRTCInstance().disablePushNotification(accessToken!.token)
         }
     }
-
+    
     func createPushRegistry(_ token: String) {
         let voipRegistry = Runtime.simulator() ? InfobipSimulator(token: token) : PKPushRegistry(queue: DispatchQueue.main)
         voipRegistry.desiredPushTypes = [PKPushType.voIP]
@@ -44,7 +36,6 @@ extension WebrtcCallController: PKPushRegistryDelegate, IncomingCallEventListene
     
     private func handleIncomingCallOnSimulator(_ incomingCall: IncomingWebrtcCall) {
         let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identifier(), preferredStyle: .alert)
-                
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: {action in
             incomingCall.accept()
         }))
@@ -59,8 +50,8 @@ extension WebrtcCallController: PKPushRegistryDelegate, IncomingCallEventListene
         self.tabBarController?.selectedIndex = 0
         
         let incomingWebrtcCall = incomingWebrtcCallEvent.incomingWebrtcCall
-        self.activeCall = incomingWebrtcCall
-        self.handleIncomingCall()
+        let callType = incomingWebrtcCall.hasRemoteCameraVideo() ? CallType.webrtc_video : CallType.webrtc_audio
+        self.handleIncomingCall(incomingWebrtcCall.counterpart().identifier(), callType)
         
         if Runtime.simulator() {
             self.handleIncomingCallOnSimulator(incomingWebrtcCall)

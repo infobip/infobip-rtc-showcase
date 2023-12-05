@@ -1,65 +1,53 @@
 import UIKit
 import InfobipRTC
+import os.log
 
 class MainController: UIViewController {
+    @IBOutlet weak var connectionStatusLabel: UILabel!
+    @IBOutlet weak var destinationInput: UITextField!
+    @IBOutlet weak var audioSwitch: UISwitch!
     
-    let infobipRTC: InfobipRTC = getInfobipRTCInstance()
-    
-    let unknown = "Unknown"
-    var token: String?
-    var identity: String?
-    var callType: CallType?
-    
-    @IBOutlet weak var statusLabel: UILabel!
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.statusLabel.text = "Connecting..."
+        self.connectionStatusLabel.text = "Connecting..."
         TokenProvider.shared.get { token, error in
             guard let accessToken = token else {
-                self.statusLabel.text = "Failed to connect."
+                self.connectionStatusLabel.text = "Failed to connect."
                 return
             }
-            self.statusLabel.text = "Connected as \(accessToken.identity)"
-            self.dialPadVisibility(.VISIBLE)
-            self.token = accessToken.token
-            self.identity = accessToken.identity
+            self.connectionStatusLabel.text = "Connected as \(accessToken.identity)"
+            self.createPushRegistry(accessToken.token)
         }
     }
     
-    func showErrorAlert(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        self.present(alertController, animated: true, completion: nil)
-        let when = DispatchTime.now() + 2
-        DispatchQueue.main.asyncAfter(deadline: when){
-            alertController.dismiss(animated: true, completion: nil)
+    func makeCall(callType: CallType) {
+        guard let destination = self.destinationInput.text else {
+            os_log("Invalid destination!")
+            return
         }
+        
+        let callController = self.storyboard?.instantiateViewController(withIdentifier: "CallController") as! CallController
+        callController.modalPresentationStyle = .fullScreen
+        callController.destination = destination
+        callController.callType = callType
+        callController.startCallMuted = !self.audioSwitch.isOn
+        self.present(callController, animated: true, completion: nil)
     }
     
-    func dialPadVisibility(_ visibility: DialpadVisibility) {}
-}
-
-enum DialpadVisibility {
-    case VISIBLE
-    case HIDDEN
+    func handleIncomingCall(_ destination: String, _ callType: CallType) {
+        let callController = self.storyboard?.instantiateViewController(withIdentifier: "CallController") as! CallController
+        callController.modalPresentationStyle = .fullScreen
+        callController.destination = destination
+        callController.callType = callType
+        
+        self.present(callController, animated: true, completion: nil)
+    }
 }
 
 enum CallType {
     case webrtc_video
     case webrtc_audio
-    case phone_number
+    case phone
     case room_audio
     case room_video
-}
-
-extension UIView {
-    var id: String? {
-        get {
-            return self.accessibilityIdentifier
-        }
-        set {
-            self.accessibilityIdentifier = newValue
-        }
-    }
 }

@@ -2,7 +2,6 @@ import UIKit
 import InfobipRTC
 
 class CustomerController: MainController {
-    
     @IBOutlet weak var callPhoneButton: UIButton!
     @IBOutlet weak var videoCallAgentButton: UIButton!
     
@@ -18,7 +17,6 @@ class CustomerController: MainController {
         let applicationCallController = self.storyboard?.instantiateViewController(withIdentifier: "ApplicationCallController") as! ApplicationCallController
         applicationCallController.modalPresentationStyle = .fullScreen
         applicationCallController.callType = callType
-        applicationCallController.identity = self.identity
         applicationCallController.token = self.token
 
         self.present(applicationCallController, animated: true, completion: nil)

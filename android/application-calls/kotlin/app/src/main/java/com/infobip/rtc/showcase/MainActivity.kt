@@ -416,11 +416,11 @@ class MainActivity : Activity(), ApplicationCallEventListener {
     private fun resetLayout() {
         hideActiveCallLayout()
         setActiveTabLayout()
-        findViewById<Button>(R.id.toggle_audio_button).setText(R.string.mute)
     }
 
     private fun showActiveCallLayout() {
         showOutgoingCallLayout()
+        findViewById<Button>(R.id.toggle_audio_button).setText(R.string.mute)
         findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
         if (applicationCall.customData()["scenario"] == "conference" || TokenService.getRole() == Role.AGENT) {

@@ -22,7 +22,8 @@
 		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
 		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
 		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
-		E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0891DF82595F70C00842857 /* VideoCallExtension.swift */; };
+		E016D43B2B1E057300E6F8DD /* VideosCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E016D43A2B1E057300E6F8DD /* VideosCollectionViewController.swift */; };
+		E016D43E2B1E087800E6F8DD /* ParticipantsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E016D43D2B1E087800E6F8DD /* ParticipantsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +47,8 @@
 		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDFEE258234F75C000263857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E0891DF82595F70C00842857 /* VideoCallExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCallExtension.swift; sourceTree = "<group>"; };
+		E016D43A2B1E057300E6F8DD /* VideosCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosCollectionViewController.swift; sourceTree = "<group>"; };
+		E016D43D2B1E087800E6F8DD /* ParticipantsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +124,9 @@
 				DDA3A0602459B24F00F4A924 /* PushHandler.swift */,
 				DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */,
 				DD1C2178245B3DA900C85FAA /* Runtime.swift */,
-				E0891DF82595F70C00842857 /* VideoCallExtension.swift */,
 				46B7B7622B10A77F0010DE90 /* Config.swift */,
+				E016D43A2B1E057300E6F8DD /* VideosCollectionViewController.swift */,
+				E016D43D2B1E087800E6F8DD /* ParticipantsTableViewController.swift */,
 			);
 			path = InfobipWebRTCShowcase;
 			sourceTree = "<group>";
@@ -245,13 +248,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				46D2210629788D19009584A6 /* AgentController.swift in Sources */,
-				E0891DF92595F70C00842857 /* VideoCallExtension.swift in Sources */,
+				E016D43B2B1E057300E6F8DD /* VideosCollectionViewController.swift in Sources */,
 				46B7B75F2B0F53AE0010DE90 /* TabBarController.swift in Sources */,
 				DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */,
 				DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */,
 				46B7B7632B10A77F0010DE90 /* Config.swift in Sources */,
 				DDA3A0612459B24F00F4A924 /* PushHandler.swift in Sources */,
 				468EA80F297F2DF9009435CF /* ApplicationCallController.swift in Sources */,
+				E016D43E2B1E087800E6F8DD /* ParticipantsTableViewController.swift in Sources */,
 				468EA811297F3217009435CF /* MainController.swift in Sources */,
 				DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */,
 				46D2210429788D07009584A6 /* CustomerController.swift in Sources */,

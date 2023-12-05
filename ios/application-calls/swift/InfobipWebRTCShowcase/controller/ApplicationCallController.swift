@@ -3,33 +3,50 @@ import InfobipRTC
 import os.log
 
 class ApplicationCallController: UIViewController {
-
-    var identity: String?
-    var token: String?
-
-    var callType: CallType?
-
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var participantsLabel: UILabel!
+    private static var CAMERA = "camera"
+    private static var SCREEN_SHARE = "screen-share"
+    private static var LOCAL = "local"
+    
+    @IBOutlet weak var callStatusLabel: UILabel!
+    @IBOutlet weak var destinationLabel: UILabel!
+    
+    @IBOutlet weak var participantsTitleLabel: UILabel!
+    @IBOutlet weak var participantsTableView: UITableView!
+    
+    @IBOutlet weak var remoteVideosTitleLabel: UILabel!
+    @IBOutlet weak var remoteVideosCollectionView: UICollectionView!
+    
+    @IBOutlet weak var localVideosTitleLabel: UILabel!
+    @IBOutlet weak var localVideosCollectionView: UICollectionView!
     
     @IBOutlet weak var muteButton: UIButton!
-    @IBOutlet weak var hangupButton: UIButton!
-    @IBOutlet weak var flipCameraButton: UIButton!
+    @IBOutlet weak var videoButtonsStack: UIStackView!
     @IBOutlet weak var toggleCameraVideoButton: UIButton!
     @IBOutlet weak var toggleScreenShareButton: UIButton!
-
-    @IBOutlet weak var videoButtonsStack: UIStackView!
-    @IBOutlet weak var callActionsButtonsStack: UIStackView!
+    @IBOutlet weak var flipCameraButton: UIButton!
+    @IBOutlet weak var hangupButton: UIButton!
     
-    @IBOutlet weak var videosStack: UIStackView!
+    var identity: String?
+    var token: String?
+    var callType: CallType?
     
-    var videoViews: [String: UIView] = [:]
-        
+    var localVideoViews: [Video] = []
+    var remoteVideoViews: [Video] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        self.participantsTableView.delegate = self
+        self.participantsTableView.dataSource = self
+        
+        self.localVideosCollectionView.delegate = self
+        self.localVideosCollectionView.dataSource = self
+        
+        self.remoteVideosCollectionView.delegate = self
+        self.remoteVideosCollectionView.dataSource = self
+        
         if getInfobipRTCInstance().getActiveApplicationCall() != nil {
-            return self.handleIncomingApplicationCall()
+            return self.handleIncomingApplicationCallOnSimulator()
         }
         
         if self.callType == .application_call_audio {
@@ -39,26 +56,26 @@ class ApplicationCallController: UIViewController {
         }
     }
     
-    func handleIncomingApplicationCall() {
+    func handleIncomingApplicationCallOnSimulator() {
         getInfobipRTCInstance().getActiveApplicationCall()?.applicationCallEventListener = self
-        self.statusLabel.text = self.callType == .application_call_video ? "Incoming video call..." : "Incoming audio call..."
-        self.hangupButton.isHidden = false
+        self.showIncomingCallLayout()
     }
     
-    func makeAudioApplicationCall() {        
+    func makeAudioApplicationCall() {
         do {
             if let token = self.token {
                 let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.applicationId, applicationCallEventListener: self)
                 let applicationCallOptions = ApplicationCallOptions(video: false, customData: ["scenario" : "dialog"])
-                try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
-                
-                self.statusLabel.text = "Calling phone number..."
-                self.hangupButton.isHidden = false
+                let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
+                self.showOutgoingCallLayout()
             } else {
+                os_log("Missing token")
+                self.callStatusLabel.text = "Missing token"
                 self.dismissCurrentView()
             }
         } catch {
             os_log("Failed to make a call: %@", error.localizedDescription)
+            self.callStatusLabel.text = error.localizedDescription
             self.dismissCurrentView()
         }
     }
@@ -68,15 +85,16 @@ class ApplicationCallController: UIViewController {
             if let token = self.token {
                 let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.applicationId, applicationCallEventListener: self)
                 let applicationCallOptions = ApplicationCallOptions(video: true, customData: ["scenario" : "conference"])
-                try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
-                
-                self.statusLabel.text = "Calling agent..."
-                self.hangupButton.isHidden = false
+                let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
+                self.showOutgoingCallLayout()
             } else {
+                os_log("Missing token")
+                self.callStatusLabel.text = "Missing token"
                 self.dismissCurrentView()
             }
         } catch {
             os_log("Failed to make a call: %@", error.localizedDescription)
+            self.callStatusLabel.text = error.localizedDescription
             self.dismissCurrentView()
         }
     }
@@ -120,26 +138,88 @@ class ApplicationCallController: UIViewController {
                 let isMuted = activeCall.muted()
                 try activeCall.mute(!isMuted)
                 self.muteButton.setTitle(isMuted ? "Mute" : "Unmute", for: .normal)
+                self.participantsTableView.reloadData()
             } catch {
                 self.showErrorAlert(message: "Something unexpected happened")
             }
         }
     }
     
+    private func showOutgoingCallLayout() {
+        self.callStatusLabel.text = "Calling..."
+        self.destinationLabel.text = Config.applicationId
+        self.destinationLabel.isHidden = false
+        self.hangupButton.isHidden = false
+        self.muteButton.isHidden = true
+        self.videoButtonsStack.isHidden = true
+    }
+    
+    private func showIncomingCallLayout() {
+        self.callStatusLabel.text = "Incoming \(self.callType == .application_call_video ? "video" : "audio") call"
+        self.destinationLabel.text = Config.applicationId
+        self.destinationLabel.isHidden = false
+        self.hangupButton.isHidden = true
+        self.muteButton.isHidden = true
+        self.videoButtonsStack.isHidden = true
+    }
+    
+    private func showActiveCallLayout() {
+        self.callStatusLabel.text = "In a call"
+        self.muteButton.isHidden = false
+        self.hangupButton.isHidden = false
+        self.videoButtonsStack.isHidden = self.callType != .application_call_video
+        let activeApplicationCall = getInfobipRTCInstance().getActiveApplicationCall()!
+        self.flipCameraButton.isHidden = !activeApplicationCall.hasCameraVideo()
+        self.muteButton.setTitle("Mute", for: .normal)
+    }
+    
+    private func updateParticipants() {
+        DispatchQueue.main.async {
+            let participants = getInfobipRTCInstance().getActiveApplicationCall()!.participants()
+            self.participantsTitleLabel.isHidden = participants.isEmpty
+            self.participantsTableView.isHidden = participants.isEmpty
+            self.participantsTitleLabel.text = "Participants (\(participants.count))"
+            self.participantsTableView.reloadData()
+        }
+    }
+    
+    private func updateRemoteVideos() {
+        DispatchQueue.main.async {
+            self.remoteVideosTitleLabel.isHidden = self.remoteVideoViews.isEmpty
+            self.remoteVideosCollectionView.isHidden = self.remoteVideoViews.isEmpty
+            self.remoteVideosCollectionView.reloadData()
+        }
+    }
+    
+    private func updateLocalVideos() {
+        DispatchQueue.main.async {
+            self.localVideosTitleLabel.isHidden = self.localVideoViews.isEmpty
+            self.localVideosCollectionView.isHidden = self.localVideoViews.isEmpty
+            self.localVideosCollectionView.reloadData()
+        }
+    }
+    
     func showErrorAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         self.present(alertController, animated: true, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2){
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
             alertController.dismiss(animated: true, completion: nil)
         }
     }
     
-    private func updateParticipantsLabel() {
-        if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
-            if (activeCall.participants().count > 0) {
-                self.participantsLabel.text = "Participants (\(activeCall.participants().count)): \(activeCall.participants().map {$0.endpoint.identifier() }.joined(separator: ", "))"
-            }
-        }
+    private func callCleanup() {
+        CallKitAdapter.shared.endCall()
+        self.muteButton.isHidden = true
+        self.videoButtonsStack.isHidden = true
+        self.hangupButton.isHidden = true
+        self.localVideoViews.removeAll()
+        self.updateLocalVideos()
+    }
+    
+    private func conferenceOrDialogCleanup() {
+        self.remoteVideoViews.removeAll()
+        self.updateRemoteVideos()
+        self.updateParticipants()
     }
     
     private func dismissCurrentView() {
@@ -151,167 +231,176 @@ class ApplicationCallController: UIViewController {
 
 extension ApplicationCallController: ApplicationCallEventListener {
     func onRinging(_ callRingingEvent: CallRingingEvent) {
-        self.statusLabel.text = "Ringing"
+        os_log("Ringing...")
+        self.callStatusLabel.text = "Ringing..."
     }
     
     func onEarlyMedia(_ callEarlyMediaEvent: CallEarlyMediaEvent) {
-        self.statusLabel.text = "Ringing"
+        os_log("Early media received.")
+        self.callStatusLabel.text = "Ringing..."
     }
     
     func onEstablished(_ callEstablishedEvent: CallEstablishedEvent) {
-        self.statusLabel.text = "Established"
-        
-        if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
-            self.videoButtonsStack.isHidden = self.callType == .application_call_audio
-            self.muteButton.isHidden = false
-            self.flipCameraButton.isHidden = !activeCall.hasCameraVideo()
-        }
+        os_log("Established")
+        self.showActiveCallLayout()
     }
     
     func onHangup(_ callHangupEvent: CallHangupEvent) {
-        self.callCleanup(callHangupEvent.errorCode.description)
+        os_log("Hangup: %@", callHangupEvent.errorCode.description)
+        self.callCleanup()
         self.dismissCurrentView()
     }
     
     func onError(_ errorEvent: ErrorEvent) {
+        os_log("Error: %@", errorEvent.errorCode.description)
         self.showErrorAlert(message: errorEvent.errorCode.description)
     }
     
     func onConferenceJoined(_ conferenceJoinedEvent: ConferenceJoinedEvent) {
-        let conferenceId = conferenceJoinedEvent.id
-        self.statusLabel.text = "Conference joined, conferenceId: \(conferenceId)"
-        self.updateParticipantsLabel()
+        os_log("Joined conference")
+        self.callStatusLabel.text = "Joined conference"
+        self.destinationLabel.text = conferenceJoinedEvent.id
+        self.updateParticipants()
     }
     
     func onConferenceLeft(_ conferenceLeftEvent: ConferenceLeftEvent) {
         let errorCode = conferenceLeftEvent.errorCode
-        self.statusLabel.text = "Conference left, errorCode: \(errorCode.name)"
-        self.callCleanupAfterLeavingConferenceOrDialog(errorCode.description)
+        os_log("Left conference: %@", errorCode.description)
+        self.callStatusLabel.text = "Left conference: \(errorCode.name)"
+        self.conferenceOrDialogCleanup()
     }
     
     func onDialogJoined(_ dialogJoinedEvent: DialogJoinedEvent) {
-        let dialogId = dialogJoinedEvent.id
-        self.statusLabel.text = "Dialog joined, dialogId: \(dialogId)"
-        self.updateParticipantsLabel()
+        os_log("Joined dialog")
+        self.callStatusLabel.text = "Joined dialog"
+        self.destinationLabel.text = dialogJoinedEvent.id
+        self.updateParticipants()
     }
     
     func onDialogLeft(_ dialogLeftEvent: DialogLeftEvent) {
         let errorCode = dialogLeftEvent.errorCode
-        self.statusLabel.text = "Dialog left, errorCode: \(errorCode.name)"
-        self.callCleanupAfterLeavingConferenceOrDialog(errorCode.description)
+        os_log("Left dialog: %@", errorCode.description)
+        self.callStatusLabel.text = "Left dialog: \(errorCode.name)"
+        self.conferenceOrDialogCleanup()
     }
     
     func onReconnecting(_ callReconnectingEvent: CallReconnectingEvent) {
         //disabled by default
-        self.statusLabel.text = "Reconnecting"
+        os_log("Reconnecting...")
+        self.callStatusLabel.text = "Reconnecting..."
     }
     
     func onReconnected(_ callReconnectedEvent: CallReconnectedEvent) {
         //disabled by default
-        self.statusLabel.text = "Reconnected"
+        os_log("Reconnected")
+        self.callStatusLabel.text = "In a call"
     }
     
     func onCameraVideoAdded(_ cameraVideoAddedEvent: CameraVideoAddedEvent) {
-        self.addVideo(self.identity!, "camera-video")
-        cameraVideoAddedEvent.track.addRenderer(self.videoViews["\(self.identity!)-camera-video"]!)
-        
+        os_log("Local camera video added")
+        self.localVideoViews.append(Video(identity: ApplicationCallController.LOCAL, type: ApplicationCallController.CAMERA, track: cameraVideoAddedEvent.track))
         self.flipCameraButton.isHidden = false
-        self.turnSpeakerphoneOn()
+        self.updateLocalVideos()
     }
     
     func onCameraVideoUpdated(_ cameraVideoUpdatedEvent: CameraVideoUpdatedEvent) {
-        cameraVideoUpdatedEvent.track.addRenderer(self.videoViews["\(self.identity!)-camera-video"]!)
+        os_log("Local camera video updated")
+        let video = self.localVideoViews.first { video in
+            return video.identity == ApplicationCallController.LOCAL && video.type == ApplicationCallController.CAMERA
+        }
+        video!.track = cameraVideoUpdatedEvent.track
+        self.localVideosCollectionView.reloadData()
     }
     
     func onCameraVideoRemoved() {
-        self.removeVideo(self.identity!, "camera-video")
+        os_log("Local camera video removed")
+        self.localVideoViews.removeAll { video in
+            video.identity.elementsEqual(ApplicationCallController.LOCAL) && video.type.elementsEqual(ApplicationCallController.CAMERA)
+        }
         self.flipCameraButton.isHidden = true
+        self.updateLocalVideos()
     }
     
     func onScreenShareAdded(_ screenShareAddedEvent: ScreenShareAddedEvent) {
-        self.addVideo(self.identity!, "screen-share")
-        screenShareAddedEvent.track.addRenderer(self.videoViews["\(self.identity!)-screen-share"]!)
-        self.turnSpeakerphoneOn()
+        os_log("Local screen share video added")
+        self.localVideoViews.append(Video(identity: ApplicationCallController.LOCAL, type: ApplicationCallController.SCREEN_SHARE, track: screenShareAddedEvent.track))
+        self.updateLocalVideos()
     }
     
     func onScreenShareRemoved(_ screenShareRemovedEvent: ScreenShareRemovedEvent) {
-        self.removeVideo(self.identity!, "screen-share")
+        os_log("Local screen share video removed")
+        self.localVideoViews.removeAll { video in
+            video.identity.elementsEqual(ApplicationCallController.LOCAL) && video.type.elementsEqual(ApplicationCallController.SCREEN_SHARE)
+        }
+        self.updateLocalVideos()
     }
     
     func onParticipantJoining(_ participantJoiningEvent: ParticipantJoiningEvent) {
-        self.statusLabel.text = "\(self.getIdentifier(participantJoiningEvent.participant)) is joining"
+        os_log("Participant %@ joining room", participantJoiningEvent.participant.endpoint.identifier())
+        self.updateParticipants()
     }
     
     func onParticipantJoined(_ participantJoinedEvent: ParticipantJoinedEvent) {
-        self.statusLabel.text = "\(self.getIdentifier(participantJoinedEvent.participant)) has joined"
-        self.updateParticipantsLabel()
+        os_log("Participant %@ joined room", participantJoinedEvent.participant.endpoint.identifier())
+        self.updateParticipants()
     }
     
     func onParticipantLeft(_ participantLeftEvent: ParticipantLeftEvent) {
-        self.statusLabel.text = "\(self.getIdentifier(participantLeftEvent.participant)) has left"
-        self.updateParticipantsLabel()
+        os_log("Participant %@ left room", participantLeftEvent.participant.endpoint.identifier())
+        self.updateParticipants()
     }
     
     func onParticipantCameraVideoAdded(_ participantCameraVideoAddedEvent: ParticipantCameraVideoAddedEvent) {
-        self.addVideo(self.getIdentifier(participantCameraVideoAddedEvent.participant), "camera-video")
-        participantCameraVideoAddedEvent.track.addRenderer(self.videoViews["\(self.getIdentifier(participantCameraVideoAddedEvent.participant))-camera-video"]!)
+        os_log("Participant %@ added camera video", participantCameraVideoAddedEvent.participant.endpoint.identifier())
+        self.remoteVideoViews.append(Video(identity: participantCameraVideoAddedEvent.participant.endpoint.identifier(), type: ApplicationCallController.CAMERA, track: participantCameraVideoAddedEvent.track))
+        self.updateRemoteVideos()
     }
     
     func onParticipantCameraVideoRemoved(_ participantCameraVideoRemovedEvent: ParticipantCameraVideoRemovedEvent) {
-        self.removeVideo(self.getIdentifier(participantCameraVideoRemovedEvent.participant), "camera-video")
+        os_log("Participant %@ removed camera video", participantCameraVideoRemovedEvent.participant.endpoint.identifier())
+        self.remoteVideoViews.removeAll { video in
+            video.identity.elementsEqual(participantCameraVideoRemovedEvent.participant.endpoint.identifier()) && video.type.elementsEqual(ApplicationCallController.CAMERA)
+        }
+        self.updateRemoteVideos()
     }
     
     func onParticipantScreenShareAdded(_ participantScreenShareAddedEvent: ParticipantScreenShareAddedEvent) {
-        self.addVideo(self.getIdentifier(participantScreenShareAddedEvent.participant), "screen-share")
-        participantScreenShareAddedEvent.track.addRenderer(self.videoViews["\(self.getIdentifier(participantScreenShareAddedEvent.participant))-screen-share"]!)
+        os_log("Participant %@ added screen share video", participantScreenShareAddedEvent.participant.endpoint.identifier())
+        self.remoteVideoViews.append(Video(identity: participantScreenShareAddedEvent.participant.endpoint.identifier(), type: ApplicationCallController.SCREEN_SHARE, track: participantScreenShareAddedEvent.track))
+        self.updateRemoteVideos()
     }
     
     func onParticipantScreenShareRemoved(_ participantScreenShareRemovedEvent: ParticipantScreenShareRemovedEvent) {
-        self.removeVideo(self.getIdentifier(participantScreenShareRemovedEvent.participant), "screen-share")
+        os_log("Participant %@ removed screen share video", participantScreenShareRemovedEvent.participant.endpoint.identifier())
+        self.remoteVideoViews.removeAll { video in
+            video.identity.elementsEqual(participantScreenShareRemovedEvent.participant.endpoint.identifier()) && video.type.elementsEqual(ApplicationCallController.SCREEN_SHARE)
+        }
+        self.updateRemoteVideos()
     }
     
     func onParticipantMuted(_ participantMutedEvent: ParticipantMutedEvent) {
-        self.statusLabel.text = "\(self.getIdentifier(participantMutedEvent.participant)) has been muted"
+        os_log("Participant %@ muted", participantMutedEvent.participant.endpoint.identifier())
+        self.participantsTableView.reloadData()
     }
     
     func onParticipantUnmuted(_ participantUnmutedEvent: ParticipantUnmutedEvent) {
-        self.statusLabel.text = "\(self.getIdentifier(participantUnmutedEvent.participant)) has been unmuted"
+        os_log("Participant %@ unmuted", participantUnmutedEvent.participant.endpoint.identifier())
+        self.participantsTableView.reloadData()
     }
     
     func onParticipantDeaf(_ participantDeafEvent: ParticipantDeafEvent) {
-        os_log("Participant %@ has been deafened", self.getIdentifier(participantDeafEvent.participant))
+        os_log("Participant %@ deafened", participantDeafEvent.participant.endpoint.identifier())
     }
     
     func onParticipantUndeaf(_ participantUndeafEvent: ParticipantUndeafEvent) {
-        os_log("Participant %@ has been undeafened", self.getIdentifier(participantUndeafEvent.participant))
+        os_log("Participant %@ undeafened", participantUndeafEvent.participant.endpoint.identifier())
     }
     
     func onParticipantStartedTalking(_ participantStartedTalkingEvent: ParticipantStartedTalkingEvent) {
-        os_log("Participant %@ started talking", self.getIdentifier(participantStartedTalkingEvent.participant))
+        os_log("Participant %@ started talking", participantStartedTalkingEvent.participant.endpoint.identifier())
     }
     
     func onParticipantStoppedTalking(_ participantStoppedTalkingEvent: ParticipantStoppedTalkingEvent) {
-        os_log("Participant %@ stopped talking", self.getIdentifier(participantStoppedTalkingEvent.participant))
-    }
-    
-    private func callCleanup(_ reason: String) {
-        CallKitAdapter.shared.endCall()
-        self.finalizeLocalVideosPreview()
-        self.videoButtonsStack.isHidden = true
-        self.muteButton.isHidden = true
-        self.hangupButton.isHidden = true
-        
-        os_log("Application call has ended: %@", reason)
-    }
-    
-    private func callCleanupAfterLeavingConferenceOrDialog(_ reason: String) {
-        self.finalizeRemoteVideosPreview()
-        self.participantsLabel.text = ""
-        
-        os_log("Application call has left a conference or dialog: %@", reason)
-    }
-    
-    private func getIdentifier(_ participant: Participant) -> String {
-        return participant.endpoint.identifier()
+        os_log("Participant %@ stopped talking", participantStoppedTalkingEvent.participant.endpoint.identifier())
     }
 }
