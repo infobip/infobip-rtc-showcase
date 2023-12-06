@@ -1139,6 +1139,12 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
                         callType,
                         incomingWebrtcCall.counterpart().identifier()
                     )
+                setLoginStatus(
+                    getString(
+                        R.string.logged_in_status,
+                        TokenService.getAccessToken().identity
+                    )
+                )
                 showIncomingCallLayout()
             }
         }
@@ -1219,7 +1225,6 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
     private fun resetLayout() {
         hideActiveCallLayout()
         hideIncomingCallLayout()
-        setLoginStatus(getString(R.string.logged_in_status, TokenService.getAccessToken().identity))
         setActiveTabLayout()
     }
 
