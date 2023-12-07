@@ -132,6 +132,13 @@ function listenForRoomCallEvents() {
         removeVideoElement(event.participant.endpoint.identifier, 'screenshare');
     });
 
+    activeRoomCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+        console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    activeRoomCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+        console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+
     activeRoomCall.on(CallsApiEvent.ERROR, function (event) {
         $('#status').html('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));

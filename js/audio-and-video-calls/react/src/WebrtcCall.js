@@ -143,6 +143,13 @@ class WebrtcCall extends Component {
             that.setState({status: 'Remote participant has been unmuted'});
             console.log('Remote participant has been unmuted');
         });
+
+        call.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+            console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+        });
+        call.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
+            console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
+        });
     }
 
     setMediaStream = (element, stream) => {

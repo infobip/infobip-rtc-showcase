@@ -1,12 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {
-  CallsApiEvent,
-  createInfobipRtc,
-  InfobipRTC,
-  InfobipRTCEvent,
-  PhoneCall,
-  PhoneCallOptions
-} from 'infobip-rtc';
+import {CallsApiEvent, createInfobipRtc, InfobipRTC, InfobipRTCEvent, PhoneCall, PhoneCallOptions} from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
 @Component({

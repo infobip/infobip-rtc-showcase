@@ -5,6 +5,7 @@ import {
   IncomingWebrtcCall,
   InfobipRTC,
   InfobipRTCEvent,
+  NetworkQuality,
   WebrtcCall,
   WebrtcCallOptions
 } from 'infobip-rtc';
@@ -159,6 +160,13 @@ export class WebrtcCallComponent implements OnInit {
     this.activeCall.on(CallsApiEvent.REMOTE_UNMUTED, () => {
       this.status = 'Remote participant has been unmuted';
       console.log('Remote participant has been unmuted');
+    });
+
+    this.activeCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+      console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    this.activeCall.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
+      console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
     });
   };
 

@@ -136,6 +136,13 @@ function listenForCallEvents() {
         $('#status').html('Remote participant has been unmuted');
         console.log('Remote participant has been unmuted');
     });
+
+    activeCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+        console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    activeCall.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
+        console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
 }
 
 function toggleScreenShare() {

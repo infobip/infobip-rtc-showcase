@@ -6,6 +6,7 @@ import {
   createInfobipRtc,
   InfobipRTC,
   InfobipRTCEvent,
+  NetworkQuality,
 } from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
@@ -173,8 +174,11 @@ export class CustomerComponent {
       this.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
     });
 
-    this.activeCall.on(CallsApiEvent.ERROR, event => {
-      console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+    this.activeCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+      console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    this.activeCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+      console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
     });
   };
 

@@ -125,6 +125,13 @@ function listenForApplicationCallEvents() {
         console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
         removeVideoElement(event.participant.endpoint.identifier, 'screenshare');
     });
+
+    activeCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+        console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    activeCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+        console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
+    });
 }
 
 function phoneCall() {

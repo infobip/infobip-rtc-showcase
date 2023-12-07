@@ -153,6 +153,13 @@ class RoomCall extends Component {
             that.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
         });
 
+        roomCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+            console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+        });
+        roomCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+            console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
+        });
+
         roomCall.on(CallsApiEvent.ERROR, event => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         });

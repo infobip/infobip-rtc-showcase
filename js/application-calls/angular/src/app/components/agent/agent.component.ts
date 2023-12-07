@@ -7,6 +7,7 @@ import {
   IncomingApplicationCall,
   InfobipRTC,
   InfobipRTCEvent,
+  NetworkQuality,
 } from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
@@ -180,6 +181,13 @@ export class AgentComponent {
       this.status = 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare';
       console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
       this.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
+    });
+
+    this.activeCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+      console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    this.activeCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+      console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
     });
   };
 

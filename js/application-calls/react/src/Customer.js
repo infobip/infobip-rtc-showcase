@@ -152,6 +152,13 @@ class Customer extends Component {
             console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
             that.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
         });
+
+        call.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+            console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+        });
+        call.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+            console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
+        });
     }
 
     videoCallWithAgent = () => {

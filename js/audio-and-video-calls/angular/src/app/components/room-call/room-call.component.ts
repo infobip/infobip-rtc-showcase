@@ -4,6 +4,7 @@ import {
   createInfobipRtc,
   InfobipRTC,
   InfobipRTCEvent,
+  NetworkQuality,
   RoomCall,
   RoomCallOptions
 } from 'infobip-rtc';
@@ -144,6 +145,13 @@ export class RoomCallComponent {
       this.status = 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare';
       console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
       this.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
+    });
+
+    this.activeRoomCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
+      console.log('Local network quality has changed: ' + NetworkQuality[event.networkQuality]);
+    });
+    this.activeRoomCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
+      console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
     });
 
     this.activeRoomCall.on(CallsApiEvent.ERROR, event => {
