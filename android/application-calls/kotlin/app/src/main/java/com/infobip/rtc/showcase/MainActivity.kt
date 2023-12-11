@@ -57,7 +57,11 @@ import com.infobip.webrtc.sdk.api.event.call.ReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ReconnectingEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
+import com.infobip.webrtc.sdk.api.event.network.NetworkQualityChangedEvent
+import com.infobip.webrtc.sdk.api.event.network.ParticipantNetworkQualityChangedEvent
 import com.infobip.webrtc.sdk.api.event.listener.ApplicationCallEventListener
+import com.infobip.webrtc.sdk.api.event.listener.NetworkQualityEventListener
+import com.infobip.webrtc.sdk.api.event.listener.ParticipantNetworkQualityEventListener
 import com.infobip.webrtc.sdk.api.model.CallStatus
 import com.infobip.webrtc.sdk.api.model.participant.Participant
 import com.infobip.webrtc.sdk.api.model.participant.ParticipantState
@@ -75,7 +79,7 @@ private const val CAPTURE_PERMISSION_REQUEST_CODE = 1
 private const val LOCAL_CAMERA_VIDEO_TAG = "local-camera"
 private const val LOCAL_SCREEN_SHARE_TAG = "local-screen-share"
 
-class MainActivity : Activity(), ApplicationCallEventListener {
+class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEventListener, ParticipantNetworkQualityEventListener {
     companion object {
         private val backgroundThreadExecutor = Executors.newSingleThreadExecutor()
     }
@@ -961,5 +965,18 @@ class MainActivity : Activity(), ApplicationCallEventListener {
         runOnUiThread {
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onNetworkQualityChanged(networkQualityChangedEvent: NetworkQualityChangedEvent?) {
+        val networkQuality = networkQualityChangedEvent?.networkQuality
+        val message = "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        Log.d(TAG, message)
+    }
+
+    override fun onParticipantNetworkQualityChanged(participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent?) {
+        val networkQuality = participantNetworkQualityChangedEvent?.networkQuality
+        val participant = participantNetworkQualityChangedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        Log.d(TAG, message)
     }
 }

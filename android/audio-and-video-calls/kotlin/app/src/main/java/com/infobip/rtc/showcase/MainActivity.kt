@@ -57,9 +57,15 @@ import com.infobip.webrtc.sdk.api.event.call.RoomRejoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.RoomRejoiningEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
+import com.infobip.webrtc.sdk.api.event.listener.NetworkQualityEventListener
+import com.infobip.webrtc.sdk.api.event.listener.ParticipantNetworkQualityEventListener
 import com.infobip.webrtc.sdk.api.event.listener.PhoneCallEventListener
+import com.infobip.webrtc.sdk.api.event.listener.RemoteNetworkQualityEventListener
 import com.infobip.webrtc.sdk.api.event.listener.RoomCallEventListener
 import com.infobip.webrtc.sdk.api.event.listener.WebrtcCallEventListener
+import com.infobip.webrtc.sdk.api.event.network.NetworkQualityChangedEvent
+import com.infobip.webrtc.sdk.api.event.network.ParticipantNetworkQualityChangedEvent
+import com.infobip.webrtc.sdk.api.event.network.RemoteNetworkQualityChangedEvent
 import com.infobip.webrtc.sdk.api.model.CallStatus
 import com.infobip.webrtc.sdk.api.model.participant.Participant
 import com.infobip.webrtc.sdk.api.model.participant.ParticipantState
@@ -90,7 +96,7 @@ private const val REMOTE_CAMERA_VIDEO_TAG = "remote-camera"
 private const val REMOTE_SCREEN_SHARE_TAG = "remote-screen-share"
 
 class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEventListener,
-    RoomCallEventListener {
+    RoomCallEventListener, NetworkQualityEventListener, RemoteNetworkQualityEventListener, ParticipantNetworkQualityEventListener {
     companion object {
         private val backgroundThreadExecutor = Executors.newSingleThreadExecutor()
     }
@@ -535,6 +541,25 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
             setCallStatus(R.string.joined_room)
         }
+    }
+
+    override fun onNetworkQualityChanged(networkQualityChangedEvent: NetworkQualityChangedEvent?) {
+        val networkQuality = networkQualityChangedEvent?.networkQuality
+        val message = "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        Log.d(TAG, message)
+    }
+
+    override fun onRemoteNetworkQualityChanged(remoteNetworkQualityChangedEvent: RemoteNetworkQualityChangedEvent?) {
+        val networkQuality = remoteNetworkQualityChangedEvent?.networkQuality
+        val message = "Remote network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        Log.d(TAG, message)
+    }
+
+    override fun onParticipantNetworkQualityChanged(participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent?) {
+        val networkQuality = participantNetworkQualityChangedEvent?.networkQuality
+        val participant = participantNetworkQualityChangedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        Log.d(TAG, message)
     }
 
     private fun addLocalVideo(tag: String, track: RTCVideoTrack) {
