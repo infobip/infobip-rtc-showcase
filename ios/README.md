@@ -4,6 +4,7 @@ The iOS Infobip RTC Showcase offers code samples demonstrating the implementatio
 
 - [audio and video calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/ios/audio-and-video-calls/swift),
 - [application calls](https://github.com/infobip/infobip-rtc-showcase/tree/master/ios/application-calls/swift).
+- [data channels](https://github.com/infobip/infobip-rtc-showcase/tree/master/ios/data-channels/swift).
 
 Code samples are available in Swift, utilizing the [Infobip RTC SDK](https://github.com/infobip/infobip-rtc-ios).
 

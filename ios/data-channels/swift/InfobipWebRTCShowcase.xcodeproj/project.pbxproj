@@ -1,0 +1,484 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4606C6052B26213F00752044 /* DataChannelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4606C6042B26213F00752044 /* DataChannelExtension.swift */; };
+		4606C6092B26219300752044 /* ParticipantPickerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4606C6082B26219300752044 /* ParticipantPickerExtension.swift */; };
+		4606C60B2B2628E200752044 /* DataChannelTextsTableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4606C60A2B2628E200752044 /* DataChannelTextsTableExtension.swift */; };
+		468A8E162B2210E000B4D658 /* DataChannelText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468A8E152B2210E000B4D658 /* DataChannelText.swift */; };
+		46D2210629788D19009584A6 /* RoomCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2210529788D19009584A6 /* RoomCallController.swift */; };
+		46EB78DB2B21EDAA00FE837B /* ActiveCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB78DA2B21EDAA00FE837B /* ActiveCallController.swift */; };
+		DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */; };
+		DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2178245B3DA900C85FAA /* Runtime.swift */; };
+		DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */; };
+		DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFEE24A234F75BF00263857 /* AppDelegate.swift */; };
+		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
+		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
+		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
+		DEFACE1DE347E056DFC95DEE /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.release.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.release.xcconfig"; sourceTree = "<group>"; };
+		4606C6042B26213F00752044 /* DataChannelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelExtension.swift; sourceTree = "<group>"; };
+		4606C6082B26219300752044 /* ParticipantPickerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantPickerExtension.swift; sourceTree = "<group>"; };
+		4606C60A2B2628E200752044 /* DataChannelTextsTableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelTextsTableExtension.swift; sourceTree = "<group>"; };
+		468A8E152B2210E000B4D658 /* DataChannelText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelText.swift; sourceTree = "<group>"; };
+		46D2210529788D19009584A6 /* RoomCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCallController.swift; sourceTree = "<group>"; };
+		46EB78DA2B21EDAA00FE837B /* ActiveCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveCallController.swift; sourceTree = "<group>"; };
+		6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.debug.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.debug.xcconfig"; sourceTree = "<group>"; };
+		DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitAdapter.swift; sourceTree = "<group>"; };
+		DD1C2178245B3DA900C85FAA /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
+		DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InfobipWebRTCShowcase.entitlements; sourceTree = "<group>"; };
+		DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenProvider.swift; sourceTree = "<group>"; };
+		DDFEE247234F75BF00263857 /* InfobipWebRTCShowcase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfobipWebRTCShowcase.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFEE24A234F75BF00263857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DDFEE251234F75BF00263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DDFEE258234F75C000263857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDFEE244234F75BF00263857 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEFACE1DE347E056DFC95DEE /* Pods_InfobipWebRTCShowcase.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4606C6032B26212100752044 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				4606C6042B26213F00752044 /* DataChannelExtension.swift */,
+				4606C6082B26219300752044 /* ParticipantPickerExtension.swift */,
+				4606C60A2B2628E200752044 /* DataChannelTextsTableExtension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		468A8E142B2210C700B4D658 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				468A8E152B2210E000B4D658 /* DataChannelText.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		46D2210229788B07009584A6 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				46D2210529788D19009584A6 /* RoomCallController.swift */,
+				46EB78DA2B21EDAA00FE837B /* ActiveCallController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		AC13DCD30FCB2CAA7E8F175C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */,
+				1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DDFEE23E234F75BF00263857 = {
+			isa = PBXGroup;
+			children = (
+				DDFEE249234F75BF00263857 /* InfobipWebRTCShowcase */,
+				DDFEE248234F75BF00263857 /* Products */,
+				AC13DCD30FCB2CAA7E8F175C /* Pods */,
+				F0723980C18AF3EDB82DECCB /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		DDFEE248234F75BF00263857 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDFEE247234F75BF00263857 /* InfobipWebRTCShowcase.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDFEE249234F75BF00263857 /* InfobipWebRTCShowcase */ = {
+			isa = PBXGroup;
+			children = (
+				4606C6032B26212100752044 /* extension */,
+				468A8E142B2210C700B4D658 /* model */,
+				46D2210229788B07009584A6 /* controller */,
+				DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */,
+				DDFEE24A234F75BF00263857 /* AppDelegate.swift */,
+				DDFEE250234F75BF00263857 /* Main.storyboard */,
+				DDFEE253234F75C000263857 /* Assets.xcassets */,
+				DDFEE255234F75C000263857 /* LaunchScreen.storyboard */,
+				DDFEE258234F75C000263857 /* Info.plist */,
+				DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */,
+				DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */,
+				DD1C2178245B3DA900C85FAA /* Runtime.swift */,
+			);
+			path = InfobipWebRTCShowcase;
+			sourceTree = "<group>";
+		};
+		F0723980C18AF3EDB82DECCB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DDFEE246234F75BF00263857 /* InfobipWebRTCShowcase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDFEE25B234F75C000263857 /* Build configuration list for PBXNativeTarget "InfobipWebRTCShowcase" */;
+			buildPhases = (
+				43F6456AB1817D2A76EC9563 /* [CP] Check Pods Manifest.lock */,
+				DDFEE243234F75BF00263857 /* Sources */,
+				DDFEE244234F75BF00263857 /* Frameworks */,
+				DDFEE245234F75BF00263857 /* Resources */,
+				FC3BA6347CC889FC0C9041D4 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InfobipWebRTCShowcase;
+			productName = InfobipWebRTCShowcase;
+			productReference = DDFEE247234F75BF00263857 /* InfobipWebRTCShowcase.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDFEE23F234F75BF00263857 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1500;
+				ORGANIZATIONNAME = Infobip;
+				TargetAttributes = {
+					DDFEE246234F75BF00263857 = {
+						CreatedOnToolsVersion = 11.0;
+					};
+				};
+			};
+			buildConfigurationList = DDFEE242234F75BF00263857 /* Build configuration list for PBXProject "InfobipWebRTCShowcase" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DDFEE23E234F75BF00263857;
+			productRefGroup = DDFEE248234F75BF00263857 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDFEE246234F75BF00263857 /* InfobipWebRTCShowcase */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDFEE245234F75BF00263857 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */,
+				DDFEE254234F75C000263857 /* Assets.xcassets in Resources */,
+				DDFEE252234F75BF00263857 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43F6456AB1817D2A76EC9563 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-InfobipWebRTCShowcase-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC3BA6347CC889FC0C9041D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDFEE243234F75BF00263857 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46D2210629788D19009584A6 /* RoomCallController.swift in Sources */,
+				DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */,
+				DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */,
+				4606C6092B26219300752044 /* ParticipantPickerExtension.swift in Sources */,
+				4606C6052B26213F00752044 /* DataChannelExtension.swift in Sources */,
+				46EB78DB2B21EDAA00FE837B /* ActiveCallController.swift in Sources */,
+				468A8E162B2210E000B4D658 /* DataChannelText.swift in Sources */,
+				DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */,
+				DDFEE24B234F75BF00263857 /* AppDelegate.swift in Sources */,
+				4606C60B2B2628E200752044 /* DataChannelTextsTableExtension.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DDFEE250234F75BF00263857 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDFEE251234F75BF00263857 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DDFEE255234F75C000263857 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDFEE256234F75C000263857 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DDFEE259234F75C000263857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DDFEE25A234F75C000263857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DDFEE25C234F75C000263857 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = T6U248P7YM;
+				ENABLE_BITCODE = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = InfobipWebRTCShowcase/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.infobip.InfobipWebRTCShowcase;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DDFEE25D234F75C000263857 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = T6U248P7YM;
+				ENABLE_BITCODE = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = InfobipWebRTCShowcase/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.infobip.InfobipWebRTCShowcase;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDFEE242234F75BF00263857 /* Build configuration list for PBXProject "InfobipWebRTCShowcase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFEE259234F75C000263857 /* Debug */,
+				DDFEE25A234F75C000263857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDFEE25B234F75C000263857 /* Build configuration list for PBXNativeTarget "InfobipWebRTCShowcase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDFEE25C234F75C000263857 /* Debug */,
+				DDFEE25D234F75C000263857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDFEE23F234F75BF00263857 /* Project object */;
+}
