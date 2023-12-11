@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Infobip RTC Data Channels Showcase</string>
+    <string name="logged_in_as">Logged in as %1$s</string>
+    <string name="connection_error">Connection error: %1$s %2$s</string>
+    <string name="leave">Leave</string>
+    <string name="destination_room_name">Type room name…</string>
+    <string name="join_button_text">Join</string>
+    <string name="type_message">Type a message…</string>
+    <string name="send_text">Send</string>
+    <string name="primary_text">Primary text</string>
+    <string name="secondary_text">Secondary text</string>
+    <string name="to">To…</string>
+</resources>
