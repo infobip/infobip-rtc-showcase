@@ -229,7 +229,7 @@ class ApplicationCallController: UIViewController {
     }
 }
 
-extension ApplicationCallController: ApplicationCallEventListener {
+extension ApplicationCallController: ApplicationCallEventListener, NetworkQualityEventListener, ParticipantNetworkQualityEventListener {
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         os_log("Ringing...")
         self.callStatusLabel.text = "Ringing..."
@@ -402,5 +402,15 @@ extension ApplicationCallController: ApplicationCallEventListener {
     
     func onParticipantStoppedTalking(_ participantStoppedTalkingEvent: ParticipantStoppedTalkingEvent) {
         os_log("Participant %@ stopped talking", participantStoppedTalkingEvent.participant.endpoint.identifier())
+    }
+    
+    func onNetworkQualityChanged(_ networkQualityChangedEvent: NetworkQualityChangedEvent) {
+        let networkQuality = networkQualityChangedEvent.networkQuality
+        os_log("Local network quality changed to %@ (%@)", networkQuality.getName(), networkQuality.getScore())
+    }
+    
+    func onParticipantNetworkQualityChanged(_ participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent) {
+        let networkQuality = participantNetworkQualityChangedEvent.networkQuality
+        os_log("Participant %@ network quality changed to %@ (%@)", participantNetworkQualityChangedEvent.participant.endpoint.identifier(), networkQuality.getName(), networkQuality.getScore())
     }
 }

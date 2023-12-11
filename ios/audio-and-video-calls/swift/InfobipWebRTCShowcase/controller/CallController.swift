@@ -316,7 +316,7 @@ class CallController: UIViewController {
     }
 }
 
-extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomCallEventListener {
+extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomCallEventListener, NetworkQualityEventListener, RemoteNetworkQualityEventListener, ParticipantNetworkQualityEventListener {
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         os_log("Ringing...")
         self.callStatusLabel.text = "Ringing..."
@@ -508,5 +508,20 @@ extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomC
     func onRoomRejoined(_ roomRejoinedEvent: RoomRejoinedEvent) {
         os_log("Rejoined room")
         self.callStatusLabel.text = "Joined room"
+    }
+    
+    func onNetworkQualityChanged(_ networkQualityChangedEvent: NetworkQualityChangedEvent) {
+        let networkQuality = networkQualityChangedEvent.networkQuality
+        os_log("Local network quality changed to %@ (%@)", networkQuality.getName(), networkQuality.getScore())
+    }
+    
+    func onRemoteNetworkQualityChanged(_ remoteNetworkQualityChangedEvent: RemoteNetworkQualityChangedEvent) {
+        let networkQuality = remoteNetworkQualityChangedEvent.networkQuality
+        os_log("Remote network quality changed to %@ (%@)", networkQuality.getName(), networkQuality.getScore())
+    }
+    
+    func onParticipantNetworkQualityChanged(_ participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent) {
+        let networkQuality = participantNetworkQualityChangedEvent.networkQuality
+        os_log("Participant %@ network quality changed to %@ (%@)", participantNetworkQualityChangedEvent.participant.endpoint.identifier(), networkQuality.getName(), networkQuality.getScore())
     }
 }
