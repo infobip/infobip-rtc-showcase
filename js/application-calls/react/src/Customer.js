@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {ApplicationCallOptions, CallsApiEvent, createInfobipRtc, InfobipRTCEvent} from "infobip-rtc";
+import {ApplicationCallOptions, CallsApiEvent, createInfobipRtc, InfobipRTCEvent, NetworkQuality} from "infobip-rtc";
 import httpClient from "axios";
 import config from "./config.json";
 
