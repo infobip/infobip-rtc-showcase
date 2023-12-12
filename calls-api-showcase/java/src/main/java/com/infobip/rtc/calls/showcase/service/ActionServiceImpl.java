@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -59,7 +60,7 @@ public class ActionServiceImpl implements ActionService {
 
     @Override
     public void connectWithNewCall(String callId, String identity) {
-        var request = new HttpEntity<>(connectWithNewCallRequest(identity), httpHeaders);
+        var request = new HttpEntity<>(connectWithNewCallRequest(identity, callId), httpHeaders);
         restTemplate.postForLocation(String.format("%s/calls/1/calls/%s/connect", baseUrl, callId), request);
     }
 
@@ -86,13 +87,14 @@ public class ActionServiceImpl implements ActionService {
                 .build();
     }
 
-    private ConnectWithNewCallRequest connectWithNewCallRequest(String identity) {
+    private ConnectWithNewCallRequest connectWithNewCallRequest(String identity, String callId) {
         return ConnectWithNewCallRequest.builder()
                 .callRequest(CallRequest.builder()
                         .endpoint(WebrtcEndpoint.builder()
                                 .identity(identity)
                                 .build())
                         .from(FROM)
+                        .customData(Map.of("parentCallId", callId))
                         .build())
                 .connectOnEarlyMedia(true)
                 .conferenceRequest(ConferenceRequest.builder()

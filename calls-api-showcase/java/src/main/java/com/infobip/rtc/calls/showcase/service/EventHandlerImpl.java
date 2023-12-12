@@ -44,14 +44,20 @@ public class EventHandlerImpl implements EventHandler {
     public void handleCallFailedEvent(CallFailedEvent callFailedEvent) {
         log.info("Handling call failed event: {}", callFailedEvent);
         getConferenceId(callFailedEvent.getProperties())
-                .ifPresent(actionService::hangupConference);
+                .ifPresentOrElse(actionService::hangupConference,
+                        () -> getCallId(callFailedEvent.getProperties())
+                                .ifPresent(actionService::hangupCall)
+                );
     }
 
     @Override
     public void handleCallFinishedEvent(CallFinishedEvent callFinishedEvent) {
         log.info("Handling call finished event: {}", callFinishedEvent);
         getConferenceId(callFinishedEvent.getProperties())
-                .ifPresent(actionService::hangupConference);
+                .ifPresentOrElse(actionService::hangupConference,
+                        () -> getCallId(callFinishedEvent.getProperties())
+                                .ifPresent(actionService::hangupCall)
+                );
     }
 
     private void handleSayFinishedWithScenario(String scenario, String callId) {
@@ -92,6 +98,13 @@ public class EventHandlerImpl implements EventHandler {
                 .map(Properties::getCallLog)
                 .map(CallLog::getConferenceIds)
                 .map(conferenceIds -> !conferenceIds.isEmpty() ? conferenceIds.get(0) : null);
+    }
+
+    private Optional<String> getCallId(@Nullable Properties properties) {
+        return Optional.ofNullable(properties)
+                .map(Properties::getCallLog)
+                .map(CallLog::getCustomData)
+                .map(customData -> customData.get("parentCallId"));
     }
 
     private Optional<String> getDirection(@Nullable CallEstablishedProperties properties) {

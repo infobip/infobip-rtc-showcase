@@ -81,6 +81,9 @@ app.post('/event', async (req, res) => {
             const conferenceId = conferenceIds[0];
             console.log('Hanging up, conferenceId: ' + conferenceId);
             await hangupConference(conferenceId);
+        } else {
+            const parentCallId = req.body.properties.callLog.customData.parentCallId;
+            await hangupCall(parentCallId);
         }
         res.sendStatus(200);
     } else if (type === 'CALL_FAILED') {
@@ -91,6 +94,9 @@ app.post('/event', async (req, res) => {
             const conferenceId = conferenceIds[0];
             console.log('Hanging up, conferenceId: ' + conferenceId);
             await hangupConference(conferenceId);
+        } else {
+            const parentCallId = req.body.properties.callLog.customData.parentCallId;
+            await hangupCall(parentCallId);
         }
         res.sendStatus(200);
     } else {
@@ -147,7 +153,10 @@ async function connectWithNewCall(callId, identity) {
                 type: 'WEBRTC',
                 identity: identity
             },
-            from: 'Customer'
+            from: 'Customer',
+            customData: {
+                'parentCallId': callId
+            }
         },
         connectOnEarlyMedia: true,
         conferenceRequest: {
