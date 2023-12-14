@@ -149,27 +149,32 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="qqy-eg-iCo" userLabel="Call Buttons Stack">
                                 <rect key="frame" x="207" y="862" width="0.0" height="0.0"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qra-69-B7B">
-                                        <rect key="frame" x="0.0" y="0.0" width="63" height="0.0"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Mute"/>
-                                        <connections>
-                                            <action selector="mute:" destination="5dN-uu-TrF" eventType="touchUpInside" id="BqU-Gw-SE0"/>
-                                        </connections>
-                                    </button>
-                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xq8-h0-dwW" userLabel="Video Buttons Stack">
-                                        <rect key="frame" x="-149" y="0.0" width="361" height="0.0"/>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fg2-N2-tdI" userLabel="Audio Buttons Stack">
+                                        <rect key="frame" x="88" y="0.0" width="185.5" height="0.0"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f16-Q3-WwQ">
-                                                <rect key="frame" x="0.0" y="0.0" width="136.5" height="0.0"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qra-69-B7B">
+                                                <rect key="frame" x="0.0" y="0.0" width="63" height="0.0"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Toggle camera"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Mute"/>
                                                 <connections>
-                                                    <action selector="toggleCameraVideo:" destination="5dN-uu-TrF" eventType="touchUpInside" id="HD3-ha-d6q"/>
+                                                    <action selector="mute:" destination="5dN-uu-TrF" eventType="touchUpInside" id="BqU-Gw-SE0"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFO-xD-yh0" userLabel="Audio Quality Button">
+                                                <rect key="frame" x="63" y="0.0" width="122.5" height="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Audio quality"/>
+                                                <connections>
+                                                    <action selector="openAudioQualityModeAlert:" destination="5dN-uu-TrF" eventType="touchUpInside" id="3lG-mv-Yrr"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WNa-Yq-5hV" userLabel="Video Buttons Stack">
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
+                                        <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VvR-MM-6WU">
-                                                <rect key="frame" x="136.5" y="0.0" width="173.5" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="173.5" height="0.0"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Toggle screenshare"/>
                                                 <connections>
@@ -177,17 +182,25 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E3p-HT-GT0">
-                                                <rect key="frame" x="310" y="0.0" width="51" height="0.0"/>
+                                                <rect key="frame" x="173.5" y="0.0" width="51" height="0.0"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Flip"/>
                                                 <connections>
                                                     <action selector="flipCamera:" destination="5dN-uu-TrF" eventType="touchUpInside" id="poU-GU-rLh"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f16-Q3-WwQ">
+                                                <rect key="frame" x="224.5" y="0.0" width="136.5" height="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Toggle camera"/>
+                                                <connections>
+                                                    <action selector="toggleCameraVideo:" destination="5dN-uu-TrF" eventType="touchUpInside" id="HD3-ha-d6q"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUc-Yd-GyT">
-                                        <rect key="frame" x="-10.5" y="0.0" width="84" height="0.0"/>
+                                        <rect key="frame" x="138.5" y="0.0" width="84" height="0.0"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Hangup"/>
                                         <connections>
@@ -393,6 +406,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="audioButtonsStack" destination="Fg2-N2-tdI" id="ALi-Kd-VQC"/>
                         <outlet property="callStatusLabel" destination="LLj-Mc-nQC" id="4ei-fG-hEK"/>
                         <outlet property="destinationLabel" destination="E1N-KQ-zWw" id="Bn8-iu-Rjf"/>
                         <outlet property="flipCameraButton" destination="E3p-HT-GT0" id="dJX-ry-vaE"/>
@@ -406,7 +420,7 @@
                         <outlet property="remoteVideosTitleLabel" destination="QAu-vz-EcM" id="zde-a5-F2J"/>
                         <outlet property="toggleCameraButton" destination="f16-Q3-WwQ" id="vtM-bO-eqU"/>
                         <outlet property="toggleScreenShareButton" destination="VvR-MM-6WU" id="KKX-ep-npL"/>
-                        <outlet property="videoButtonsStack" destination="xq8-h0-dwW" id="zem-jC-uRe"/>
+                        <outlet property="videoButtonsStack" destination="WNa-Yq-5hV" id="ieB-TT-mOW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Le5-cl-f85" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

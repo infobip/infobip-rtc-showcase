@@ -7,6 +7,12 @@ class ApplicationCallController: UIViewController {
     private static var SCREEN_SHARE = "screen-share"
     private static var LOCAL = "local"
     
+    private static var AUDIO_QUALITY_MODES: [AudioQualityMode:String] = [
+        .auto: "Auto",
+        .highQuality: "High Quality",
+        .lowData: "Low Data"
+    ]
+    
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var destinationLabel: UILabel!
     
@@ -20,6 +26,7 @@ class ApplicationCallController: UIViewController {
     @IBOutlet weak var localVideosCollectionView: UICollectionView!
     
     @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var audioButtonsStack: UIStackView!
     @IBOutlet weak var videoButtonsStack: UIStackView!
     @IBOutlet weak var toggleCameraVideoButton: UIButton!
     @IBOutlet weak var toggleScreenShareButton: UIButton!
@@ -145,12 +152,34 @@ class ApplicationCallController: UIViewController {
         }
     }
     
+    @IBAction func openAudioQualityModeAlert(_ sender: UIButton) {
+        let title = "Audio Quality Mode"
+        let message = "Select your preferred mode"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        for audioQualityMode in ApplicationCallController.AUDIO_QUALITY_MODES {
+            alert.addAction(UIAlertAction(title: audioQualityMode.value, style: .default) {_ in
+                if let mode = AudioQualityMode(rawValue: audioQualityMode.key.rawValue) {
+                    self.changeAudioQualityMode(mode)
+                }
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+
+        self.present(alert, animated: true)
+    }
+        
+    func changeAudioQualityMode(_ mode: AudioQualityMode) {
+        if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
+            activeCall.audioQualityMode(mode)
+        }
+    }
+    
     private func showOutgoingCallLayout() {
         self.callStatusLabel.text = "Calling..."
         self.destinationLabel.text = Config.applicationId
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = false
-        self.muteButton.isHidden = true
+        self.audioButtonsStack.isHidden = true
         self.videoButtonsStack.isHidden = true
     }
     
@@ -159,13 +188,13 @@ class ApplicationCallController: UIViewController {
         self.destinationLabel.text = Config.applicationId
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = true
-        self.muteButton.isHidden = true
+        self.audioButtonsStack.isHidden = true
         self.videoButtonsStack.isHidden = true
     }
     
     private func showActiveCallLayout() {
         self.callStatusLabel.text = "In a call"
-        self.muteButton.isHidden = false
+        self.audioButtonsStack.isHidden = false
         self.hangupButton.isHidden = false
         self.videoButtonsStack.isHidden = self.callType != .application_call_video
         let activeApplicationCall = getInfobipRTCInstance().getActiveApplicationCall()!
@@ -209,7 +238,7 @@ class ApplicationCallController: UIViewController {
     
     private func callCleanup() {
         CallKitAdapter.shared.endCall()
-        self.muteButton.isHidden = true
+        self.audioButtonsStack.isHidden = true
         self.videoButtonsStack.isHidden = true
         self.hangupButton.isHidden = true
         self.localVideoViews.removeAll()

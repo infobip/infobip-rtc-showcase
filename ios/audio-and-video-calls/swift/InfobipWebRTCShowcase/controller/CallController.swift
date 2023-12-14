@@ -8,6 +8,12 @@ class CallController: UIViewController {
     private static var LOCAL = "local"
     private static var REMOTE = "remote"
     
+    private static var AUDIO_QUALITY_MODES: [AudioQualityMode:String] = [
+        .auto: "Auto",
+        .highQuality: "High Quality",
+        .lowData: "Low Data"
+    ]
+    
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var destinationLabel: UILabel!
     
@@ -21,6 +27,7 @@ class CallController: UIViewController {
     @IBOutlet weak var localVideosCollectionView: UICollectionView!
     
     @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var audioButtonsStack: UIStackView!
     @IBOutlet weak var videoButtonsStack: UIStackView!
     @IBOutlet weak var toggleCameraButton: UIButton!
     @IBOutlet weak var toggleScreenShareButton: UIButton!
@@ -211,6 +218,32 @@ class CallController: UIViewController {
         }
     }
     
+    @IBAction func openAudioQualityModeAlert(_ sender: UIButton) {
+        let title = "Audio Quality Mode"
+        let message = "Select your preferred mode"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        for audioQualityMode in CallController.AUDIO_QUALITY_MODES {
+            alert.addAction(UIAlertAction(title: audioQualityMode.value, style: .default) {_ in
+                if let mode = AudioQualityMode(rawValue: audioQualityMode.key.rawValue) {
+                    self.changeAudioQualityMode(mode)
+                }
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+
+        self.present(alert, animated: true)
+    }
+    
+    func changeAudioQualityMode(_ mode: AudioQualityMode) {
+        if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {
+            activeRoomCall.audioQualityMode(mode)
+        }
+        
+        if let activeCall = getInfobipRTCInstance().getActiveCall() {
+            activeCall.audioQualityMode(mode)
+        }
+    }
+    
     private func showOutgoingCallLayout() {
         self.callStatusLabel.text = "Calling..."
         if getInfobipRTCInstance().getActiveRoomCall() != nil {
@@ -220,7 +253,7 @@ class CallController: UIViewController {
         self.destinationLabel.text = self.destination
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = false
-        self.muteButton.isHidden = true
+        self.audioButtonsStack.isHidden = true
         self.videoButtonsStack.isHidden = true
     }
     
@@ -229,12 +262,12 @@ class CallController: UIViewController {
         self.destinationLabel.text = self.destination
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = true
-        self.muteButton.isHidden = true
+        self.audioButtonsStack.isHidden = true
         self.videoButtonsStack.isHidden = true
     }
     
     private func showActiveCallLayout() {
-        self.muteButton.isHidden = false
+        self.audioButtonsStack.isHidden = false
         self.videoButtonsStack.isHidden = true
         self.hangupButton.isHidden = false
         if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {

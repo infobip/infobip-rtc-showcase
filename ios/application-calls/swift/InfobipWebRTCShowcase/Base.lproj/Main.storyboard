@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -144,18 +144,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="f7o-k3-x3P" userLabel="Call Buttons Stack">
-                                <rect key="frame" x="207" y="862" width="0.0" height="0.0"/>
+                                <rect key="frame" x="114.5" y="827.5" width="185.5" height="34.5"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTN-Gk-5Sd">
-                                        <rect key="frame" x="0.0" y="0.0" width="63" height="0.0"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Mute"/>
-                                        <connections>
-                                            <action selector="mute:" destination="JfR-5s-ZIw" eventType="touchUpInside" id="XeH-Fq-MHb"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ued-aA-jL9" userLabel="Audio Buttons Stack">
+                                        <rect key="frame" x="0.0" y="0.0" width="185.5" height="34.5"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTN-Gk-5Sd">
+                                                <rect key="frame" x="0.0" y="0.0" width="63" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Mute"/>
+                                                <connections>
+                                                    <action selector="mute:" destination="JfR-5s-ZIw" eventType="touchUpInside" id="XeH-Fq-MHb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fp-z5-IEq" userLabel="Audio Quality Button">
+                                                <rect key="frame" x="63" y="0.0" width="122.5" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Audio quality"/>
+                                                <connections>
+                                                    <action selector="openAudioQualityModeAlert:" destination="JfR-5s-ZIw" eventType="touchUpInside" id="Vjw-C3-BQT"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o3A-IE-ucy" userLabel="Video Buttons Stack">
-                                        <rect key="frame" x="-149" y="0.0" width="361" height="0.0"/>
+                                        <rect key="frame" x="-88" y="34.5" width="361" height="0.0"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZ2-B7-jxs">
                                                 <rect key="frame" x="0.0" y="0.0" width="136.5" height="0.0"/>
@@ -184,7 +197,7 @@
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMt-Gh-Xak">
-                                        <rect key="frame" x="-10.5" y="0.0" width="84" height="0.0"/>
+                                        <rect key="frame" x="50.5" y="34.5" width="84" height="0.0"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Hangup"/>
                                         <connections>
@@ -390,6 +403,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="audioButtonsStack" destination="ued-aA-jL9" id="7Td-eb-mvP"/>
                         <outlet property="callStatusLabel" destination="cFp-i9-qRv" id="akR-lt-gmz"/>
                         <outlet property="destinationLabel" destination="Yfc-ut-HTA" id="WLt-O2-X9v"/>
                         <outlet property="flipCameraButton" destination="Aie-K9-yvO" id="Y4e-c6-E1s"/>
