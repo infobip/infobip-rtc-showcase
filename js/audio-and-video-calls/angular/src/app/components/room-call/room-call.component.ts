@@ -28,6 +28,8 @@ export class RoomCallComponent {
   participants = [];
   status = '';
   remoteVideos = [];
+  audioInputDevices: MediaDeviceInfo[] = [];
+  selectedAudioInputDevice: string;
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -47,8 +49,16 @@ export class RoomCallComponent {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
+        this.loadAudioDevices();
       })
   };
+
+  loadAudioDevices = () => {
+    this.infobipRTC.getAudioInputDevices().then(inputDevices => {
+      this.audioInputDevices = inputDevices;
+      this.selectedAudioInputDevice = inputDevices[0].deviceId
+    });
+  }
 
   listenForRoomCallEvents = () => {
     this.activeRoomCall.on(CallsApiEvent.ROOM_JOINED, event => {
@@ -230,5 +240,11 @@ export class RoomCallComponent {
 
   shouldShowRemoteVideos = () => {
     return this.activeRoomCall && this.remoteVideos.length > 0
+  }
+
+  onAudioInputDeviceChange = async () => {
+    if (this.activeRoomCall != null) {
+      await this.activeRoomCall.setAudioInputDevice(this.selectedAudioInputDevice);
+    }
   }
 }

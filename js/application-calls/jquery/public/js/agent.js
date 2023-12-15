@@ -4,6 +4,7 @@ $(document).ready(function () {
         .then(identity => {
             listenForIncomingApplicationCall();
             $('#identity').html(identity);
+            appendAudioInputDeviceOptions();
         })
 });
 
@@ -23,6 +24,7 @@ function listenForIncomingApplicationCall() {
 
         $('#incoming-call-actions').prop('hidden', false);
         $('#status').html('Incoming ' + (incomingApplicationCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingApplicationCall.from());
+        $('#audio-input-device-settings').prop('hidden', false);
 
         listenForApplicationCallEvents();
    });
@@ -180,6 +182,7 @@ function setValuesAfterCall() {
     $('#status').html('');
     $('#incoming-call-actions').prop('hidden', true);
     $('#call-actions').prop('hidden', true);
+    $('#audio-input-device-settings').prop('hidden', true);
 }
 
 function setMediaStream(element, stream) {

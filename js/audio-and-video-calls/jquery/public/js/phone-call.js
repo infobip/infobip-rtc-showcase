@@ -3,6 +3,7 @@ $(document).ready(function () {
     connectInfobipRTC()
         .then(identity => {
             $('#identity').html(identity);
+            appendAudioInputDeviceOptions();
         })
 });
 
@@ -17,6 +18,7 @@ function callPhone() {
         .build();
     activeCall = infobipRTC.callPhone(getDestination(), phoneCallOptions);
     listenForCallEvents();
+    $('#audio-input-device-settings').prop('hidden', false);
 }
 
 function listenForCallEvents() {
@@ -54,6 +56,7 @@ function hangup() {
     $('#status').html('');
     $('#hangup-btn').prop('disabled', true);
     $('#call-btn').prop('disabled', false);
+    $('#audio-input-device-settings').prop('hidden', true);
     setMediaStream($('#remote-audio')[0], null);
 }
 

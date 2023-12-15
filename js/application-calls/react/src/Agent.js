@@ -13,7 +13,8 @@ class Agent extends Component {
             status: '',
             isIncomingCall: false,
             isCallEstablished: false,
-            participants: []
+            participants: [],
+            audioInputDevices: []
         };
 
         this.connectInfobipRTC();
@@ -35,6 +36,7 @@ class Agent extends Component {
                     });
                     state.infobipRTC.connect();
                     this.listenForIncomingApplicationCall();
+                    this.loadAudioDevices();
                     return state;
                 });
             })
@@ -57,6 +59,10 @@ class Agent extends Component {
 
             that.setApplicationCallEventHandlers(incomingCall);
         });
+    }
+
+    loadAudioDevices = () => {
+        this.state.infobipRTC.getAudioInputDevices().then(inputDevices => this.setState({audioInputDevices: inputDevices}))
     }
 
     setApplicationCallEventHandlers = (call) => {
@@ -255,8 +261,24 @@ class Agent extends Component {
         return this.state.isCallEstablished;
     }
 
+    onAudioInputDeviceChange = async (event) => {
+        const deviceId = event.target.value;
+        const {activeCall} = this.state;
+        if (!!activeCall) {
+            await activeCall.setAudioInputDevice(deviceId);
+        }
+    }
+
     render = () => {
-        let remoteVideos = this.state.participants.reduce((remoteVideos, participant) => [
+        const {
+            participants,
+            identity,
+            status,
+            activeCall,
+            audioInputDevices
+        } = this.state;
+
+        let remoteVideos = participants.reduce((remoteVideos, participant) => [
             ...[
                 {participant, video: participant.camera},
                 {participant, video: participant.screenShare}
@@ -266,7 +288,7 @@ class Agent extends Component {
 
         return (
             <div>
-                <h4>Logged-in as: <span>{this.state.identity}</span></h4>
+                <h4>Logged-in as: <span>{identity}</span></h4>
 
                 <audio ref="remoteAudio" autoPlay/>
 
@@ -285,10 +307,21 @@ class Agent extends Component {
                     <br/><br/>
                 </div>
 
-                <h4><span>{this.state.status}</span></h4>
+                {!!activeCall &&
+                    <>
+                        <label htmlFor={"audio-input-device-select"}>Choose audio input device:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
+                            {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+                    </>
+                }
+
+                <h4><span>{status}</span></h4>
                 <br/><br/>
 
-                <div hidden={this.state.activeCall && remoteVideos.length > 0 ? '' : 'hidden'}>
+                <div hidden={activeCall && remoteVideos.length > 0 ? '' : 'hidden'}>
                     <h3>Remote videos/screenshares</h3>
                     {remoteVideos.map(({video}) => {
                         return (

@@ -24,6 +24,14 @@
   <button [disabled]="!activeRoomCall" (click)="toggleScreenShare()">Toggle Screen Share</button>
   <br/><br/>
 
+  <ng-container *ngIf="!!activeRoomCall">
+    <label for="audio-input-device-select">Choose audio input device:</label>
+    <select id="audio-input-device-select" [(ngModel)]="selectedAudioInputDevice" (change)="onAudioInputDeviceChange()">
+      <option *ngFor="let device of audioInputDevices" [value]="device.deviceId">{{device.label || device.deviceId}}</option>
+    </select>
+    <br/><br/>
+  </ng-container>
+
   <h4><span>{{status}}</span></h4>
   <br/><br/>
 

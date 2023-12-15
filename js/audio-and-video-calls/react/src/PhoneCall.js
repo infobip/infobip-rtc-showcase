@@ -12,7 +12,8 @@ class PhoneCall extends Component {
             infobipRTC: null,
             activeCall: null,
             identity: '',
-            status: ''
+            status: '',
+            audioInputDevices: [],
         };
 
         this.connectInfobipRTC();
@@ -33,6 +34,7 @@ class PhoneCall extends Component {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
+                    this.loadAudioDevices();
                     return state;
                 });
             })
@@ -40,6 +42,10 @@ class PhoneCall extends Component {
                 console.error(err);
             });
     };
+
+    loadAudioDevices = () => {
+        this.state.infobipRTC.getAudioInputDevices().then(inputDevices => this.setState({audioInputDevices: inputDevices}));
+    }
 
     setCallEventHandlers = (call) => {
         let that = this;
@@ -98,26 +104,54 @@ class PhoneCall extends Component {
         });
     }
 
+    onAudioInputDeviceChange = async (event) => {
+        const deviceId = event.target.value;
+        const {activeCall} = this.state;
+        if (!!activeCall) {
+            await activeCall.setAudioInputDevice(deviceId);
+        }
+    }
+
     render = () => {
+        const {
+            title,
+            identity,
+            destination,
+            activeCall,
+            status,
+            audioInputDevices,
+        } = this.state;
+
         return (
             <div>
-                <h2><span>{this.state.title}</span></h2>
-                <h4>Logged as: <span>{this.state.identity}</span></h4>
+                <h2><span>{title}</span></h2>
+                <h4>Logged as: <span>{identity}</span></h4>
 
                 <audio ref="remoteAudio" autoPlay/>
 
-                <input type="text" value={this.state.destination} onChange={this.handleChange}
+                <input type="text" value={destination} onChange={this.handleChange}
                        placeholder="Enter phone number to call..."/>
                 <br/> <br/>
 
-                <button disabled={this.state.activeCall} onClick={() => this.callPhone()}>Call</button>
+                <button disabled={activeCall} onClick={() => this.callPhone()}>Call</button>
 
-                <h4><span>{this.state.status}</span></h4>
+                <h4><span>{status}</span></h4>
 
                 <button disabled={this.shouldDisableHangupButton()}
                         onClick={this.hangup}>Hangup
                 </button>
                 <br/><br/>
+
+                {!!activeCall &&
+                    <>
+                        <label htmlFor={"audio-input-device-select"}>Choose audio input device:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
+                            {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+                    </>
+                }
             </div>
         )
     }

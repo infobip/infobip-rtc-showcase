@@ -31,6 +31,9 @@ export class AgentComponent {
   participants = [];
   remoteVideos = [];
 
+  audioInputDevices: MediaDeviceInfo[] = [];
+  selectedAudioInputDevice: string;
+
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
   }
@@ -50,6 +53,7 @@ export class AgentComponent {
         });
         this.infobipRTC.connect();
         this.listenForIncomingApplicationCall();
+        this.loadAudioDevices()
       })
   };
 
@@ -66,6 +70,13 @@ export class AgentComponent {
         ' call from: ' + incomingApplicationCall.from();
     });
   };
+
+  loadAudioDevices = () => {
+    this.infobipRTC.getAudioInputDevices().then(inputDevices => {
+      this.audioInputDevices = inputDevices;
+      this.selectedAudioInputDevice = inputDevices[0].deviceId
+    });
+  }
 
   listenForApplicationCallEvents() {
     this.activeCall.on(CallsApiEvent.RINGING, () => {
@@ -278,5 +289,11 @@ export class AgentComponent {
 
   shouldShowCallActions() {
     return this.isCallEstablished;
+  }
+
+  onAudioInputDeviceChange = async () => {
+    if (this.activeCall != null) {
+      await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
   }
 }

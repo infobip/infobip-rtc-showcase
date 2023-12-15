@@ -3,7 +3,8 @@ $(document).ready(function () {
     connectInfobipRTC()
         .then(identity => {
             $('#identity').html(identity);
-        })
+            appendAudioInputDeviceOptions();
+        });
 });
 
 function setOnClickEventListeners() {
@@ -25,6 +26,7 @@ function join(video = false) {
         .build();
 
     activeRoomCall = infobipRTC.joinRoom(getRoomName(), roomCallOptions);
+    $('#audio-input-device-settings').prop('hidden', false);
     listenForRoomCallEvents();
 }
 
@@ -201,6 +203,7 @@ function setValuesAfterLeavingRoom() {
     $('#toggle-screen-share-btn').prop('disabled', true);
     $('#local-videos').prop('hidden', true);
     $('#remote-videos').prop('hidden', true);
+    $('#audio-input-device-settings').prop('hidden', true);
 }
 
 function getRoomName() {

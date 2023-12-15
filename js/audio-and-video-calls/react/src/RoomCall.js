@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, RoomCallOptions} from "infobip-rtc";
+import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, RoomCallOptions, NetworkQuality} from "infobip-rtc";
 import httpClient from "axios";
 
 class RoomCall extends Component {
@@ -14,7 +14,8 @@ class RoomCall extends Component {
             participants: [],
             identity: '',
             status: '',
-            hasLocalVideo: false
+            hasLocalVideo: false,
+            audioInputDevices: [],
         };
 
         this.connectInfobipRTC();
@@ -35,6 +36,7 @@ class RoomCall extends Component {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
+                    this.loadAudioDevices();
                     return state;
                 });
             })
@@ -42,6 +44,10 @@ class RoomCall extends Component {
                 console.error(err);
             });
     };
+
+    loadAudioDevices = () => {
+        this.state.infobipRTC.getAudioInputDevices().then(inputDevices => this.setState({audioInputDevices: inputDevices}));
+    }
 
     join = (video = false) => {
         if (this.state.roomName) {
@@ -222,8 +228,27 @@ class RoomCall extends Component {
         }
     }
 
+    onAudioInputDeviceChange = async (event) => {
+        const deviceId = event.target.value;
+        const {activeRoomCall} = this.state;
+        if (!!activeRoomCall) {
+            await activeRoomCall.setAudioInputDevice(deviceId)
+        }
+    }
+
     render = () => {
-        let remoteVideos = this.state.participants.reduce((remoteVideos, participant) => [
+        const {
+            title,
+            status,
+            identity,
+            roomName,
+            activeRoomCall,
+            audioInputDevices,
+            hasLocalVideo,
+            participants
+        } = this.state;
+
+        let remoteVideos = participants.reduce((remoteVideos, participant) => [
             ...[
                 {participant, video: participant.camera},
                 {participant, video: participant.screenShare}
@@ -233,26 +258,38 @@ class RoomCall extends Component {
 
         return (
             <div>
-                <h2><span>{this.state.title}</span></h2>
-                <h4>Logged as: <span>{this.state.identity}</span></h4>
+                <h2><span>{title}</span></h2>
+                <h4>Logged as: <span>{identity}</span></h4>
 
                 <audio ref="remoteAudio" autoPlay/>
 
-                <input type="text" value={this.state.roomName} onChange={this.handleChange}
+                <input type="text" value={roomName} onChange={this.handleChange}
                        placeholder="Enter room name"/>
                 <br/><br/>
 
-                <button disabled={this.state.activeRoomCall} onClick={() => this.join(false)}>Join</button>
-                <button disabled={this.state.activeRoomCall} onClick={() => this.join(true)}>Join with Video</button>
-                <button disabled={!this.state.activeRoomCall} onClick={() => this.leave()}>Leave</button>
+                <button disabled={activeRoomCall} onClick={() => this.join(false)}>Join</button>
+                <button disabled={activeRoomCall} onClick={() => this.join(true)}>Join with Video</button>
+                <button disabled={!activeRoomCall} onClick={() => this.leave()}>Leave</button>
                 <br/><br/>
 
-                <button disabled={!this.state.activeRoomCall} onClick={() => this.toggleCameraVideo()}>Toggle Camera Video</button>
-                <button disabled={!this.state.activeRoomCall} onClick={() => this.toggleScreenShare()}>Toggle Screen Share</button>
+                <button disabled={!activeRoomCall} onClick={() => this.toggleCameraVideo()}>Toggle Camera Video</button>
+                <button disabled={!activeRoomCall} onClick={() => this.toggleScreenShare()}>Toggle Screen Share</button>
+                <br/><br/>
 
-                <h4><span>{this.state.status}</span></h4>
+                {!!activeRoomCall &&
+                    <>
+                        <label htmlFor={"audio-input-device-select"}>Choose audio input device:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
+                            {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+                    </>
+                }
 
-                <div hidden={this.state.activeRoomCall && remoteVideos.length > 0 ? '' : 'hidden'}>
+                <h4><span>{status}</span></h4>
+
+                <div hidden={activeRoomCall && remoteVideos.length > 0 ? '' : 'hidden'}>
                     <h3>Remote videos/screenshares</h3>
                     {remoteVideos.map(({video}) => {
                         return (
@@ -265,7 +302,7 @@ class RoomCall extends Component {
                     )}
                 </div>
 
-                <div hidden={this.state.hasLocalVideo ? '' : 'hidden'}>
+                <div hidden={hasLocalVideo ? '' : 'hidden'}>
                     <h3>Local video/screenshare</h3>
                     <video width="300" height="300"
                            style={{"objectFit": "cover"}}

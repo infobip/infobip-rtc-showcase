@@ -18,6 +18,8 @@ export class PhoneCallComponent implements OnInit {
   status = '';
   isCallEstablished = false;
   isOutgoingCall = false;
+  audioInputDevices: MediaDeviceInfo[] = [];
+  selectedAudioInputDevice: string;
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -40,8 +42,16 @@ export class PhoneCallComponent implements OnInit {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
+        this.loadAudioDevices()
       })
   };
+
+  loadAudioDevices = () => {
+    this.infobipRTC.getAudioInputDevices().then(inputDevices => {
+      this.audioInputDevices = inputDevices;
+      this.selectedAudioInputDevice = inputDevices[0].deviceId
+    });
+  }
 
   listenForPhoneCallEvents = () => {
     this.activeCall.on(CallsApiEvent.RINGING, () => {
@@ -97,6 +107,12 @@ export class PhoneCallComponent implements OnInit {
   shouldDisableHangupButton = () => {
     return !this.activeCall || !this.isCallEstablished;
   };
+
+  onAudioInputDeviceChange = async () => {
+    if (this.activeCall != null) {
+      await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
+  }
 
   private setValuesAfterCall = () => {
     this.status = null;

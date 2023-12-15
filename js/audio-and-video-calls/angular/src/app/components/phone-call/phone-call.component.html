@@ -23,6 +23,14 @@
 
   <button [disabled]="shouldDisableHangupButton()" (click)="hangup()">Hangup</button>
   <br/><br/>
+
+  <ng-container *ngIf="!!activeCall">
+    <label for="audio-input-device-select">Choose audio input device:</label>
+    <select id="audio-input-device-select" [(ngModel)]="selectedAudioInputDevice" (change)="onAudioInputDeviceChange()">
+      <option *ngFor="let device of audioInputDevices" [value]="device.deviceId">{{device.label || device.deviceId}}</option>
+    </select>
+    <br/><br/>
+  </ng-container>
 </div>
 </body>
 </html>

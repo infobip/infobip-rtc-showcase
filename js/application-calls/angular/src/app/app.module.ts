@@ -2,12 +2,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {AgentComponent} from './components/agent/agent.component';
 import {CustomerComponent} from './components/customer/customer.component';
 import {RoleComponent} from './components/role/role.component';
+import {NgForOf, NgIf} from "@angular/common";
 
 const appRoutes: Routes = [
   { path: 'agent', component: AgentComponent },
@@ -22,15 +23,18 @@ const appRoutes: Routes = [
     RoleComponent,
     CustomerComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true }
-    )
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(
+            appRoutes,
+            {enableTracing: true}
+        ),
+        NgForOf,
+        NgIf,
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

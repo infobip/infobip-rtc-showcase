@@ -39,6 +39,14 @@
     <br/><br/>
   </div>
 
+  <ng-container *ngIf="!!activeCall">
+    <label for="audio-input-device-select">Choose audio input device:</label>
+    <select id="audio-input-device-select" [(ngModel)]="selectedAudioInputDevice" (change)="onAudioInputDeviceChange()">
+      <option *ngFor="let device of audioInputDevices" [value]="device.deviceId">{{device.label || device.deviceId}}</option>
+    </select>
+    <br/><br/>
+  </ng-container>
+
   <div [hidden]="!shouldShowRemoteVideos()">
     <h3>Remote video/screenshare</h3>
     <video #remoteCameraVideo autoplay muted

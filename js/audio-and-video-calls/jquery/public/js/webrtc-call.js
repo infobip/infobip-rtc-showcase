@@ -4,7 +4,8 @@ $(document).ready(function () {
         .then(identity => {
             listenForIncomingCall();
             $('#identity').html(identity);
-        })
+            appendAudioInputDeviceOptions();
+        });
 
     const userAgent = window.navigator.userAgent;
     if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
@@ -35,6 +36,7 @@ function call(video = false) {
         .setVideo(video)
         .build();
     activeCall = infobipRTC.callWebrtc(getDestination(), webrtcCallOptions);
+    $('#audio-input-device-settings').prop('hidden', false);
     listenForCallEvents();
 }
 
@@ -48,6 +50,7 @@ function listenForIncomingCall() {
         activeCall = incomingWebrtcCall;
 
         $('#accept-decline-buttons').prop('hidden', false);
+        $('#audio-input-device-settings').prop('hidden', false);
         $('#status').html('Incoming ' + (incomingWebrtcCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingWebrtcCall.counterpart().identifier);
 
         listenForCallEvents();
@@ -184,6 +187,7 @@ function hangup() {
     $('#call-video-btn').prop('disabled', false);
     $('#toggle-screen-share-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
+    $('#audio-input-device-settings').prop('hidden', true);
     removeAllMediaStreams();
 }
 

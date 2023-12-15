@@ -32,6 +32,8 @@ export class WebrtcCallComponent implements OnInit {
   isCallEstablished = false;
   isIncomingCall = false;
   iPhoneOrIpad = false;
+  audioInputDevices: MediaDeviceInfo[] = [];
+  selectedAudioInputDevice: string;
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -65,9 +67,17 @@ export class WebrtcCallComponent implements OnInit {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
+        this.loadAudioDevices();
         this.listenForIncomingWebrtcCall();
       })
   };
+
+  loadAudioDevices = () => {
+    this.infobipRTC.getAudioInputDevices().then(inputDevices => {
+      this.audioInputDevices = inputDevices;
+      this.selectedAudioInputDevice = inputDevices[0].deviceId
+    });
+  }
 
   listenForIncomingWebrtcCall = () => {
     this.infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, incomingCallEvent => {
@@ -244,5 +254,11 @@ export class WebrtcCallComponent implements OnInit {
 
   shouldShowRemoteVideos = () => {
     return this.activeCall && (this.activeCall.hasRemoteCameraVideo() || this.activeCall.hasRemoteScreenShare());
+  }
+
+  onAudioInputDeviceChange = async () => {
+    if (this.activeCall != null) {
+      await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
   }
 }

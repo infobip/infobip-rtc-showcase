@@ -19,6 +19,12 @@
         <button id="hangup-btn">Hangup</button>
     </div>
 
+    <div hidden id="audio-input-device-settings">
+        <label for="audio-input-device-select">Choose audio input device:</label>
+        <select id="audio-input-device-select" onchange="onAudioInputDeviceChanged(this);">
+        </select>
+    </div>
+
     <h4><span id="status"></span></h4>
     <br/><br/>
 

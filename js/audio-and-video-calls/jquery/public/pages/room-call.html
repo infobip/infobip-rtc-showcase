@@ -14,6 +14,14 @@
     <button id="toggle-camera-video-btn" disabled>Toggle Camera Video</button>
     <button id="toggle-screen-share-btn" disabled>Toggle Share Screen</button>
 
+    <br/><br/>
+
+    <div hidden id="audio-input-device-settings">
+        <label for="audio-input-device-select">Choose audio input device:</label>
+        <select id="audio-input-device-select" onchange="onAudioInputDeviceChanged(this);">
+        </select>
+    </div>
+
     <h4><span id="status"></span></h4>
 
     <div id="remote-videos" hidden>

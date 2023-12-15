@@ -42,3 +42,23 @@ $(window).on("hashchange", function () {
         $(".page-container").html(pageContent);
     });
 });
+
+function onAudioInputDeviceChanged(event) {
+    if (activeCall) {
+        activeCall.setAudioInputDevice(event.value);
+    } else if (activeRoomCall) {
+        activeRoomCall.setAudioInputDevice(event.value);
+    }
+}
+
+function appendAudioInputDeviceOptions() {
+    infobipRTC.getAudioInputDevices().then(inputDevices => {
+        const audioInputDeviceSelect = $('#audio-input-device-select');
+        inputDevices.forEach(device => {
+            const option = document.createElement('option');
+            option.setAttribute('value', device.deviceId);
+            option.innerText = device.label || device.deviceId
+            audioInputDeviceSelect.append(option);
+        });
+    });
+}

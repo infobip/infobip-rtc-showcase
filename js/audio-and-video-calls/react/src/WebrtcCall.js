@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, WebrtcCallOptions} from "infobip-rtc";
+import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, WebrtcCallOptions, NetworkQuality} from "infobip-rtc";
 import httpClient from "axios";
 
 class WebrtcCall extends Component {
@@ -15,7 +15,8 @@ class WebrtcCall extends Component {
             status: '',
             isIncomingCall: false,
             isCallEstablished: false,
-            isIphoneOrIpad: !!(window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i))
+            isIphoneOrIpad: !!(window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i)),
+            audioInputDevices: [],
         };
 
         this.connectInfobipRTC();
@@ -27,8 +28,8 @@ class WebrtcCall extends Component {
                 const token = response.data.token
 
                 this.setState((state) => {
-                    state.infobipRTC = createInfobipRtc(token, { debug: true });
-                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  (event) => {
+                    state.infobipRTC = createInfobipRtc(token, {debug: true});
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED, (event) => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
@@ -37,6 +38,7 @@ class WebrtcCall extends Component {
                     });
                     state.infobipRTC.connect();
                     this.listenForIncomingCall();
+                    this.loadAudioDevices();
                     return state;
                 });
             })
@@ -44,6 +46,10 @@ class WebrtcCall extends Component {
                 console.error(err);
             });
     };
+
+    loadAudioDevices = () => {
+        this.state.infobipRTC.getAudioInputDevices().then(inputDevices => this.setState({audioInputDevices: inputDevices}));
+    }
 
     listenForIncomingCall = () => {
         let that = this;
@@ -218,30 +224,50 @@ class WebrtcCall extends Component {
         });
     }
 
+    onAudioInputDeviceChange = async (event) => {
+        const deviceId = event.target.value;
+        const {activeCall} = this.state;
+        if (!!activeCall) {
+            await activeCall.setAudioInputDevice(deviceId);
+        }
+    }
+
     render = () => {
+        const {
+            title,
+            identity,
+            destination,
+            activeCall,
+            status,
+            isIphoneOrIpad,
+            audioInputDevices,
+        } = this.state;
+
         return (
             <div>
-                <h2><span>{this.state.title}</span></h2>
-                <h4>Logged as: <span>{this.state.identity}</span></h4>
+                <h2><span>{title}</span></h2>
+                <h4>Logged as: <span>{identity}</span></h4>
 
                 <audio ref="remoteAudio" autoPlay/>
 
-                <input type="text" value={this.state.destination} onChange={this.handleChange}
+                <input type="text" value={destination} onChange={this.handleChange}
                        placeholder="Enter destination to call..."/>
                 <br/> <br/>
 
-                <button disabled={this.state.activeCall} onClick={() => this.call(false)}>Call</button>
-                <button disabled={this.state.activeCall} onClick={() => this.call(true)}>Video Call</button>
+                <button disabled={activeCall} onClick={() => this.call(false)}>Call</button>
+                <button disabled={activeCall} onClick={() => this.call(true)}>Video Call</button>
                 <br/><br/>
 
-                <button disabled={!this.state.activeCall}
-                        onClick={() => this.state.activeCall.cameraVideo(!this.state.activeCall.hasCameraVideo())}>
-                    Toggle Camera Video</button>
-                <button disabled={!this.state.activeCall}
-                        onClick={() => this.state.activeCall.screenShare(!this.state.activeCall.hasScreenShare())}>
-                        Toggle Screen Share</button>
+                <button disabled={!activeCall}
+                        onClick={() => activeCall.cameraVideo(!activeCall.hasCameraVideo())}>
+                    Toggle Camera Video
+                </button>
+                <button disabled={!activeCall}
+                        onClick={() => activeCall.screenShare(!activeCall.hasScreenShare())}>
+                    Toggle Screen Share
+                </button>
 
-                <h4><span>{this.state.status}</span></h4>
+                <h4><span>{status}</span></h4>
 
                 {this.shouldShowButtonsOnIncomingCall() &&
                     <div>
@@ -255,12 +281,25 @@ class WebrtcCall extends Component {
                 </button>
                 <br/><br/>
 
-                {this.state.isIphoneOrIpad && (<button onClick={() => { this.refs.remoteVideo.muted = false }}>Tap to Unmute</button>)}
+                {isIphoneOrIpad && (<button onClick={() => {
+                    this.refs.remoteVideo.muted = false
+                }}>Tap to Unmute</button>)}
+
+                {!!activeCall &&
+                    <>
+                        <label htmlFor={"audio-input-device-select"}>Choose audio input device:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
+                            {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+                    </>
+                }
 
                 <div hidden={this.hasRemoteVideos() ? '' : 'hidden'}>
                     <h3>Remote video/screenshare</h3>
                     <video ref="remoteCameraVideo" autoPlay
-                           muted={this.state.isIphoneOrIpad}
+                           muted={isIphoneOrIpad}
                            style={{"objectFit": "cover"}}
                            width="300" height="300">
                     </video>

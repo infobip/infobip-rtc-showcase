@@ -5,6 +5,7 @@ $(document).ready(function () {
         .then(identity => {
             $('#identity').html(identity);
             $('#call-application-actions').prop('hidden', false);
+            appendAudioInputDeviceOptions();
         })
 });
 
@@ -141,6 +142,7 @@ function phoneCall() {
         .build();
 
     activeCall = infobipRTC.callApplication(applicationId, applicationCallOptions);
+    $('#audio-input-device-settings').prop('hidden', false);
     listenForApplicationCallEvents();
 }
 
@@ -151,6 +153,7 @@ function videoCallWithAgent() {
         .build();
 
     activeCall = infobipRTC.callApplication(applicationId, applicationCallOptions);
+    $('#audio-input-device-settings').prop('hidden', false);
     listenForApplicationCallEvents();
 }
 
@@ -181,6 +184,7 @@ function setValuesAfterCall() {
     $('#video-call-actions').prop('hidden', true);
     $('#hangup-call-action').prop('hidden', true);
     $('#call-application-actions').prop('hidden', false);
+    $('#audio-input-device-settings').prop('hidden', true);
 }
 
 function setMediaStream(element, stream) {

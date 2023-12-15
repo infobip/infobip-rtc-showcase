@@ -29,6 +29,9 @@ export class CustomerComponent {
   status = '';
   remoteVideos = [];
 
+  audioInputDevices: MediaDeviceInfo[] = [];
+  selectedAudioInputDevice: string;
+
   constructor(private httpClient: HttpClient) {
     this.getApplicationId();
     this.connectInfobipRTC();
@@ -57,8 +60,16 @@ export class CustomerComponent {
           console.warn('Disconnected from Infobip RTC Cloud.');
         });
         this.infobipRTC.connect();
+        this.loadAudioDevices();
       })
   };
+
+  loadAudioDevices = () => {
+    this.infobipRTC.getAudioInputDevices().then(inputDevices => {
+      this.audioInputDevices = inputDevices;
+      this.selectedAudioInputDevice = inputDevices[0].deviceId
+    });
+  }
 
   listenForApplicationCallEvents() {
     this.activeCall.on(CallsApiEvent.RINGING, () => {
@@ -273,5 +284,11 @@ export class CustomerComponent {
 
   shouldShowVideoActions() {
     return this.activeCall && this.activeCall.customData().scenario === 'conference';
+  }
+
+  onAudioInputDeviceChange = async () => {
+    if (this.activeCall != null) {
+      await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
   }
 }

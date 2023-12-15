@@ -13,5 +13,11 @@
     <button id="hangup-btn" disabled>Hangup</button>
     <br/><br/>
 
+    <div hidden id="audio-input-device-settings">
+        <label for="audio-input-device-select">Choose audio input device:</label>
+        <select id="audio-input-device-select" onchange="onAudioInputDeviceChanged(this);">
+        </select>
+    </div>
+
     <script type="application/javascript" src="../js/phone-call.js"></script>
 </div>
