@@ -42,11 +42,11 @@ class RoomCall extends Component {
 
                 this.setState((state) => {
                     state.infobipRTC = createInfobipRtc(token, { debug: true });
-                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  (event) => {
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED, event => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
-                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
+                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
@@ -77,100 +77,99 @@ class RoomCall extends Component {
     };
 
     setRoomCallEventHandlers = (roomCall) => {
-        let that = this;
         roomCall.on(CallsApiEvent.ROOM_JOINED, event => {
-            that.setState({status: 'Joined room: ' + that.state.roomName});
-            console.log('Joined room: ' + that.state.roomName);
-            that.setMediaStream(that.refs.remoteAudio, event.stream);
-            event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
+            this.setState({status: 'Joined room: ' + this.state.roomName});
+            console.log('Joined room: ' + this.state.roomName);
+            this.setMediaStream(this.refs.remoteAudio, event.stream);
+            event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
         });
         roomCall.on(CallsApiEvent.ROOM_LEFT, event => {
-            that.setState({status: 'Left room: ' + event.errorCode.name});
+            this.setState({status: 'Left room: ' + event.errorCode.name});
             console.log('Left room: ' + event.errorCode.name);
-            that.setValuesAfterLeavingRoom();
+            this.setValuesAfterLeavingRoom();
         });
 
         roomCall.on(CallsApiEvent.ROOM_REJOINING, event => {
-            that.setState({status: 'Rejoining room: ' + that.state.roomName});
-            console.log('Rejoining room: ' + that.roomName);
+            this.setState({status: 'Rejoining room: ' + this.state.roomName});
+            console.log('Rejoining room: ' + this.roomName);
         });
         roomCall.on(CallsApiEvent.ROOM_REJOINED, event => {
-            that.setState({status: 'Rejoined room: ' + that.state.roomName});
-            console.log('Rejoined room: ' + that.state.roomName);
-            that.setMediaStream(that.refs.remoteAudio, event.stream);
-            event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
+            this.setState({status: 'Rejoined room: ' + this.state.roomName});
+            console.log('Rejoined room: ' + this.state.roomName);
+            this.setMediaStream(this.refs.remoteAudio, event.stream);
+            event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
         });
 
         roomCall.on(CallsApiEvent.PARTICIPANT_JOINING, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is joining room'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is joining room'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is joining room');
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_JOINED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' joined room'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' joined room'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' joined room');
-            that.addParticipant(event.participant.endpoint.identifier);
+            this.addParticipant(event.participant.endpoint.identifier);
 
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_LEFT, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' left room'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' left room'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' left room');
-            that.removeParticipant(event.participant.endpoint.identifier);
+            this.removeParticipant(event.participant.endpoint.identifier);
         });
 
         roomCall.on(CallsApiEvent.PARTICIPANT_MUTED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now muted'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now muted'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is now muted');
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_UNMUTED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now unmuted'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now unmuted'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is now unmuted');
         });
 
         roomCall.on(CallsApiEvent.CAMERA_VIDEO_ADDED, event => {
-            that.setState({status: 'Participant added local camera video'});
+            this.setState({status: 'Participant added local camera video'});
             console.log('Participant added local camera video');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
         roomCall.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, event => {
-            that.setState({status: 'Participant updated local camera video'});
+            this.setState({status: 'Participant updated local camera video'});
             console.log('Participant updated local camera video');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
         roomCall.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, () => {
-            that.setState({status: 'Participant removed local camera video'});
+            this.setState({status: 'Participant removed local camera video'});
             console.log('Participant removed local camera video');
-            that.setMediaStream(that.refs.localCameraVideo, null);
+            this.setMediaStream(this.refs.localCameraVideo, null);
         });
         roomCall.on(CallsApiEvent.SCREEN_SHARE_ADDED, event => {
-            that.setState({status: 'Participant added local screenshare'});
+            this.setState({status: 'Participant added local screenshare'});
             console.log('Participant added local screenshare');
-            that.setMediaStream(that.refs.localScreenShare, event.stream);
+            this.setMediaStream(this.refs.localScreenShare, event.stream);
         });
         roomCall.on(CallsApiEvent.SCREEN_SHARE_REMOVED, () => {
-            that.setState({status: 'Participant removed local screenshare'});
+            this.setState({status: 'Participant removed local screenshare'});
             console.log('Participant removed local screenshare');
-            that.setMediaStream(that.refs.localScreenShare, null);
+            this.setMediaStream(this.refs.localScreenShare, null);
         });
 
         roomCall.on(CallsApiEvent.PARTICIPANT_CAMERA_VIDEO_ADDED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added camera video'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added camera video'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' added camera video');
-            that.updateParticipant(event.participant.endpoint.identifier, {camera: event.stream});
+            this.updateParticipant(event.participant.endpoint.identifier, {camera: event.stream});
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_CAMERA_VIDEO_REMOVED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed camera video'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed camera video'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' removed camera video');
-            that.updateParticipant(event.participant.endpoint.identifier, {camera: null});
+            this.updateParticipant(event.participant.endpoint.identifier, {camera: null});
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_SCREEN_SHARE_ADDED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added screenshare'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added screenshare'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' added screenshare');
-            that.updateParticipant(event.participant.endpoint.identifier, {screenShare: event.stream});
+            this.updateParticipant(event.participant.endpoint.identifier, {screenShare: event.stream});
         });
         roomCall.on(CallsApiEvent.PARTICIPANT_SCREEN_SHARE_REMOVED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
-            that.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
+            this.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
         });
 
         roomCall.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {

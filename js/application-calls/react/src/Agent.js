@@ -40,11 +40,11 @@ class Agent extends Component {
 
                 this.setState((state) => {
                     state.infobipRTC = createInfobipRtc(token, { debug: true });
-                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  (event) => {
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  event => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
-                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
+                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
@@ -59,18 +59,17 @@ class Agent extends Component {
     };
 
     listenForIncomingApplicationCall = () => {
-        let that = this;
-        this.state.infobipRTC.on(InfobipRTCEvent.INCOMING_APPLICATION_CALL, function (incomingApplicationCallEvent) {
+        this.state.infobipRTC.on(InfobipRTCEvent.INCOMING_APPLICATION_CALL, incomingApplicationCallEvent => {
             const incomingCall = incomingApplicationCallEvent.incomingCall;
             console.log('Received incoming call from: ' + incomingCall.from());
 
-            that.setState({
+            this.setState({
                 activeCall: incomingCall,
                 isIncomingCall: true,
                 status: 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.from()
             });
 
-            that.setApplicationCallEventHandlers(incomingCall);
+            this.setApplicationCallEventHandlers(incomingCall);
         });
     }
 
@@ -79,117 +78,116 @@ class Agent extends Component {
     }
 
     setApplicationCallEventHandlers = (call) => {
-        let that = this;
-        call.on(CallsApiEvent.RINGING, function () {
-            that.setState({status: 'Ringing...'});
+        call.on(CallsApiEvent.RINGING, () => {
+            this.setState({status: 'Ringing...'});
             console.log('Call is ringing...');
         });
-        call.on(CallsApiEvent.ESTABLISHED, function (event) {
-            that.setState({status: 'Established...'});
+        call.on(CallsApiEvent.ESTABLISHED, event => {
+            this.setState({status: 'Established...'});
             console.log('Call is established...');
-            that.setMediaStream(that.refs.remoteAudio, event.stream);
-            that.setState({isCallEstablished: true});
+            this.setMediaStream(this.refs.remoteAudio, event.stream);
+            this.setState({isCallEstablished: true});
         });
-        call.on(CallsApiEvent.HANGUP, function (event) {
-            that.setState({status: 'Call finished, errorCode: ' + event.errorCode.name});
+        call.on(CallsApiEvent.HANGUP, event => {
+            this.setState({status: 'Call finished, errorCode: ' + event.errorCode.name});
             console.log('Call finished, errorCode: ' + event.errorCode.name);
-            that.setValuesAfterCall();
+            this.setValuesAfterCall();
         });
-        call.on(CallsApiEvent.ERROR, function (event) {
+        call.on(CallsApiEvent.ERROR, event => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         });
 
-        call.on(CallsApiEvent.CONFERENCE_JOINED, function (event) {
-            that.setState({status: 'Joined conference, conferenceId: ' + event.id});
+        call.on(CallsApiEvent.CONFERENCE_JOINED, event => {
+            this.setState({status: 'Joined conference, conferenceId: ' + event.id});
             console.log('Joined conference, conferenceId: ' + event.id);
-            event.participants.forEach(participant => that.addParticipant(participant.endpoint.identifier));
+            event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
         });
-        call.on(CallsApiEvent.CONFERENCE_LEFT, function (event) {
-            that.setState({status: 'Left conference, errorCode: ' + event.errorCode.name});
+        call.on(CallsApiEvent.CONFERENCE_LEFT, event => {
+            this.setState({status: 'Left conference, errorCode: ' + event.errorCode.name});
             console.log('Left conference, errorCode: ' + event.errorCode.name);
-            that.setValuesAfterLeavingConferenceOrDialog();
+            this.setValuesAfterLeavingConferenceOrDialog();
         });
-        call.on(CallsApiEvent.DIALOG_JOINED, function (event) {
-            that.setState({status: 'Joined dialog, dialogId: ' + event.id});
+        call.on(CallsApiEvent.DIALOG_JOINED, event => {
+            this.setState({status: 'Joined dialog, dialogId: ' + event.id});
             console.log('Joined dialog, dialogId: ' + event.id);
-            that.addParticipant(event.remote.endpoint.identifier);
+            this.addParticipant(event.remote.endpoint.identifier);
         });
-        call.on(CallsApiEvent.DIALOG_LEFT, function (event) {
-            that.setState({status: 'Left dialog, errorCode: ' + event.errorCode.name});
+        call.on(CallsApiEvent.DIALOG_LEFT, event => {
+            this.setState({status: 'Left dialog, errorCode: ' + event.errorCode.name});
             console.log('Left dialog, errorCode: ' + event.errorCode.name);
-            that.setValuesAfterLeavingConferenceOrDialog();
+            this.setValuesAfterLeavingConferenceOrDialog();
         });
 
-        call.on(CallsApiEvent.PARTICIPANT_JOINING, function (event) {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is joining'});
+        call.on(CallsApiEvent.PARTICIPANT_JOINING, event => {
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is joining'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is joining');
         });
-        call.on(CallsApiEvent.PARTICIPANT_JOINED, function (event) {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' joined'});
+        call.on(CallsApiEvent.PARTICIPANT_JOINED, event => {
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' joined'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' joined');
-            that.addParticipant(event.participant.endpoint.identifier);
+            this.addParticipant(event.participant.endpoint.identifier);
         });
-        call.on(CallsApiEvent.PARTICIPANT_LEFT, function (event) {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' left'});
+        call.on(CallsApiEvent.PARTICIPANT_LEFT, event => {
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' left'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' left');
-            that.removeParticipant(event.participant.endpoint.identifier);
+            this.removeParticipant(event.participant.endpoint.identifier);
         });
 
-        call.on(CallsApiEvent.PARTICIPANT_MUTED, function (event) {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now muted'});
+        call.on(CallsApiEvent.PARTICIPANT_MUTED, event => {
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now muted'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is now muted');
         });
-        call.on(CallsApiEvent.PARTICIPANT_UNMUTED, function (event) {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now unmuted'});
+        call.on(CallsApiEvent.PARTICIPANT_UNMUTED, event => {
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' is now unmuted'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' is now unmuted');
         });
 
-        call.on(CallsApiEvent.CAMERA_VIDEO_ADDED, function (event) {
-            that.setState({status: 'Local camera video has been added'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_ADDED, event => {
+            this.setState({status: 'Local camera video has been added'});
             console.log('Local camera video has been added');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
-        call.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, function (event) {
-            that.setState({status: 'Local camera video has been updated'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, event => {
+            this.setState({status: 'Local camera video has been updated'});
             console.log('Local camera video has been updated');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
-        call.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, function () {
-            that.setState({status: 'Local camera video has been removed'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, () => {
+            this.setState({status: 'Local camera video has been removed'});
             console.log('Local camera video has been removed');
-            that.setMediaStream(that.refs.localCameraVideo, null);
+            this.setMediaStream(this.refs.localCameraVideo, null);
         });
 
-        call.on(CallsApiEvent.SCREEN_SHARE_ADDED, function (event) {
-            that.setState({status: 'Local screenshare has been added'});
+        call.on(CallsApiEvent.SCREEN_SHARE_ADDED, event => {
+            this.setState({status: 'Local screenshare has been added'});
             console.log('Local screenshare has been added');
-            that.setMediaStream(that.refs.localScreenShare, event.stream);
+            this.setMediaStream(this.refs.localScreenShare, event.stream);
         });
-        call.on(CallsApiEvent.SCREEN_SHARE_REMOVED, function () {
-            that.setState({status: 'Local screenshare has been removed'});
+        call.on(CallsApiEvent.SCREEN_SHARE_REMOVED, () => {
+            this.setState({status: 'Local screenshare has been removed'});
             console.log('Local screenshare has been removed');
-            that.setMediaStream(that.refs.localScreenShare, null);
+            this.setMediaStream(this.refs.localScreenShare, null);
         });
 
         call.on(CallsApiEvent.PARTICIPANT_CAMERA_VIDEO_ADDED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added camera video'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added camera video'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' added camera video');
-            that.updateParticipant(event.participant.endpoint.identifier, {camera: event.stream});
+            this.updateParticipant(event.participant.endpoint.identifier, {camera: event.stream});
         });
         call.on(CallsApiEvent.PARTICIPANT_CAMERA_VIDEO_REMOVED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed camera video'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed camera video'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' removed camera video');
-            that.updateParticipant(event.participant.endpoint.identifier, {camera: null});
+            this.updateParticipant(event.participant.endpoint.identifier, {camera: null});
         });
         call.on(CallsApiEvent.PARTICIPANT_SCREEN_SHARE_ADDED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added screenshare'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' added screenshare'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' added screenshare');
-            that.updateParticipant(event.participant.endpoint.identifier, {screenShare: event.stream});
+            this.updateParticipant(event.participant.endpoint.identifier, {screenShare: event.stream});
         });
         call.on(CallsApiEvent.PARTICIPANT_SCREEN_SHARE_REMOVED, event => {
-            that.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare'});
+            this.setState({status: 'Participant ' + event.participant.endpoint.identifier + ' removed screenshare'});
             console.log('Participant ' + event.participant.endpoint.identifier + ' removed screenshare');
-            that.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
+            this.updateParticipant(event.participant.endpoint.identifier, {screenShare: null});
         });
 
         call.on(CallsApiEvent.NETWORK_QUALITY_CHANGED, event => {
@@ -275,7 +273,7 @@ class Agent extends Component {
         return this.state.isCallEstablished;
     }
 
-    onAudioInputDeviceChange = async (event) => {
+    onAudioInputDeviceChange = async event => {
         const deviceId = event.target.value;
         const {activeCall} = this.state;
         if (!!activeCall) {

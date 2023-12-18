@@ -33,11 +33,11 @@ class PhoneCall extends Component {
 
                 this.setState((state) => {
                     state.infobipRTC = createInfobipRtc(token, { debug: true });
-                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED,  (event) => {
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED, event => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
-                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
+                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
@@ -55,23 +55,22 @@ class PhoneCall extends Component {
     }
 
     setCallEventHandlers = (call) => {
-        let that = this;
-        call.on(CallsApiEvent.RINGING, function () {
-            that.setState({status: 'Ringing...'});
+        call.on(CallsApiEvent.RINGING, () => {
+            this.setState({status: 'Ringing...'});
             console.log('Call is ringing...');
         });
-        call.on(CallsApiEvent.ESTABLISHED, function (event) {
-            that.setState({status: 'Call established with: ' + that.state.activeCall.counterpart().identifier});
-            console.log('Call established with ' + that.state.activeCall.counterpart().identifier);
-            that.setMediaStream(that.refs.remoteAudio, event.stream);
+        call.on(CallsApiEvent.ESTABLISHED, event => {
+            this.setState({status: 'Call established with: ' + this.state.activeCall.counterpart().identifier});
+            console.log('Call established with ' + this.state.activeCall.counterpart().identifier);
+            this.setMediaStream(this.refs.remoteAudio, event.stream);
         });
-        call.on(CallsApiEvent.HANGUP, function (event) {
-            that.setState({status: 'Call finished: ' + event.name});
+        call.on(CallsApiEvent.HANGUP, event => {
+            this.setState({status: 'Call finished: ' + event.name});
             console.log('Call finished: ' + event.name);
-            that.setMediaStream(that.refs.remoteAudio, null);
-            that.setValuesAfterCall();
+            this.setMediaStream(this.refs.remoteAudio, null);
+            this.setValuesAfterCall();
         });
-        call.on(CallsApiEvent.ERROR, function (event) {
+        call.on(CallsApiEvent.ERROR, event => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         });
     }

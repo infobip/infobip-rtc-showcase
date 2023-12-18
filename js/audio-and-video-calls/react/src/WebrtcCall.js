@@ -43,11 +43,11 @@ class WebrtcCall extends Component {
 
                 this.setState((state) => {
                     state.infobipRTC = createInfobipRtc(token, {debug: true});
-                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED, (event) => {
+                    state.infobipRTC.on(InfobipRTCEvent.CONNECTED, event => {
                         this.setState({identity: event.identity});
                         console.log('Connected to Infobip RTC Cloud with: %s', event.identity);
                     });
-                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, function (event) {
+                    state.infobipRTC.on(InfobipRTCEvent.DISCONNECTED, event => {
                         console.warn('Disconnected from Infobip RTC Cloud.');
                     });
                     state.infobipRTC.connect();
@@ -66,101 +66,99 @@ class WebrtcCall extends Component {
     }
 
     listenForIncomingCall = () => {
-        let that = this;
-        this.state.infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, function (incomingCallEvent) {
+        this.state.infobipRTC.on(InfobipRTCEvent.INCOMING_WEBRTC_CALL, incomingCallEvent => {
             const incomingCall = incomingCallEvent.incomingCall;
             console.log('Received incoming call from: ' + incomingCall.counterpart().identifier);
 
-            that.setState({
+            this.setState({
                 activeCall: incomingCall,
                 isIncomingCall: true,
                 status: 'Incoming ' + (incomingCall.options.video ? 'video' : 'audio') + ' call from: ' + incomingCall.counterpart().identifier
             });
 
-            that.setCallEventHandlers(incomingCall);
+            this.setCallEventHandlers(incomingCall);
         });
     }
 
     setCallEventHandlers = (call) => {
-        let that = this;
-        call.on(CallsApiEvent.RINGING, function () {
-            that.setState({status: 'Ringing...'});
+        call.on(CallsApiEvent.RINGING, () => {
+            this.setState({status: 'Ringing...'});
             console.log('Call is ringing...');
         });
-        call.on(CallsApiEvent.ESTABLISHED, function (event) {
-            that.setState({
-                status: 'Call established with: ' + that.state.activeCall.counterpart().identifier,
+        call.on(CallsApiEvent.ESTABLISHED, event => {
+            this.setState({
+                status: 'Call established with: ' + this.state.activeCall.counterpart().identifier,
                 isCallEstablished: true
             });
-            console.log('Call established with ' + that.state.activeCall.counterpart().identifier);
-            that.setMediaStream(that.refs.remoteAudio, event.stream);
+            console.log('Call established with ' + this.state.activeCall.counterpart().identifier);
+            this.setMediaStream(this.refs.remoteAudio, event.stream);
         });
-        call.on(CallsApiEvent.HANGUP, function (event) {
-            that.setState({status: 'Call finished: ' + event.errorCode.name});
+        call.on(CallsApiEvent.HANGUP, event => {
+            this.setState({status: 'Call finished: ' + event.errorCode.name});
             console.log('Call finished: ' + event.errorCode.name);
-            that.removeAllMediaStreams();
-            that.setValuesAfterCall();
+            this.removeAllMediaStreams();
+            this.setValuesAfterCall();
         });
 
-        call.on(CallsApiEvent.ERROR, function (event) {
+        call.on(CallsApiEvent.ERROR, event => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         });
 
-        call.on(CallsApiEvent.CAMERA_VIDEO_ADDED, function (event) {
-            that.setState({status: 'Local camera video has been added'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_ADDED, event => {
+            this.setState({status: 'Local camera video has been added'});
             console.log('Local camera video has been added');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
-        call.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, function (event) {
-            that.setState({status: 'Local camera video has been updated'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_UPDATED, event => {
+            this.setState({status: 'Local camera video has been updated'});
             console.log('Local camera video has been updated');
-            that.setMediaStream(that.refs.localCameraVideo, event.stream);
+            this.setMediaStream(this.refs.localCameraVideo, event.stream);
         });
-        call.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, function () {
-            that.setState({status: 'Local camera video has been removed'});
+        call.on(CallsApiEvent.CAMERA_VIDEO_REMOVED, () => {
+            this.setState({status: 'Local camera video has been removed'});
             console.log('Local camera video has been removed');
-            that.setMediaStream(that.refs.localCameraVideo, null);
+            this.setMediaStream(this.refs.localCameraVideo, null);
         });
 
-        call.on(CallsApiEvent.SCREEN_SHARE_ADDED, function (event) {
-            that.setState({status: 'Local screenshare has been added'});
+        call.on(CallsApiEvent.SCREEN_SHARE_ADDED, event => {
+            this.setState({status: 'Local screenshare has been added'});
             console.log('Local screenshare has been added');
-            that.setMediaStream(that.refs.localScreenShare, event.stream);
+            this.setMediaStream(this.refs.localScreenShare, event.stream);
         });
-        call.on(CallsApiEvent.SCREEN_SHARE_REMOVED, function () {
-            that.setState({status: 'Local screenshare has been removed'});
+        call.on(CallsApiEvent.SCREEN_SHARE_REMOVED, () => {
+            this.setState({status: 'Local screenshare has been removed'});
             console.log('Local screenshare has been removed');
-            that.setMediaStream(that.refs.localScreenShare, null);
+            this.setMediaStream(this.refs.localScreenShare, null);
         });
 
-        call.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_ADDED, function (event) {
-            that.setState({status: 'Remote camera video has been added'});
+        call.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_ADDED, event => {
+            this.setState({status: 'Remote camera video has been added'});
             console.log('Remote camera video has been added');
-            that.setMediaStream(that.refs.remoteCameraVideo, event.stream);
+            this.setMediaStream(this.refs.remoteCameraVideo, event.stream);
         });
-        call.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_REMOVED, function () {
-            that.setState({status: 'Remote camera video has been removed'});
+        call.on(CallsApiEvent.REMOTE_CAMERA_VIDEO_REMOVED, () => {
+            this.setState({status: 'Remote camera video has been removed'});
             console.log('Remote camera video has been removed');
-            that.setMediaStream(that.refs.remoteCameraVideo, null);
+            this.setMediaStream(this.refs.remoteCameraVideo, null);
         });
 
-        call.on(CallsApiEvent.REMOTE_SCREEN_SHARE_ADDED, function (event) {
-            that.setState({status: 'Remote screenshare has been added'});
+        call.on(CallsApiEvent.REMOTE_SCREEN_SHARE_ADDED, event => {
+            this.setState({status: 'Remote screenshare has been added'});
             console.log('Remote screenshare has been added');
-            that.setMediaStream(that.refs.remoteScreenShare, event.stream);
+            this.setMediaStream(this.refs.remoteScreenShare, event.stream);
         });
-        call.on(CallsApiEvent.REMOTE_SCREEN_SHARE_REMOVED, function () {
-            that.setState({status: 'Remote screenshare has been removed'});
+        call.on(CallsApiEvent.REMOTE_SCREEN_SHARE_REMOVED, () => {
+            this.setState({status: 'Remote screenshare has been removed'});
             console.log('Remote screenshare has been removed');
-            that.setMediaStream(that.refs.remoteScreenShare, null);
+            this.setMediaStream(this.refs.remoteScreenShare, null);
         });
 
-        call.on(CallsApiEvent.REMOTE_MUTED, function () {
-            that.setState({status: 'Remote participant has been muted'});
+        call.on(CallsApiEvent.REMOTE_MUTED, () => {
+            this.setState({status: 'Remote participant has been muted'});
             console.log('Remote participant has been muted');
         });
-        call.on(CallsApiEvent.REMOTE_UNMUTED, function () {
-            that.setState({status: 'Remote participant has been unmuted'});
+        call.on(CallsApiEvent.REMOTE_UNMUTED, () => {
+            this.setState({status: 'Remote participant has been unmuted'});
             console.log('Remote participant has been unmuted');
         });
 
@@ -184,7 +182,7 @@ class WebrtcCall extends Component {
         this.refs.remoteAudio.srcObject = null;
     }
 
-    handleChange = (event) => {
+    handleChange = event => {
         const dest = event.target.value;
         this.setState({destination: dest});
     };
@@ -239,7 +237,7 @@ class WebrtcCall extends Component {
         });
     }
 
-    onAudioInputDeviceChange = async (event) => {
+    onAudioInputDeviceChange = async event => {
         const deviceId = event.target.value;
         const {activeCall} = this.state;
         if (!!activeCall) {
