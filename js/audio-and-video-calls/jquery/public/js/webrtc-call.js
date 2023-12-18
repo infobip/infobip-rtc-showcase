@@ -5,6 +5,7 @@ $(document).ready(function () {
             listenForIncomingCall();
             $('#identity').html(identity);
             appendAudioInputDeviceOptions();
+            appendAudioQualityModeOptions();
         });
 
     const userAgent = window.navigator.userAgent;
@@ -188,6 +189,7 @@ function hangup() {
     $('#toggle-screen-share-btn').prop('disabled', true);
     $('#toggle-camera-video-btn').prop('disabled', true);
     $('#audio-input-device-settings').prop('hidden', true);
+    $('#audio-quality-mode-select').val('Auto');
     removeAllMediaStreams();
 }
 

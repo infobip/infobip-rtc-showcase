@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {
+  AudioQualityMode,
   CallsApiEvent,
   createInfobipRtc,
   InfobipRTC,
@@ -30,6 +31,12 @@ export class RoomCallComponent {
   remoteVideos = [];
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
+  audioQualityModes: { [name: string]: AudioQualityMode } = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+  }
+  selectedAudioQualityMode: string = "Auto";
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -194,6 +201,7 @@ export class RoomCallComponent {
     this.activeRoomCall = null;
     this.participants = [];
     this.remoteVideos = [];
+    this.selectedAudioQualityMode = "Auto";
   }
 
   setMediaStream = (element, stream) => {
@@ -245,6 +253,12 @@ export class RoomCallComponent {
   onAudioInputDeviceChange = async () => {
     if (this.activeRoomCall != null) {
       await this.activeRoomCall.setAudioInputDevice(this.selectedAudioInputDevice);
+    }
+  }
+
+  onAudioQualityChange = () => {
+    if (this.activeRoomCall != null) {
+      this.activeRoomCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }

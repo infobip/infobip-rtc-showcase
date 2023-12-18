@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {WebrtcCallComponent} from './components/webrtc-call/webrtc-call.component';
 import {PhoneCallComponent} from './components/phone-call/phone-call.component';
 import {RoomCallComponent} from './components/room-call/room-call.component';
+import {KeyValuePipe, NgForOf} from "@angular/common";
 
 const appRoutes: Routes = [
   { path: 'webrtc-call', component: WebrtcCallComponent },
@@ -23,15 +24,21 @@ const appRoutes: Routes = [
     WebrtcCallComponent,
     RoomCallComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true }
-    )
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        RouterModule.forRoot(
+            appRoutes,
+            {enableTracing: true}
+        ),
+        FormsModule,
+        KeyValuePipe,
+        NgForOf,
+        FormsModule,
+        KeyValuePipe,
+        NgForOf
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

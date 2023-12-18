@@ -1,5 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CallsApiEvent, createInfobipRtc, InfobipRTC, InfobipRTCEvent, PhoneCall, PhoneCallOptions} from 'infobip-rtc';
+import {
+  AudioQualityMode,
+  CallsApiEvent,
+  createInfobipRtc,
+  InfobipRTC,
+  InfobipRTCEvent,
+  PhoneCall,
+  PhoneCallOptions
+} from 'infobip-rtc';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
@@ -20,6 +28,12 @@ export class PhoneCallComponent implements OnInit {
   isOutgoingCall = false;
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
+  audioQualityModes: { [name: string]: AudioQualityMode } = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+  }
+  selectedAudioQualityMode: string = "Auto";
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -114,10 +128,17 @@ export class PhoneCallComponent implements OnInit {
     }
   }
 
+  onAudioQualityChange = () => {
+    if (this.activeCall != null) {
+      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
+    }
+  }
+
   private setValuesAfterCall = () => {
     this.status = null;
     this.activeCall = null;
     this.isCallEstablished = false;
     this.isOutgoingCall = false;
+    this.selectedAudioQualityMode = "Auto"
   }
 }

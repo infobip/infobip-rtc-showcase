@@ -4,6 +4,7 @@ $(document).ready(function () {
         .then(identity => {
             $('#identity').html(identity);
             appendAudioInputDeviceOptions();
+            appendAudioQualityModeOptions();
         })
 });
 
@@ -58,6 +59,7 @@ function hangup() {
     $('#call-btn').prop('disabled', false);
     $('#audio-input-device-settings').prop('hidden', true);
     setMediaStream($('#remote-audio')[0], null);
+    $('#audio-quality-mode-select').val('Auto');
 }
 
 function getDestination() {

@@ -1,6 +1,19 @@
 import React, {Component} from "react";
-import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, RoomCallOptions, NetworkQuality} from "infobip-rtc";
+import {
+    CallsApiEvent,
+    createInfobipRtc,
+    InfobipRTCEvent,
+    RoomCallOptions,
+    NetworkQuality,
+    AudioQualityMode
+} from "infobip-rtc";
 import httpClient from "axios";
+
+const audioQualityModes = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+}
 
 class RoomCall extends Component {
 
@@ -16,6 +29,7 @@ class RoomCall extends Component {
             status: '',
             hasLocalVideo: false,
             audioInputDevices: [],
+            selectedAudioQualityMode: "Auto"
         };
 
         this.connectInfobipRTC();
@@ -198,7 +212,8 @@ class RoomCall extends Component {
             status: null,
             activeRoomCall: null,
             participants: [],
-            hasLocalVideo: false
+            hasLocalVideo: false,
+            selectedAudioQualityMode: "Auto"
         });
     }
 
@@ -236,6 +251,16 @@ class RoomCall extends Component {
         }
     }
 
+    onAudioQualityChange = event => {
+        const audioQuality = event.target.value;
+        const {activeRoomCall} = this.state;
+        this.setState({selectedAudioQualityMode: audioQuality});
+
+        if (!!activeRoomCall) {
+            activeRoomCall.audioQualityMode(audioQualityModes[audioQuality]);
+        }
+    }
+
     render = () => {
         const {
             title,
@@ -245,7 +270,8 @@ class RoomCall extends Component {
             activeRoomCall,
             audioInputDevices,
             hasLocalVideo,
-            participants
+            participants,
+            selectedAudioQualityMode
         } = this.state;
 
         let remoteVideos = participants.reduce((remoteVideos, participant) => [
@@ -282,6 +308,13 @@ class RoomCall extends Component {
                         <br/>
                         <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
                             {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+
+                        <label htmlFor={"audio-input-device-select"}>Choose audio quality mode:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioQualityChange} value={selectedAudioQualityMode}>
+                            {Object.keys(audioQualityModes).map(mode => <option id={mode} value={mode}>{mode}</option>)}
                         </select>
                         <br/><br/>
                     </>

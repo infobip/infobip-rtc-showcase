@@ -5,6 +5,7 @@ $(document).ready(function () {
             listenForIncomingApplicationCall();
             $('#identity').html(identity);
             appendAudioInputDeviceOptions();
+            appendAudioQualityModeOptions();
         })
 });
 
@@ -183,6 +184,7 @@ function setValuesAfterCall() {
     $('#incoming-call-actions').prop('hidden', true);
     $('#call-actions').prop('hidden', true);
     $('#audio-input-device-settings').prop('hidden', true);
+    $('#audio-quality-mode-select').val("Auto");
 }
 
 function setMediaStream(element, stream) {

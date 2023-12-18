@@ -34,6 +34,12 @@ let infobipRTC;
 let activeCall;
 let applicationId;
 
+let audioQualityModes = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+}
+
 $(window).on("beforeunload", function () {
     if (infobipRTC) {
         infobipRTC.disconnect();
@@ -60,6 +66,12 @@ function onAudioInputDeviceChanged(event) {
     }
 }
 
+function onAudioQualityChange(event) {
+    if (activeCall) {
+        activeCall.audioQualityMode(audioQualityModes[event.value]);
+    }
+}
+
 function appendAudioInputDeviceOptions() {
     infobipRTC.getAudioInputDevices().then(inputDevices => {
         const audioInputDeviceSelect = $('#audio-input-device-select');
@@ -70,4 +82,16 @@ function appendAudioInputDeviceOptions() {
             audioInputDeviceSelect.append(option);
         });
     });
+}
+
+function appendAudioQualityModeOptions() {
+    const audioQualityModeSelect = $('#audio-quality-mode-select');
+    Object.keys(audioQualityModes).forEach(mode => {
+        const option = document.createElement('option');
+        option.setAttribute('value', mode);
+        option.innerText = mode;
+        audioQualityModeSelect.append(option);
+    });
+
+    audioQualityModeSelect.val("Auto");
 }

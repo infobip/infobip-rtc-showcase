@@ -4,6 +4,7 @@ $(document).ready(function () {
         .then(identity => {
             $('#identity').html(identity);
             appendAudioInputDeviceOptions();
+            appendAudioQualityModeOptions();
         });
 });
 
@@ -204,6 +205,7 @@ function setValuesAfterLeavingRoom() {
     $('#local-videos').prop('hidden', true);
     $('#remote-videos').prop('hidden', true);
     $('#audio-input-device-settings').prop('hidden', true);
+    $('#audio-quality-mode-select').val('Auto');
 }
 
 function getRoomName() {

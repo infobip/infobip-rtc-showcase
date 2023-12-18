@@ -1,9 +1,21 @@
 import React, {Component} from "react";
-import {ApplicationCallOptions, CallsApiEvent, createInfobipRtc, InfobipRTCEvent, NetworkQuality} from "infobip-rtc";
+import {
+    ApplicationCallOptions,
+    AudioQualityMode,
+    CallsApiEvent,
+    createInfobipRtc,
+    InfobipRTCEvent,
+    NetworkQuality
+} from "infobip-rtc";
 import httpClient from "axios";
 
-class Agent extends Component {
+const audioQualityModes = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+}
 
+class Agent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +26,8 @@ class Agent extends Component {
             isIncomingCall: false,
             isCallEstablished: false,
             participants: [],
-            audioInputDevices: []
+            audioInputDevices: [],
+            selectedAudioQualityMode: "Auto"
         };
 
         this.connectInfobipRTC();
@@ -206,7 +219,8 @@ class Agent extends Component {
             activeCall: null,
             status: '',
             isIncomingCall: false,
-            isCallEstablished: false
+            isCallEstablished: false,
+            selectedAudioQualityMode: "Auto"
         });
     }
 
@@ -269,13 +283,24 @@ class Agent extends Component {
         }
     }
 
+    onAudioQualityChange = event => {
+        const audioQuality = event.target.value;
+        const {activeCall} = this.state;
+        this.setState({selectedAudioQualityMode: audioQuality});
+
+        if (!!activeCall) {
+            activeCall.audioQualityMode(audioQualityModes[audioQuality]);
+        }
+    }
+
     render = () => {
         const {
             participants,
             identity,
             status,
             activeCall,
-            audioInputDevices
+            audioInputDevices,
+            selectedAudioQualityMode
         } = this.state;
 
         let remoteVideos = participants.reduce((remoteVideos, participant) => [
@@ -313,6 +338,13 @@ class Agent extends Component {
                         <br/>
                         <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
                             {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+
+                        <label htmlFor={"audio-input-device-select"}>Choose audio quality mode:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioQualityChange} value={selectedAudioQualityMode}>
+                            {Object.keys(audioQualityModes).map(mode => <option id={mode} value={mode}>{mode}</option>)}
                         </select>
                         <br/><br/>
                     </>

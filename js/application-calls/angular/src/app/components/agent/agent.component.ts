@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {
   ApplicationCall,
   ApplicationCallOptions,
+  AudioQualityMode,
   CallsApiEvent,
   createInfobipRtc,
   IncomingApplicationCall,
@@ -33,6 +34,12 @@ export class AgentComponent {
 
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
+  audioQualityModes: { [name: string]: AudioQualityMode } = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+  }
+  selectedAudioQualityMode: string = "Auto";
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -211,6 +218,7 @@ export class AgentComponent {
     this.activeCall = null;
     this.isCallEstablished = false;
     this.isIncomingCall = false;
+    this.selectedAudioQualityMode = "Auto";
   }
 
   setValuesAfterLeavingConferenceOrDialog() {
@@ -294,6 +302,12 @@ export class AgentComponent {
   onAudioInputDeviceChange = async () => {
     if (this.activeCall != null) {
       await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
+  }
+
+  onAudioQualityChange = () => {
+    if (this.activeCall != null) {
+      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }

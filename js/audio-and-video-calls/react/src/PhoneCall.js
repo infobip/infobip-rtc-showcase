@@ -1,6 +1,12 @@
 import React, {Component} from "react";
-import {CallsApiEvent, createInfobipRtc, InfobipRTCEvent, PhoneCallOptions} from "infobip-rtc";
+import {AudioQualityMode, CallsApiEvent, createInfobipRtc, InfobipRTCEvent, PhoneCallOptions} from "infobip-rtc";
 import httpClient from "axios";
+
+const audioQualityModes = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+}
 
 class PhoneCall extends Component {
 
@@ -14,6 +20,7 @@ class PhoneCall extends Component {
             identity: '',
             status: '',
             audioInputDevices: [],
+            selectedAudioQualityMode: "Auto"
         };
 
         this.connectInfobipRTC();
@@ -100,7 +107,8 @@ class PhoneCall extends Component {
     setValuesAfterCall = () => {
         this.setState({
             activeCall: null,
-            status: ''
+            status: '',
+            selectedAudioQualityMode: "Auto"
         });
     }
 
@@ -112,6 +120,16 @@ class PhoneCall extends Component {
         }
     }
 
+    onAudioQualityChange = event => {
+        const audioQuality = event.target.value;
+        const {activeCall} = this.state;
+        this.setState({selectedAudioQualityMode: audioQuality});
+
+        if (!!activeCall) {
+            activeCall.audioQualityMode(audioQualityModes[audioQuality]);
+        }
+    }
+
     render = () => {
         const {
             title,
@@ -120,6 +138,7 @@ class PhoneCall extends Component {
             activeCall,
             status,
             audioInputDevices,
+            selectedAudioQualityMode
         } = this.state;
 
         return (
@@ -148,6 +167,13 @@ class PhoneCall extends Component {
                         <br/>
                         <select id={"audio-input-device-select"} onChange={this.onAudioInputDeviceChange}>
                             {audioInputDevices.map(device => <option id={device.deviceId} value={device.deviceId}>{device.label || device.deviceId}</option>)}
+                        </select>
+                        <br/><br/>
+
+                        <label htmlFor={"audio-input-device-select"}>Choose audio quality mode:</label>
+                        <br/>
+                        <select id={"audio-input-device-select"} onChange={this.onAudioQualityChange} value={selectedAudioQualityMode}>
+                            {Object.keys(audioQualityModes).map(mode => <option id={mode} value={mode}>{mode}</option>)}
                         </select>
                         <br/><br/>
                     </>

@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {
+  AudioQualityMode,
   CallsApiEvent,
   createInfobipRtc,
   IncomingWebrtcCall,
@@ -34,6 +35,12 @@ export class WebrtcCallComponent implements OnInit {
   iPhoneOrIpad = false;
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
+  audioQualityModes: { [name: string]: AudioQualityMode } = {
+    "Low": AudioQualityMode.LOW_DATA,
+    "Auto": AudioQualityMode.AUTO,
+    "High": AudioQualityMode.HIGH_QUALITY
+  }
+  selectedAudioQualityMode: string = "Auto";
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -246,6 +253,7 @@ export class WebrtcCallComponent implements OnInit {
     this.activeCall = null;
     this.isCallEstablished = false;
     this.isIncomingCall = false;
+    this.selectedAudioQualityMode = "Auto";
   }
 
   shouldShowLocalVideos = () => {
@@ -259,6 +267,13 @@ export class WebrtcCallComponent implements OnInit {
   onAudioInputDeviceChange = async () => {
     if (this.activeCall != null) {
       await this.activeCall.setAudioInputDevice(this.selectedAudioInputDevice)
+    }
+  }
+
+  onAudioQualityChange = () => {
+    if (this.activeCall != null) {
+      console.log("Setting audio quality mode: ", this.selectedAudioQualityMode);
+      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }

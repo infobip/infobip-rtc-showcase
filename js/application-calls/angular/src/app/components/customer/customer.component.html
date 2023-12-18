@@ -28,6 +28,12 @@
         <option *ngFor="let device of audioInputDevices" [value]="device.deviceId">{{device.label || device.deviceId}}</option>
       </select>
       <br/><br/>
+
+      <label for="audio-quality-mode-select">Choose audio quality mode:</label>
+      <select id="audio-quality-mode-select" [(ngModel)]="selectedAudioQualityMode" (change)="onAudioQualityChange()">
+        <option *ngFor="let mode of audioQualityModes | keyvalue" [value]="mode.key">{{mode.key}}</option>
+      </select>
+      <br/><br/>
     </ng-container>
 
     <h4><span>{{status}}</span></h4>
