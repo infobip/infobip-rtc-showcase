@@ -184,10 +184,16 @@
                 android:text="@string/mute" />
 
             <Button
-                android:id="@+id/choose_audio_quality_button"
+                android:id="@+id/select_audio_quality_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/audio_quality" />
+
+            <Button
+                android:id="@+id/select_audio_device_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_device" />
         </LinearLayout>
 
         <LinearLayout

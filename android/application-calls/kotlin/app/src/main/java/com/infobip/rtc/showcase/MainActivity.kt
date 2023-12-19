@@ -134,7 +134,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         }
         if (resultCode == RESULT_OK) {
             val screenCapturer = ScreenCapturer(resultCode, data)
-            InfobipRTC.getInstance().activeApplicationCall?.startScreenShare(screenCapturer)
+            InfobipRTC.getInstance().activeApplicationCall.startScreenShare(screenCapturer)
         }
     }
 
@@ -176,8 +176,12 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
             toggleAudioButtonOnClick()
         }
 
-        findViewById<Button>(R.id.choose_audio_quality_button).setOnClickListener {
+        findViewById<Button>(R.id.select_audio_quality_button).setOnClickListener {
             showAudioQualityModeDialog()
+        }
+
+        findViewById<Button>(R.id.select_audio_device_button).setOnClickListener {
+            showAudioDeviceDialog()
         }
 
         findViewById<Button>(R.id.toggle_camera_button).setOnClickListener {
@@ -368,6 +372,44 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         }
     }
 
+    private fun showAudioQualityModeDialog() {
+        val applicationCall = InfobipRTC.getInstance().activeApplicationCall
+        val audioQualityMode = applicationCall.audioQualityMode()
+        val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
+        var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
+
+        AlertDialog.Builder(this)
+            .setTitle("Select preferred audio quality mode")
+            .setSingleChoiceItems(audioQualityModes, checkedItem) { _, which ->
+                checkedItem = which
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                applicationCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showAudioDeviceDialog() {
+        val applicationCall = InfobipRTC.getInstance().activeApplicationCall
+        val activeDevice = applicationCall.audioDeviceManager().activeDevice
+        val availableAudioDevices = applicationCall.audioDeviceManager().availableAudioDevices
+        val audioDevices = availableAudioDevices.map { it.name }.toTypedArray()
+        var checkedItem = availableAudioDevices.indexOfFirst { it == activeDevice }
+
+        AlertDialog.Builder(this)
+            .setTitle("Select preferred audio device")
+            .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
+                checkedItem = which
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                val audioDevice = availableAudioDevices.elementAt(checkedItem)!!
+                applicationCall.audioDeviceManager().selectAudioDevice(audioDevice)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun toggleCameraButtonOnClick() {
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
         if (applicationCall != null) {
@@ -416,24 +458,6 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
                 Toast.makeText(applicationContext, "No active call", Toast.LENGTH_LONG).show()
             }
         }
-    }
-
-    private fun showAudioQualityModeDialog() {
-        val applicationCall = InfobipRTC.getInstance().activeApplicationCall
-        val audioQualityMode = applicationCall.audioQualityMode()
-        val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
-        var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
-
-        AlertDialog.Builder(this)
-            .setTitle("Select preferred audio quality mode")
-            .setSingleChoiceItems(audioQualityModes, checkedItem) { _, which ->
-                checkedItem = which
-            }
-            .setPositiveButton("Ok") { _, _ ->
-                applicationCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
     }
 
     private fun setLoginStatus(text: String) {

@@ -19,6 +19,7 @@
     <string name="mute">Mute</string>
     <string name="unmute">Unmute</string>
     <string name="audio_quality">Audio quality</string>
+    <string name="audio_device">Audio device</string>
     <string name="toggle_camera">Toggle camera</string>
     <string name="toggle_screen_share">Toggle screen share</string>
     <string name="flip_camera">Flip</string>
