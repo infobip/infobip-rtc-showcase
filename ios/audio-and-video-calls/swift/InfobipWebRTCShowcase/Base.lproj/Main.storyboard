@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tuE-Tr-uXB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -150,7 +150,7 @@
                                 <rect key="frame" x="207" y="862" width="0.0" height="0.0"/>
                                 <subviews>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fg2-N2-tdI" userLabel="Audio Buttons Stack">
-                                        <rect key="frame" x="88" y="0.0" width="185.5" height="0.0"/>
+                                        <rect key="frame" x="1.5" y="0.0" width="307.5" height="0.0"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qra-69-B7B">
                                                 <rect key="frame" x="0.0" y="0.0" width="63" height="0.0"/>
@@ -168,39 +168,47 @@
                                                     <action selector="openAudioQualityModeAlert:" destination="5dN-uu-TrF" eventType="touchUpInside" id="3lG-mv-Yrr"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TJy-2I-p04" userLabel="Audio Device Button">
+                                                <rect key="frame" x="185.5" y="0.0" width="122" height="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Audio device"/>
+                                                <connections>
+                                                    <action selector="openAudioDevicesAlert:" destination="5dN-uu-TrF" eventType="touchUpInside" id="gFX-sU-LWD"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="WNa-Yq-5hV" userLabel="Video Buttons Stack">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="310" height="0.0"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VvR-MM-6WU">
-                                                <rect key="frame" x="0.0" y="0.0" width="173.5" height="0.0"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Toggle screenshare"/>
-                                                <connections>
-                                                    <action selector="toggleScreenShare:" destination="5dN-uu-TrF" eventType="touchUpInside" id="ZgB-YC-7Oy"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E3p-HT-GT0">
-                                                <rect key="frame" x="173.5" y="0.0" width="51" height="0.0"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Flip"/>
-                                                <connections>
-                                                    <action selector="flipCamera:" destination="5dN-uu-TrF" eventType="touchUpInside" id="poU-GU-rLh"/>
-                                                </connections>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f16-Q3-WwQ">
-                                                <rect key="frame" x="224.5" y="0.0" width="136.5" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="136.5" height="0.0"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Toggle camera"/>
                                                 <connections>
                                                     <action selector="toggleCameraVideo:" destination="5dN-uu-TrF" eventType="touchUpInside" id="HD3-ha-d6q"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VvR-MM-6WU">
+                                                <rect key="frame" x="136.5" y="0.0" width="173.5" height="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Toggle screenshare"/>
+                                                <connections>
+                                                    <action selector="toggleScreenShare:" destination="5dN-uu-TrF" eventType="touchUpInside" id="ZgB-YC-7Oy"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E3p-HT-GT0">
+                                                <rect key="frame" x="310" y="-17" width="0.0" height="34.5"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Flip"/>
+                                                <connections>
+                                                    <action selector="flipCamera:" destination="5dN-uu-TrF" eventType="touchUpInside" id="poU-GU-rLh"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUc-Yd-GyT">
-                                        <rect key="frame" x="138.5" y="0.0" width="84" height="0.0"/>
+                                        <rect key="frame" x="113" y="0.0" width="84" height="0.0"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Hangup"/>
                                         <connections>

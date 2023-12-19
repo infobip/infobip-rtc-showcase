@@ -144,13 +144,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="f7o-k3-x3P" userLabel="Call Buttons Stack">
-                                <rect key="frame" x="114.5" y="827.5" width="185.5" height="34.5"/>
+                                <rect key="frame" x="207" y="862" width="0.0" height="0.0"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ued-aA-jL9" userLabel="Audio Buttons Stack">
-                                        <rect key="frame" x="0.0" y="0.0" width="185.5" height="34.5"/>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ued-aA-jL9" userLabel="Audio Buttons Stack">
+                                        <rect key="frame" x="27" y="0.0" width="307.5" height="0.0"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTN-Gk-5Sd">
-                                                <rect key="frame" x="0.0" y="0.0" width="63" height="34.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="63" height="0.0"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Mute"/>
                                                 <connections>
@@ -158,17 +158,25 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fp-z5-IEq" userLabel="Audio Quality Button">
-                                                <rect key="frame" x="63" y="0.0" width="122.5" height="34.5"/>
+                                                <rect key="frame" x="63" y="0.0" width="122.5" height="0.0"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Audio quality"/>
                                                 <connections>
                                                     <action selector="openAudioQualityModeAlert:" destination="JfR-5s-ZIw" eventType="touchUpInside" id="Vjw-C3-BQT"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LSK-Si-Cuh" userLabel="Audio Device Button">
+                                                <rect key="frame" x="185.5" y="0.0" width="122" height="0.0"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Audio device"/>
+                                                <connections>
+                                                    <action selector="openAudioDevicesAlert:" destination="JfR-5s-ZIw" eventType="touchUpInside" id="1EC-wS-997"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                     </stackView>
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="o3A-IE-ucy" userLabel="Video Buttons Stack">
-                                        <rect key="frame" x="-88" y="34.5" width="361" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="361" height="0.0"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZ2-B7-jxs">
                                                 <rect key="frame" x="0.0" y="0.0" width="136.5" height="0.0"/>
@@ -197,7 +205,7 @@
                                         </subviews>
                                     </stackView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMt-Gh-Xak">
-                                        <rect key="frame" x="50.5" y="34.5" width="84" height="0.0"/>
+                                        <rect key="frame" x="138.5" y="0.0" width="84" height="0.0"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Hangup"/>
                                         <connections>

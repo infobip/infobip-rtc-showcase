@@ -234,6 +234,20 @@ class CallController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @IBAction func openAudioDevicesAlert(_ sender: UIButton) {
+        if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {
+            let availableAudioDevices = activeRoomCall.audioDeviceManager.availableAudioDevices
+            let activeAudioDevice = activeRoomCall.audioDeviceManager.activeDevice
+            let alert = self.getAudioDevicesAlert(activeAudioDevice, availableAudioDevices)
+            self.present(alert, animated: true)
+        } else if let activeCall = getInfobipRTCInstance().getActiveCall() {
+            let availableAudioDevices = activeCall.audioDeviceManager.availableAudioDevices
+            let activeAudioDevice = activeCall.audioDeviceManager.activeDevice
+            let alert = self.getAudioDevicesAlert(activeAudioDevice, availableAudioDevices)
+            self.present(alert, animated: true)
+        }
+    }
+    
     func changeAudioQualityMode(_ mode: AudioQualityMode) {
         if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {
             activeRoomCall.audioQualityMode(mode)
@@ -241,6 +255,36 @@ class CallController: UIViewController {
         
         if let activeCall = getInfobipRTCInstance().getActiveCall() {
             activeCall.audioQualityMode(mode)
+        }
+    }
+    
+    func getAudioDevicesAlert(_ activeAudioDevice: AudioDevice?, _ availableAudioDevices: [AudioDevice]) -> UIAlertController {
+        let title = "Audio Devices"
+        var message = "Select your preferred device."
+        if let activeAudioDevice = activeAudioDevice {
+            message += " Current device: \(activeAudioDevice.name)"
+        }
+
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        for audioDevice in availableAudioDevices {
+            alert.addAction(UIAlertAction(title: audioDevice.name, style: .default) {_ in
+                self.changeAudioDevice(audioDevice)
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        
+        return alert
+    }
+    
+    func changeAudioDevice(_ audioDevice: AudioDevice) {
+        do {
+            if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {
+                try activeRoomCall.audioDeviceManager.selectAudioDevice(audioDevice)
+            } else if let activeCall = getInfobipRTCInstance().getActiveCall() {
+                try activeCall.audioDeviceManager.selectAudioDevice(audioDevice)
+            }
+        } catch {
+            self.showErrorAlert(message: "Something unexpected happened")
         }
     }
     

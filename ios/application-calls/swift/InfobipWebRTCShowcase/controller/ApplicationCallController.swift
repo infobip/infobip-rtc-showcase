@@ -167,10 +167,47 @@ class ApplicationCallController: UIViewController {
 
         self.present(alert, animated: true)
     }
+    
+    @IBAction func openAudioDevicesAlert(_ sender: UIButton) {
+        if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
+            let availableAudioDevices = activeCall.audioDeviceManager.availableAudioDevices
+            let activeAudioDevice = activeCall.audioDeviceManager.activeDevice
+            let alert = self.getAudioDevicesAlert(activeAudioDevice, availableAudioDevices)
+            self.present(alert, animated: true)
+        }
+    }
         
     func changeAudioQualityMode(_ mode: AudioQualityMode) {
         if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
             activeCall.audioQualityMode(mode)
+        }
+    }
+    
+    func getAudioDevicesAlert(_ activeAudioDevice: AudioDevice?, _ availableAudioDevices: [AudioDevice]) -> UIAlertController {
+        let title = "Audio Devices"
+        var message = "Select your preferred device."
+        if let activeAudioDevice = activeAudioDevice {
+            message += " Current device: \(activeAudioDevice.name)"
+        }
+
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        for audioDevice in availableAudioDevices {
+            alert.addAction(UIAlertAction(title: audioDevice.name, style: .default) {_ in
+                self.changeAudioInputDevice(audioDevice)
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        
+        return alert
+    }
+        
+    func changeAudioInputDevice(_ audioDevice: AudioDevice) {
+        do {
+            if let activeCall = getInfobipRTCInstance().getActiveApplicationCall() {
+                try activeCall.audioDeviceManager.selectAudioDevice(audioDevice)
+            }
+        } catch {
+            self.showErrorAlert(message: "Something unexpected happened")
         }
     }
     
