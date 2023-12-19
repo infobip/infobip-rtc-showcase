@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
@@ -57,11 +58,11 @@ import com.infobip.webrtc.sdk.api.event.call.ReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ReconnectingEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
-import com.infobip.webrtc.sdk.api.event.network.NetworkQualityChangedEvent
-import com.infobip.webrtc.sdk.api.event.network.ParticipantNetworkQualityChangedEvent
 import com.infobip.webrtc.sdk.api.event.listener.ApplicationCallEventListener
 import com.infobip.webrtc.sdk.api.event.listener.NetworkQualityEventListener
 import com.infobip.webrtc.sdk.api.event.listener.ParticipantNetworkQualityEventListener
+import com.infobip.webrtc.sdk.api.event.network.NetworkQualityChangedEvent
+import com.infobip.webrtc.sdk.api.event.network.ParticipantNetworkQualityChangedEvent
 import com.infobip.webrtc.sdk.api.model.CallStatus
 import com.infobip.webrtc.sdk.api.model.participant.Participant
 import com.infobip.webrtc.sdk.api.model.participant.ParticipantState
@@ -69,6 +70,7 @@ import com.infobip.webrtc.sdk.api.model.video.RTCVideoTrack
 import com.infobip.webrtc.sdk.api.model.video.ScreenCapturer
 import com.infobip.webrtc.sdk.api.model.video.VideoRenderer
 import com.infobip.webrtc.sdk.api.options.ApplicationCallOptions
+import com.infobip.webrtc.sdk.api.options.AudioOptions.AudioQualityMode
 import com.infobip.webrtc.sdk.api.options.VideoOptions
 import com.infobip.webrtc.sdk.api.request.CallApplicationRequest
 import org.webrtc.RendererCommon
@@ -79,7 +81,8 @@ private const val CAPTURE_PERMISSION_REQUEST_CODE = 1
 private const val LOCAL_CAMERA_VIDEO_TAG = "local-camera"
 private const val LOCAL_SCREEN_SHARE_TAG = "local-screen-share"
 
-class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEventListener, ParticipantNetworkQualityEventListener {
+class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEventListener,
+    ParticipantNetworkQualityEventListener {
     companion object {
         private val backgroundThreadExecutor = Executors.newSingleThreadExecutor()
     }
@@ -156,27 +159,39 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         findViewById<Button>(R.id.video_call_with_agent_button).setOnClickListener {
             videoCallWithAgentButtonOnClick()
         }
+
         findViewById<Button>(R.id.phone_call_button).setOnClickListener {
             phoneCallButtonOnClick()
         }
+
         findViewById<Button>(R.id.accept_button).setOnClickListener {
             acceptButtonOnClick()
         }
+
         findViewById<Button>(R.id.decline_button).setOnClickListener {
             declineButtonOnClick()
         }
+
         findViewById<Button>(R.id.toggle_audio_button).setOnClickListener {
             toggleAudioButtonOnClick()
         }
+
+        findViewById<Button>(R.id.choose_audio_quality_button).setOnClickListener {
+            showAudioQualityModeDialog()
+        }
+
         findViewById<Button>(R.id.toggle_camera_button).setOnClickListener {
             toggleCameraButtonOnClick()
         }
+
         findViewById<Button>(R.id.toggle_screen_share_button).setOnClickListener {
             toggleScreenShareButtonOnClick()
         }
+
         findViewById<Button>(R.id.flip_camera_button).setOnClickListener {
             flipCameraButtonOnClick()
         }
+
         findViewById<Button>(R.id.hangup_button).setOnClickListener {
             hangupButtonOnClick()
         }
@@ -401,6 +416,24 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
                 Toast.makeText(applicationContext, "No active call", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun showAudioQualityModeDialog() {
+        val applicationCall = InfobipRTC.getInstance().activeApplicationCall
+        val audioQualityMode = applicationCall.audioQualityMode()
+        val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
+        var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
+
+        AlertDialog.Builder(this)
+            .setTitle("Select preferred audio quality mode")
+            .setSingleChoiceItems(audioQualityModes, checkedItem) { _, which ->
+                checkedItem = which
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                applicationCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun setLoginStatus(text: String) {
@@ -969,14 +1002,16 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
 
     override fun onNetworkQualityChanged(networkQualityChangedEvent: NetworkQualityChangedEvent?) {
         val networkQuality = networkQualityChangedEvent?.networkQuality
-        val message = "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        val message =
+            "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
         Log.d(TAG, message)
     }
 
     override fun onParticipantNetworkQualityChanged(participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent?) {
         val networkQuality = participantNetworkQualityChangedEvent?.networkQuality
         val participant = participantNetworkQualityChangedEvent?.participant?.endpoint?.identifier()
-        val message = "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        val message =
+            "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
         Log.d(TAG, message)
     }
 }

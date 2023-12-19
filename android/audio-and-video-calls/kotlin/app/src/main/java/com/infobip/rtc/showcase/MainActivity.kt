@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
@@ -72,6 +73,7 @@ import com.infobip.webrtc.sdk.api.model.participant.ParticipantState
 import com.infobip.webrtc.sdk.api.model.video.RTCVideoTrack
 import com.infobip.webrtc.sdk.api.model.video.ScreenCapturer
 import com.infobip.webrtc.sdk.api.model.video.VideoRenderer
+import com.infobip.webrtc.sdk.api.options.AudioOptions.AudioQualityMode
 import com.infobip.webrtc.sdk.api.options.PhoneCallOptions
 import com.infobip.webrtc.sdk.api.options.RoomCallOptions
 import com.infobip.webrtc.sdk.api.options.VideoOptions.CameraOrientation
@@ -96,7 +98,8 @@ private const val REMOTE_CAMERA_VIDEO_TAG = "remote-camera"
 private const val REMOTE_SCREEN_SHARE_TAG = "remote-screen-share"
 
 class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEventListener,
-    RoomCallEventListener, NetworkQualityEventListener, RemoteNetworkQualityEventListener, ParticipantNetworkQualityEventListener {
+    RoomCallEventListener, NetworkQualityEventListener, RemoteNetworkQualityEventListener,
+    ParticipantNetworkQualityEventListener {
     companion object {
         private val backgroundThreadExecutor = Executors.newSingleThreadExecutor()
     }
@@ -545,20 +548,23 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     override fun onNetworkQualityChanged(networkQualityChangedEvent: NetworkQualityChangedEvent?) {
         val networkQuality = networkQualityChangedEvent?.networkQuality
-        val message = "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        val message =
+            "Local network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
         Log.d(TAG, message)
     }
 
     override fun onRemoteNetworkQualityChanged(remoteNetworkQualityChangedEvent: RemoteNetworkQualityChangedEvent?) {
         val networkQuality = remoteNetworkQualityChangedEvent?.networkQuality
-        val message = "Remote network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        val message =
+            "Remote network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
         Log.d(TAG, message)
     }
 
     override fun onParticipantNetworkQualityChanged(participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent?) {
         val networkQuality = participantNetworkQualityChangedEvent?.networkQuality
         val participant = participantNetworkQualityChangedEvent?.participant?.endpoint?.identifier()
-        val message = "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
+        val message =
+            "Participant $participant network quality changed to ${networkQuality?.name} (${networkQuality?.score})"
         Log.d(TAG, message)
     }
 
@@ -844,6 +850,10 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             if (activeTab == Tab.ROOM) toggleRoomAudioButtonOnClick() else toggleAudioButtonOnClick()
         }
 
+        findViewById<Button>(R.id.choose_audio_quality_button).setOnClickListener {
+            if (activeTab == Tab.ROOM) showRoomAudioQualityModeDialog() else showCallAudioQualityModeDialog()
+        }
+
         findViewById<Button>(R.id.toggle_camera_button).setOnClickListener {
             if (activeTab == Tab.ROOM) toggleRoomCameraButtonOnClick() else toggleCameraButtonOnClick()
         }
@@ -985,6 +995,42 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
                 identifier
             )
         }
+    }
+
+    private fun showRoomAudioQualityModeDialog() {
+        val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
+        val audioQualityMode = activeRoomCall.audioQualityMode()
+        val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
+        var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
+
+        AlertDialog.Builder(this)
+            .setTitle("Select preferred audio quality mode")
+            .setSingleChoiceItems(audioQualityModes, checkedItem) { _, which ->
+                checkedItem = which
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                activeRoomCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showCallAudioQualityModeDialog() {
+        val activeCall = InfobipRTC.getInstance().activeCall
+        val audioQualityMode = activeCall.audioQualityMode()
+        val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
+        var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
+
+        AlertDialog.Builder(this)
+            .setTitle("Select preferred audio quality mode")
+            .setSingleChoiceItems(audioQualityModes, checkedItem) { _, which ->
+                checkedItem = which
+            }
+            .setPositiveButton("Ok") { _, _ ->
+                activeCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun toggleCameraButtonOnClick() {
