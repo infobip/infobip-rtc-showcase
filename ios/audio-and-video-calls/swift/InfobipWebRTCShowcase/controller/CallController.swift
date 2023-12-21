@@ -219,19 +219,15 @@ class CallController: UIViewController {
     }
     
     @IBAction func openAudioQualityModeAlert(_ sender: UIButton) {
-        let title = "Audio Quality Mode"
-        let message = "Select your preferred mode"
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        for audioQualityMode in CallController.AUDIO_QUALITY_MODES {
-            alert.addAction(UIAlertAction(title: audioQualityMode.value, style: .default) {_ in
-                if let mode = AudioQualityMode(rawValue: audioQualityMode.key.rawValue) {
-                    self.changeAudioQualityMode(mode)
-                }
-            })
+        if let activeRoomCall = getInfobipRTCInstance().getActiveRoomCall() {
+            let activeAudioQualityMode = activeRoomCall.audioQualityMode()
+            let alert = self.getAudioQualityModeAlert(activeAudioQualityMode)
+            self.present(alert, animated: true)
+        } else if let activeCall = getInfobipRTCInstance().getActiveCall() {
+            let activeAudioQualityMode = activeCall.audioQualityMode()
+            let alert = self.getAudioQualityModeAlert(activeAudioQualityMode)
+            self.present(alert, animated: true)
         }
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
-
-        self.present(alert, animated: true)
     }
     
     @IBAction func openAudioDevicesAlert(_ sender: UIButton) {
@@ -246,6 +242,26 @@ class CallController: UIViewController {
             let alert = self.getAudioDevicesAlert(activeAudioDevice, availableAudioDevices)
             self.present(alert, animated: true)
         }
+    }
+    
+    func getAudioQualityModeAlert(_ audioQualityMode: AudioQualityMode) -> UIAlertController {
+        let title = "Audio Quality Mode"
+        var message = "Select your preferred mode."
+        if let readableActiveAudioQualityMode = CallController.AUDIO_QUALITY_MODES[audioQualityMode] {
+            message += " Current mode: \(readableActiveAudioQualityMode)"
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        for audioQualityMode in CallController.AUDIO_QUALITY_MODES {
+            alert.addAction(UIAlertAction(title: audioQualityMode.value, style: .default) {_ in
+                if let mode = AudioQualityMode(rawValue: audioQualityMode.key.rawValue) {
+                    self.changeAudioQualityMode(mode)
+                }
+            })
+        }
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        
+        return alert
     }
     
     func changeAudioQualityMode(_ mode: AudioQualityMode) {
