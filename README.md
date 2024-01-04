@@ -16,7 +16,7 @@ phone calls, WebRTC calls, and/or room calls.
 **Application Calls**: Learn how to integrate with the
 [Calls API](https://www.infobip.com/docs/api/channels/voice/calls) and make application calls.
 
-**Data channels**: Discover how to enable and utilize data channels within calls for exchanging text with other
+**Data Channels**: Discover how to enable and utilize data channels within calls for exchanging text with other
 participants.
 
 **Cross-Platform Compatibility**: The Showcase Apps provide examples on using Infobip RTC SDKs across various platforms,
@@ -24,10 +24,6 @@ including web browsers, iOS, and Android.
 
 ## Getting Started
 
-To start exploring and utilizing one or more RTC Showcase Apps, please refer to the documentations and installation
-instructions available in the subdirectories. You'll find detailed guidance on setting up the environment, running the
-applications, and testing the SDK features.
-
-It is important to note that the prerequisite to running the Showcase Apps is running the
-[Token App](https://github.com/infobip/infobip-rtc-showcase/tree/master/token), available in both Node.js and Java. You
-can find detailed guidance on how to run the Token App in its respective subdirectory.
+Start exploring and utilizing one or more RTC Showcase Apps by following the 
+[step-by-step guides in the Wiki](https://github.com/infobip/infobip-rtc-showcase/wiki). These guides provide detailed 
+instructions on setting up the environment and running the applications.
