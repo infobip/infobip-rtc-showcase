@@ -256,7 +256,7 @@ class RoomCall extends Component {
         this.setState({selectedAudioQualityMode: audioQuality});
 
         if (!!activeRoomCall) {
-            activeRoomCall.audioQualityMode(audioQualityModes[audioQuality]);
+            activeRoomCall.setAudioQualityMode(audioQualityModes[audioQuality]);
         }
     }
 

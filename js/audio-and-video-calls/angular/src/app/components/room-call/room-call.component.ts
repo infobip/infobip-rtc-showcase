@@ -32,11 +32,11 @@ export class RoomCallComponent {
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
   audioQualityModes: { [name: string]: AudioQualityMode } = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    Low: AudioQualityMode.LOW_DATA,
+    Auto: AudioQualityMode.AUTO,
+    High: AudioQualityMode.HIGH_QUALITY
   }
-  selectedAudioQualityMode: string = "Auto";
+  selectedAudioQualityMode = 'Auto';
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -201,7 +201,7 @@ export class RoomCallComponent {
     this.activeRoomCall = null;
     this.participants = [];
     this.remoteVideos = [];
-    this.selectedAudioQualityMode = "Auto";
+    this.selectedAudioQualityMode = 'Auto';
   }
 
   setMediaStream = (element, stream) => {
@@ -258,7 +258,7 @@ export class RoomCallComponent {
 
   onAudioQualityChange = () => {
     if (this.activeRoomCall != null) {
-      this.activeRoomCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
+      this.activeRoomCall.setAudioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }

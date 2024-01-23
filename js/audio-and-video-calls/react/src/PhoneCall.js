@@ -125,7 +125,7 @@ class PhoneCall extends Component {
         this.setState({selectedAudioQualityMode: audioQuality});
 
         if (!!activeCall) {
-            activeCall.audioQualityMode(audioQualityModes[audioQuality]);
+            activeCall.setAudioQualityMode(audioQualityModes[audioQuality]);
         }
     }
 

@@ -36,11 +36,11 @@ export class WebrtcCallComponent implements OnInit {
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
   audioQualityModes: { [name: string]: AudioQualityMode } = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    Low: AudioQualityMode.LOW_DATA,
+    Auto: AudioQualityMode.AUTO,
+    High: AudioQualityMode.HIGH_QUALITY
   }
-  selectedAudioQualityMode: string = "Auto";
+  selectedAudioQualityMode = 'Auto';
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -253,7 +253,7 @@ export class WebrtcCallComponent implements OnInit {
     this.activeCall = null;
     this.isCallEstablished = false;
     this.isIncomingCall = false;
-    this.selectedAudioQualityMode = "Auto";
+    this.selectedAudioQualityMode = 'Auto';
   }
 
   shouldShowLocalVideos = () => {
@@ -272,8 +272,8 @@ export class WebrtcCallComponent implements OnInit {
 
   onAudioQualityChange = () => {
     if (this.activeCall != null) {
-      console.log("Setting audio quality mode: ", this.selectedAudioQualityMode);
-      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
+      console.log('Setting audio quality mode: ', this.selectedAudioQualityMode);
+      this.activeCall.setAudioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }

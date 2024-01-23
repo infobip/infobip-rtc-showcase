@@ -29,11 +29,11 @@ export class PhoneCallComponent implements OnInit {
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
   audioQualityModes: { [name: string]: AudioQualityMode } = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    Low: AudioQualityMode.LOW_DATA,
+    Auto: AudioQualityMode.AUTO,
+    High: AudioQualityMode.HIGH_QUALITY
   }
-  selectedAudioQualityMode: string = "Auto";
+  selectedAudioQualityMode = 'Auto';
 
   constructor(private httpClient: HttpClient) {
     this.connectInfobipRTC();
@@ -130,7 +130,7 @@ export class PhoneCallComponent implements OnInit {
 
   onAudioQualityChange = () => {
     if (this.activeCall != null) {
-      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
+      this.activeCall.setAudioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 
@@ -139,6 +139,6 @@ export class PhoneCallComponent implements OnInit {
     this.activeCall = null;
     this.isCallEstablished = false;
     this.isOutgoingCall = false;
-    this.selectedAudioQualityMode = "Auto"
+    this.selectedAudioQualityMode = 'Auto'
   }
 }

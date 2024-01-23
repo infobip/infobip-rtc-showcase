@@ -59,9 +59,9 @@ function onAudioInputDeviceChanged(event) {
 
 function onAudioQualityChange(event) {
     if (activeCall) {
-        activeCall.audioQualityMode(audioQualityModes[event.value]);
+        activeCall.setAudioQualityMode(audioQualityModes[event.value]);
     } else if (activeRoomCall) {
-        activeRoomCall.audioQualityMode(audioQualityModes[event.value])
+        activeRoomCall.setAudioQualityMode(audioQualityModes[event.value])
     }
 }
 
