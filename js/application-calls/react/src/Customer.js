@@ -11,9 +11,9 @@ import httpClient from "axios";
 import config from "./config.json";
 
 const audioQualityModes = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    'Low': AudioQualityMode.LOW_DATA,
+    'Auto': AudioQualityMode.AUTO,
+    'High': AudioQualityMode.HIGH_QUALITY
 }
 
 class Customer extends Component {
@@ -25,7 +25,7 @@ class Customer extends Component {
             identity: '',
             status: '',
             participants: [],
-            selectedAudioQualityMode: "Auto"
+            selectedAudioQualityMode: 'Auto'
         };
 
         this.connectInfobipRTC();
@@ -211,7 +211,7 @@ class Customer extends Component {
         this.setState({
             activeCall: null,
             status: '',
-            selectedAudioQualityMode: "Auto"
+            selectedAudioQualityMode: 'Auto'
         });
     }
 
@@ -276,7 +276,7 @@ class Customer extends Component {
         this.setState({selectedAudioQualityMode: audioQuality});
 
         if (!!activeCall) {
-            activeCall.audioQualityMode(audioQualityModes[audioQuality]);
+            activeCall.setAudioQualityMode(audioQualityModes[audioQuality]);
         }
     }
 

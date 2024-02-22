@@ -35,9 +35,9 @@ let activeCall;
 let applicationId;
 
 let audioQualityModes = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    'Low': AudioQualityMode.LOW_DATA,
+    'Auto': AudioQualityMode.AUTO,
+    'High': AudioQualityMode.HIGH_QUALITY
 }
 
 $(window).on("beforeunload", function () {
@@ -68,7 +68,7 @@ function onAudioInputDeviceChanged(event) {
 
 function onAudioQualityChange(event) {
     if (activeCall) {
-        activeCall.audioQualityMode(audioQualityModes[event.value]);
+        activeCall.setAudioQualityMode(audioQualityModes[event.value]);
     }
 }
 
@@ -93,5 +93,5 @@ function appendAudioQualityModeOptions() {
         audioQualityModeSelect.append(option);
     });
 
-    audioQualityModeSelect.val("Auto");
+    audioQualityModeSelect.val('Auto');
 }

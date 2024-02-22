@@ -33,11 +33,11 @@ export class CustomerComponent {
   audioInputDevices: MediaDeviceInfo[] = [];
   selectedAudioInputDevice: string;
   audioQualityModes: { [name: string]: AudioQualityMode } = {
-    "Low": AudioQualityMode.LOW_DATA,
-    "Auto": AudioQualityMode.AUTO,
-    "High": AudioQualityMode.HIGH_QUALITY
+    Low: AudioQualityMode.LOW_DATA,
+    Auto: AudioQualityMode.AUTO,
+    High: AudioQualityMode.HIGH_QUALITY
   }
-  selectedAudioQualityMode: string = "Auto";
+  selectedAudioQualityMode = 'Auto';
 
   constructor(private httpClient: HttpClient) {
     this.getApplicationId();
@@ -227,7 +227,7 @@ export class CustomerComponent {
   setValuesAfterCall() {
     this.status = null;
     this.activeCall = null;
-    this.selectedAudioQualityMode = "Auto";
+    this.selectedAudioQualityMode = 'Auto';
   }
 
   setValuesAfterLeavingConferenceOrDialog() {
@@ -302,7 +302,7 @@ export class CustomerComponent {
 
   onAudioQualityChange = () => {
     if (this.activeCall != null) {
-      this.activeCall.audioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
+      this.activeCall.setAudioQualityMode(this.audioQualityModes[this.selectedAudioQualityMode])
     }
   }
 }
