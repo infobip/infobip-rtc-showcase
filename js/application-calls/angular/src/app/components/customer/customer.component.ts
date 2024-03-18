@@ -48,7 +48,7 @@ export class CustomerComponent {
     this.httpClient.get('../../../assets/config.json').subscribe(
       data => {
         // @ts-ignore
-        this.applicationId = data.INFOBIP_APP_ID;
+        this.applicationId = data.INFOBIP_CALLS_CONFIGURATION_ID;
       }
     );
   }

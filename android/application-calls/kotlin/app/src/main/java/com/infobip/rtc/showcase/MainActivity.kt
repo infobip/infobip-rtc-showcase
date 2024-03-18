@@ -292,7 +292,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         val applicationCallRequest = CallApplicationRequest(
             TokenService.getCustomerAccessToken().token,
             applicationContext,
-            APPLICATION_ID,
+            CALLS_CONFIGURATION_ID,
             this
         )
         val applicationCallOptions = ApplicationCallOptions.builder()

@@ -185,7 +185,7 @@ class Customer extends Component {
             .setCustomData({scenario: 'conference'})
             .build();
 
-        const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_APP_ID, applicationCallOptions);
+        const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_CALLS_CONFIGURATION_ID, applicationCallOptions);
 
         this.listenForApplicationCallEvents(activeCall);
         this.setState({ activeCall: activeCall });
@@ -197,7 +197,7 @@ class Customer extends Component {
             .setCustomData({scenario: 'dialog'})
             .build();
 
-        const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_APP_ID, applicationCallOptions);
+        const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_CALLS_CONFIGURATION_ID, applicationCallOptions);
 
         this.listenForApplicationCallEvents(activeCall);
         this.setState({ activeCall: activeCall });

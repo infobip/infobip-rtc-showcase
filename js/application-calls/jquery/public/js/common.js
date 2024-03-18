@@ -23,7 +23,7 @@ async function connectInfobipRTC(identity) {
 function getApplicationId() {
     if (!applicationId) {
         $.getJSON('../config/config.json', function (data) {
-            applicationId = data.INFOBIP_APP_ID;
+            applicationId = data.INFOBIP_CALLS_CONFIGURATION_ID;
         }).fail(function (jqxhr, textStatus, error) {
             console.log("Failed to load config.json: " + error);
         });

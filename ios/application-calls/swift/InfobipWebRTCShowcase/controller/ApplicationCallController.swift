@@ -71,7 +71,7 @@ class ApplicationCallController: UIViewController {
     func makeAudioApplicationCall() {
         do {
             if let token = self.token {
-                let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.applicationId, applicationCallEventListener: self)
+                let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.callsConfigurationId, applicationCallEventListener: self)
                 let applicationCallOptions = ApplicationCallOptions(video: false, customData: ["scenario" : "dialog"])
                 let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
                 self.showOutgoingCallLayout()
