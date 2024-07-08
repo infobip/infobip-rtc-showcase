@@ -1,0 +1,45 @@
+{
+  "name": "infobip-rtc-showcase-react",
+  "version": "0.0.1",
+  "description": "Infobip RTC Showcase Application - React",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/infobip/infobip-rtc-showcase.git"
+  },
+  "private": true,
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "proxy": "http://localhost:8080",
+  "scripts": {
+    "start": "cross-env PORT=8020 react-scripts start"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "infobip-rtc": "2.3.0",
+    "infobip-rtc-extensions": "1.1.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "5.0.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0"
+  }
+}
