@@ -62,7 +62,7 @@ class ApplicationCallController: UIViewController {
             return self.makeVideoApplicationCall()
         }
     }
-    
+
     func handleIncomingApplicationCallOnSimulator() {
         getInfobipRTCInstance().getActiveApplicationCall()?.applicationCallEventListener = self
         self.showIncomingCallLayout()
@@ -71,7 +71,7 @@ class ApplicationCallController: UIViewController {
     func makeAudioApplicationCall() {
         do {
             if let token = self.token {
-                let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.callsConfigurationId, applicationCallEventListener: self)
+                let callApplicationRequest = CallApplicationRequest(token, callsConfigurationId: Config.callsConfigurationId, applicationCallEventListener: self)
                 let applicationCallOptions = ApplicationCallOptions(video: false, customData: ["scenario" : "dialog"])
                 let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
                 self.showOutgoingCallLayout()
@@ -90,7 +90,7 @@ class ApplicationCallController: UIViewController {
     func makeVideoApplicationCall() {
         do {
             if let token = self.token {
-                let callApplicationRequest = CallApplicationRequest(token, applicationId: Config.applicationId, applicationCallEventListener: self)
+                let callApplicationRequest = CallApplicationRequest(token, callsConfigurationId: Config.callsConfigurationId, applicationCallEventListener: self)
                 let applicationCallOptions = ApplicationCallOptions(video: true, customData: ["scenario" : "conference"])
                 let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
                 self.showOutgoingCallLayout()
@@ -225,7 +225,7 @@ class ApplicationCallController: UIViewController {
     
     private func showOutgoingCallLayout() {
         self.callStatusLabel.text = "Calling..."
-        self.destinationLabel.text = Config.applicationId
+        self.destinationLabel.text = Config.callsConfigurationId
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = false
         self.audioButtonsStack.isHidden = true
@@ -234,7 +234,7 @@ class ApplicationCallController: UIViewController {
     
     private func showIncomingCallLayout() {
         self.callStatusLabel.text = "Incoming \(self.callType == .application_call_video ? "video" : "audio") call"
-        self.destinationLabel.text = Config.applicationId
+        self.destinationLabel.text = Config.callsConfigurationId
         self.destinationLabel.isHidden = false
         self.hangupButton.isHidden = true
         self.audioButtonsStack.isHidden = true
@@ -308,6 +308,30 @@ class ApplicationCallController: UIViewController {
 }
 
 extension ApplicationCallController: ApplicationCallEventListener, NetworkQualityEventListener, ParticipantNetworkQualityEventListener {
+    func onCallRecordingStarted(_ callRecordingStartedEvent: CallRecordingStartedEvent) {
+        os_log("Call recording started")
+    }
+    
+    func onCallRecordingStopped(_ callRecordingStoppedEvent: CallRecordingStoppedEvent) {
+        os_log("Call recording stopped")
+    }
+    
+    func onDialogRecordingStarted(_ dialogRecordingStartedEvent: DialogRecordingStartedEvent) {
+        os_log("Dialog recording stopped")
+    }
+    
+    func onDialogRecordingStopped(_ dialogRecordingStoppedEvent: DialogRecordingStoppedEvent) {
+        os_log("Dialog recording stopped")
+    }
+    
+    func onConferenceRecordingStarted(_ conferenceRecordingStartedEvent: ConferenceRecordingStartedEvent) {
+        os_log("Conference recording stopped")
+    }
+    
+    func onConferenceRecordingStopped(_ conferenceRecordingStoppedEvent: ConferenceRecordingStoppedEvent) {
+        os_log("Conference recording stopped")
+    }
+    
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         os_log("Ringing...")
         self.callStatusLabel.text = "Ringing..."

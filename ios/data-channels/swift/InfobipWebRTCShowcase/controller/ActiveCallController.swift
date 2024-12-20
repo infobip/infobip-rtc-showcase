@@ -204,6 +204,10 @@ class ActiveCallController: UIViewController, UIPickerViewDelegate, UIPickerView
 }
 
 extension ActiveCallController: RoomCallEventListener {
+    func onRoomRecordingStarted(_ roomRecordingStartedEvent: RoomRecordingStartedEvent) {
+        os_log("Room recording started")
+    }
+    
     func onRoomJoined(_ roomJoinedEvent: RoomJoinedEvent) {
         os_log("Joined room")
         self.showActiveCallLayout()

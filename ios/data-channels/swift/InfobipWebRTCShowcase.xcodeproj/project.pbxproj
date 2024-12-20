@@ -13,6 +13,7 @@
 		468A8E162B2210E000B4D658 /* DataChannelText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468A8E152B2210E000B4D658 /* DataChannelText.swift */; };
 		46D2210629788D19009584A6 /* RoomCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2210529788D19009584A6 /* RoomCallController.swift */; };
 		46EB78DB2B21EDAA00FE837B /* ActiveCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB78DA2B21EDAA00FE837B /* ActiveCallController.swift */; };
+		78859B4881CBAE662E9A8E90 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE59076F58EBAD76959254E /* Pods_InfobipWebRTCShowcase.framework */; };
 		DD1C2177245B3D2100C85FAA /* CallKitAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */; };
 		DD1C2179245B3DA900C85FAA /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C2178245B3DA900C85FAA /* Runtime.swift */; };
 		DDE5DA87234F7DE500F0ECAB /* TokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE5DA86234F7DE500F0ECAB /* TokenProvider.swift */; };
@@ -20,18 +21,18 @@
 		DDFEE252234F75BF00263857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE250234F75BF00263857 /* Main.storyboard */; };
 		DDFEE254234F75C000263857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE253234F75C000263857 /* Assets.xcassets */; };
 		DDFEE257234F75C000263857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDFEE255234F75C000263857 /* LaunchScreen.storyboard */; };
-		DEFACE1DE347E056DFC95DEE /* Pods_InfobipWebRTCShowcase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.release.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.release.xcconfig"; sourceTree = "<group>"; };
+		2C504389460CF507195B4AEC /* Pods-InfobipWebRTCShowcase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.release.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.release.xcconfig"; sourceTree = "<group>"; };
+		3D94068166F10AB6C2538ADD /* Pods-InfobipWebRTCShowcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.debug.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.debug.xcconfig"; sourceTree = "<group>"; };
 		4606C6042B26213F00752044 /* DataChannelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelExtension.swift; sourceTree = "<group>"; };
 		4606C6082B26219300752044 /* ParticipantPickerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantPickerExtension.swift; sourceTree = "<group>"; };
 		4606C60A2B2628E200752044 /* DataChannelTextsTableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelTextsTableExtension.swift; sourceTree = "<group>"; };
 		468A8E152B2210E000B4D658 /* DataChannelText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataChannelText.swift; sourceTree = "<group>"; };
 		46D2210529788D19009584A6 /* RoomCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCallController.swift; sourceTree = "<group>"; };
 		46EB78DA2B21EDAA00FE837B /* ActiveCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveCallController.swift; sourceTree = "<group>"; };
-		6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InfobipWebRTCShowcase.debug.xcconfig"; path = "Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase.debug.xcconfig"; sourceTree = "<group>"; };
+		CCE59076F58EBAD76959254E /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1C2176245B3D2100C85FAA /* CallKitAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitAdapter.swift; sourceTree = "<group>"; };
 		DD1C2178245B3DA900C85FAA /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
 		DDA3A0622459C26400F4A924 /* InfobipWebRTCShowcase.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InfobipWebRTCShowcase.entitlements; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		DDFEE253234F75C000263857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDFEE256234F75C000263857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DDFEE258234F75C000263857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InfobipWebRTCShowcase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEFACE1DE347E056DFC95DEE /* Pods_InfobipWebRTCShowcase.framework in Frameworks */,
+				78859B4881CBAE662E9A8E90 /* Pods_InfobipWebRTCShowcase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,11 +84,19 @@
 			path = controller;
 			sourceTree = "<group>";
 		};
+		6399907567D5D99873FB4D85 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CCE59076F58EBAD76959254E /* Pods_InfobipWebRTCShowcase.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AC13DCD30FCB2CAA7E8F175C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */,
-				1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */,
+				3D94068166F10AB6C2538ADD /* Pods-InfobipWebRTCShowcase.debug.xcconfig */,
+				2C504389460CF507195B4AEC /* Pods-InfobipWebRTCShowcase.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -99,7 +107,7 @@
 				DDFEE249234F75BF00263857 /* InfobipWebRTCShowcase */,
 				DDFEE248234F75BF00263857 /* Products */,
 				AC13DCD30FCB2CAA7E8F175C /* Pods */,
-				F0723980C18AF3EDB82DECCB /* Frameworks */,
+				6399907567D5D99873FB4D85 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,14 +138,6 @@
 			path = InfobipWebRTCShowcase;
 			sourceTree = "<group>";
 		};
-		F0723980C18AF3EDB82DECCB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F25E2334D84AAC38600FA2D5 /* Pods_InfobipWebRTCShowcase.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,11 +145,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDFEE25B234F75C000263857 /* Build configuration list for PBXNativeTarget "InfobipWebRTCShowcase" */;
 			buildPhases = (
-				43F6456AB1817D2A76EC9563 /* [CP] Check Pods Manifest.lock */,
+				E9252444FAE236E40A8779ED /* [CP] Check Pods Manifest.lock */,
 				DDFEE243234F75BF00263857 /* Sources */,
 				DDFEE244234F75BF00263857 /* Frameworks */,
 				DDFEE245234F75BF00263857 /* Resources */,
-				FC3BA6347CC889FC0C9041D4 /* [CP] Embed Pods Frameworks */,
+				C88C0E2ED5AAA68D21BBCF55 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -208,7 +208,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		43F6456AB1817D2A76EC9563 /* [CP] Check Pods Manifest.lock */ = {
+		C88C0E2ED5AAA68D21BBCF55 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9252444FAE236E40A8779ED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -228,23 +245,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FC3BA6347CC889FC0C9041D4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-InfobipWebRTCShowcase/Pods-InfobipWebRTCShowcase-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -409,7 +409,7 @@
 		};
 		DDFEE25C234F75C000263857 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6188103702D33A8E979D18B9 /* Pods-InfobipWebRTCShowcase.debug.xcconfig */;
+			baseConfigurationReference = 3D94068166F10AB6C2538ADD /* Pods-InfobipWebRTCShowcase.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;
@@ -434,7 +434,7 @@
 		};
 		DDFEE25D234F75C000263857 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F6D6CB3F9B5D65BF0F71C35 /* Pods-InfobipWebRTCShowcase.release.xcconfig */;
+			baseConfigurationReference = 2C504389460CF507195B4AEC /* Pods-InfobipWebRTCShowcase.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = InfobipWebRTCShowcase/InfobipWebRTCShowcase.entitlements;

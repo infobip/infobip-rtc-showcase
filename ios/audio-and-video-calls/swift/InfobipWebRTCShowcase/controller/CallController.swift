@@ -410,6 +410,14 @@ class CallController: UIViewController {
 }
 
 extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomCallEventListener, NetworkQualityEventListener, RemoteNetworkQualityEventListener, ParticipantNetworkQualityEventListener {
+    func onCallRecordingStarted(_ callRecordingStartedEvent: CallRecordingStartedEvent) {
+        os_log("Call recording started")
+    }
+    
+    func onRoomRecordingStarted(_ roomRecordingStartedEvent: RoomRecordingStartedEvent) {
+        os_log("Call recording stopped")
+    }
+    
     func onRinging(_ callRingingEvent: CallRingingEvent) {
         os_log("Ringing...")
         self.callStatusLabel.text = "Ringing..."
