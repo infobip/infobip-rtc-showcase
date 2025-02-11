@@ -1,0 +1,24 @@
+name: infobip_rtc_flutter_showcase
+description: "A new Flutter project."
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  json_annotation: ^4.8.1
+  permission_handler: ^11.3.1
+  provider: ^6.0.0
+  http: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.6
+  json_serializable: ^6.1.3
+
+flutter:
+  uses-material-design: true

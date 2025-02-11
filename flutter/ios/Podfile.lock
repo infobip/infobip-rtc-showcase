@@ -1,0 +1,33 @@
+PODS:
+  - Flutter (1.0.0)
+  - IBGoogleWebRTC (1.0.40201)
+  - InfobipRTC (2.5.2):
+    - IBGoogleWebRTC (= 1.0.40201)
+  - permission_handler_apple (9.3.0):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - InfobipRTC
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+
+SPEC REPOS:
+  trunk:
+    - IBGoogleWebRTC
+    - InfobipRTC
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  IBGoogleWebRTC: 84ca42adac08102c79aea4276c15fe229dd5cd17
+  InfobipRTC: 2e7937ff3cd0c79d7fb7735fe2426f1e5be98e82
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
+
+PODFILE CHECKSUM: 2affad067e3c6c8f7d0232ae77c4bee5876e649a
+
+COCOAPODS: 1.16.2
