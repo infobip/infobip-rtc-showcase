@@ -72,7 +72,7 @@ class ApplicationCallController: UIViewController {
         do {
             if let token = self.token {
                 let callApplicationRequest = CallApplicationRequest(token, callsConfigurationId: Config.callsConfigurationId, applicationCallEventListener: self)
-                let applicationCallOptions = ApplicationCallOptions(video: false, customData: ["scenario" : "dialog"])
+                let applicationCallOptions = ApplicationCallOptions(video: false, customData: ["scenario" : "dialog"], autoReconnect: true)
                 let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
                 self.showOutgoingCallLayout()
             } else {
@@ -91,7 +91,7 @@ class ApplicationCallController: UIViewController {
         do {
             if let token = self.token {
                 let callApplicationRequest = CallApplicationRequest(token, callsConfigurationId: Config.callsConfigurationId, applicationCallEventListener: self)
-                let applicationCallOptions = ApplicationCallOptions(video: true, customData: ["scenario" : "conference"])
+                let applicationCallOptions = ApplicationCallOptions(video: true, customData: ["scenario" : "conference"], autoReconnect: true)
                 let _ = try getInfobipRTCInstance().callApplication(callApplicationRequest, applicationCallOptions)
                 self.showOutgoingCallLayout()
             } else {
@@ -387,15 +387,21 @@ extension ApplicationCallController: ApplicationCallEventListener, NetworkQualit
     }
     
     func onReconnecting(_ callReconnectingEvent: CallReconnectingEvent) {
-        //disabled by default
         os_log("Reconnecting...")
         self.callStatusLabel.text = "Reconnecting..."
     }
     
     func onReconnected(_ callReconnectedEvent: CallReconnectedEvent) {
-        //disabled by default
         os_log("Reconnected")
         self.callStatusLabel.text = "In a call"
+    }
+    
+    func onParticipantDisconnected(_ participantDisconnectedEvent: ParticipantDisconnectedEvent) {
+        os_log("Participant %@ disconnected", participantDisconnectedEvent.participant.endpoint.identifier())
+    }
+    
+    func onParticipantReconnected(_ participantReconnectedEvent: ParticipantReconnectedEvent) {
+        os_log("Participant %@ reconnected", participantReconnectedEvent.participant.endpoint.identifier())
     }
     
     func onCameraVideoAdded(_ cameraVideoAddedEvent: CameraVideoAddedEvent) {

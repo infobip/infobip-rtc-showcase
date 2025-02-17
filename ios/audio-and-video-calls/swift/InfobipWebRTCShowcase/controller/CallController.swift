@@ -81,7 +81,7 @@ class CallController: UIViewController {
             }
             do {
                 let roomRequest = RoomRequest(accessToken.token, roomName: destination, roomCallEventListener: self)
-                let roomCallOptions = RoomCallOptions(audio: !self.startCallMuted, video: self.callType == .room_video, autoRejoin: true)
+                let roomCallOptions = RoomCallOptions(audio: !self.startCallMuted, video: self.callType == .room_video, autoReconnect: true)
                 let _ = try getInfobipRTCInstance().joinRoom(roomRequest, roomCallOptions)
                 self.showOutgoingCallLayout()
             } catch {
@@ -102,7 +102,7 @@ class CallController: UIViewController {
             }
             do {
                 let callPhoneRequest = CallPhoneRequest(accessToken.token, destination: destination, phoneCallEventListener: self)
-                let phoneCallOptions = PhoneCallOptions(audio: !self.startCallMuted)
+                let phoneCallOptions = PhoneCallOptions(audio: !self.startCallMuted, autoReconnect: true)
                 let _ = try getInfobipRTCInstance().callPhone(callPhoneRequest, phoneCallOptions)
                 self.showOutgoingCallLayout()
             } catch {
@@ -123,7 +123,7 @@ class CallController: UIViewController {
             }
             do {
                 let callWebrtcRequest = CallWebrtcRequest(accessToken.token, destination: destination, webrtcCallEventListener: self)
-                let webrtcCallOptions = WebrtcCallOptions(audio: !self.startCallMuted, video: self.callType == .webrtc_video)
+                let webrtcCallOptions = WebrtcCallOptions(audio: !self.startCallMuted, video: self.callType == .webrtc_video, autoReconnect: true)
                 let _ = try getInfobipRTCInstance().callWebrtc(callWebrtcRequest, webrtcCallOptions)
                 self.showOutgoingCallLayout()
             } catch {
@@ -601,16 +601,6 @@ extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomC
         os_log("Participant %@ stopped talking", participantStoppedTalkingEvent.participant.endpoint.identifier())
     }
     
-    func onRoomRejoining(_ roomRejoiningEvent: RoomRejoiningEvent) {
-        os_log("Rejoining room...")
-        self.callStatusLabel.text = "Rejoining..."
-    }
-    
-    func onRoomRejoined(_ roomRejoinedEvent: RoomRejoinedEvent) {
-        os_log("Rejoined room")
-        self.callStatusLabel.text = "Joined room"
-    }
-    
     func onNetworkQualityChanged(_ networkQualityChangedEvent: NetworkQualityChangedEvent) {
         let networkQuality = networkQualityChangedEvent.networkQuality
         os_log("Local network quality changed to %@ (%@)", networkQuality.getName(), networkQuality.getScore())
@@ -624,5 +614,37 @@ extension CallController: PhoneCallEventListener, WebrtcCallEventListener, RoomC
     func onParticipantNetworkQualityChanged(_ participantNetworkQualityChangedEvent: ParticipantNetworkQualityChangedEvent) {
         let networkQuality = participantNetworkQualityChangedEvent.networkQuality
         os_log("Participant %@ network quality changed to %@ (%@)", participantNetworkQualityChangedEvent.participant.endpoint.identifier(), networkQuality.getName(), networkQuality.getScore())
+    }
+    
+    func onRemoteDisconnected(_ remoteDisconnectedEvent: RemoteDisconnectedEvent) {
+        os_log("Remote disconnected")
+    }
+    
+    func onRemoteReconnected(_ remoteReconnectedEvent: RemoteReconnectedEvent) {
+        os_log("Remote reconnected")
+    }
+    
+    func onParticipantDisconnected(_ participantDisconnectedEvent: ParticipantDisconnectedEvent) {
+        let participant = participantDisconnectedEvent.participant
+        os_log("Participant disconnected: %@", participant.endpoint.identifier())
+    }
+    
+    func onParticipantReconnected(_ participantReconnectedEvent: ParticipantReconnectedEvent) {
+        let participant = participantReconnectedEvent.participant
+        os_log("Participant reconnected: %@", participant.endpoint.identifier())
+    }
+    
+    func onReconnecting(_ callReconnectingEvent: CallReconnectingEvent) {
+        os_log("Reconnecting...")
+        self.callStatusLabel.text = "Reconnecting..."
+    }
+    
+    func onReconnected(_ callReconnectedEvent: CallReconnectedEvent) {
+        os_log("Reconnected")
+        if (getInfobipRTCInstance().getActiveCall()) != nil {
+            self.callStatusLabel.text = "In a call"
+        } else {
+            self.callStatusLabel.text = "Joined room"
+        }
     }
 }

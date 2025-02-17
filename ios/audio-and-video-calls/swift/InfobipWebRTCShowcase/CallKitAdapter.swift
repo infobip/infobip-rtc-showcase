@@ -40,7 +40,7 @@ class CallKitAdapter: NSObject {
 extension CallKitAdapter: CXProviderDelegate {
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         if let incomingCall = callRecord?.call as? IncomingWebrtcCall {
-            incomingCall.accept()
+            incomingCall.accept(WebrtcCallOptions(autoReconnect: true))
             action.fulfill()
         } else {
             action.fail()

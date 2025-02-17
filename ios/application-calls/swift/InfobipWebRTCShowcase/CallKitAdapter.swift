@@ -40,7 +40,7 @@ class CallKitAdapter: NSObject {
 extension CallKitAdapter: CXProviderDelegate {
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         if let incomingCall = callRecord?.call as? IncomingApplicationCall {
-            let applicationCallOptions = ApplicationCallOptions(video: true)
+            let applicationCallOptions = ApplicationCallOptions(video: true, autoReconnect: true)
             incomingCall.accept(applicationCallOptions)
             action.fulfill()
         } else {

@@ -38,7 +38,7 @@ extension AgentController: PKPushRegistryDelegate, IncomingApplicationCallEventL
         let alert = UIAlertController(title: "Incoming Application Call", message: incomingCall.from, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: {action in
-            let applicationCallOptions = ApplicationCallOptions(video: true)
+            let applicationCallOptions = ApplicationCallOptions(video: true, autoReconnect: true)
             incomingCall.accept(applicationCallOptions)
             self.handleIncomingCall()
         }))

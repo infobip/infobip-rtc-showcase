@@ -37,7 +37,7 @@ extension MainController: PKPushRegistryDelegate, IncomingCallEventListener {
     private func handleIncomingCallOnSimulator(_ incomingCall: IncomingWebrtcCall) {
         let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identifier(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: {action in
-            incomingCall.accept()
+            incomingCall.accept(WebrtcCallOptions(autoReconnect: true))
         }))
         alert.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: {action in
             incomingCall.decline(DeclineOptions(true))
