@@ -15,6 +15,10 @@ import com.infobip.webrtc.sdk.api.event.call.CallRingingEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoUpdatedEvent
 import com.infobip.webrtc.sdk.api.event.call.ErrorEvent
+import com.infobip.webrtc.sdk.api.event.call.ReconnectedEvent
+import com.infobip.webrtc.sdk.api.event.call.ReconnectingEvent
+import com.infobip.webrtc.sdk.api.event.call.RemoteDisconnectedEvent
+import com.infobip.webrtc.sdk.api.event.call.RemoteReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
 import com.infobip.webrtc.sdk.api.event.listener.IncomingCallEventListener
@@ -238,6 +242,22 @@ class MainActivity : FlutterActivity(), WebrtcCallEventListener, PhoneCallEventL
 
     override fun onRemoteUnmuted() {
         invokeMethod("onRemoteUnmuted", null)
+    }
+
+    override fun onReconnecting(reconnectingEvent: ReconnectingEvent?) {
+        invokeMethod("onReconnecting", null)
+    }
+
+    override fun onReconnected(reconnectedEvent: ReconnectedEvent?) {
+        invokeMethod("onReconnected", null)
+    }
+
+    override fun onRemoteDisconnected(remoteDisconnectedEvent: RemoteDisconnectedEvent?) {
+        invokeMethod("onRemoteDisconnected", null)
+    }
+
+    override fun onRemoteReconnected(remoteReconnectedEvent: RemoteReconnectedEvent?) {
+        invokeMethod("onRemoteReconnected", null)
     }
 
     override fun onIncomingWebrtcCall(incomingWebrtcCallEvent: IncomingWebrtcCallEvent?) {
