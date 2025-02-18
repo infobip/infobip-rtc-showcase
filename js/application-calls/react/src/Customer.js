@@ -65,8 +65,8 @@ class Customer extends Component {
             console.log('Call is ringing...');
         });
         call.on(CallsApiEvent.ESTABLISHED, event => {
-            this.setState({status: 'Established...'});
-            console.log('Call is established...');
+            this.setState({status: 'Established'});
+            console.log('Call is established');
             this.setMediaStream(this.refs.remoteAudio, event.stream);
         });
         call.on(CallsApiEvent.HANGUP, event => {
@@ -177,12 +177,28 @@ class Customer extends Component {
         call.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
             console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
         });
+
+        call.on(CallsApiEvent.RECONNECTING, () => {
+            this.setState({status: 'Reconnecting...'});
+            console.log('Reconnecting...');
+        });
+        call.on(CallsApiEvent.RECONNECTED, () => {
+            this.setState({status: 'Established'});
+            console.log('Reconnected');
+        });
+        call.on(CallsApiEvent.PARTICIPANT_DISCONNECTED, event => {
+            console.log("Participant " + event.participant.endpoint.identifier + " disconnected");
+        });
+        call.on(CallsApiEvent.PARTICIPANT_RECONNECTED, event => {
+            console.log("Participant " + event.participant.endpoint.identifier + " reconnected");
+        });
     }
 
     videoCallWithAgent = () => {
         const applicationCallOptions = ApplicationCallOptions.builder()
             .setVideo(true)
             .setCustomData({scenario: 'conference'})
+            .setAutoReconnect(true)
             .build();
 
         const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_CALLS_CONFIGURATION_ID, applicationCallOptions);
@@ -195,6 +211,7 @@ class Customer extends Component {
         const applicationCallOptions = ApplicationCallOptions.builder()
             .setVideo(false)
             .setCustomData({scenario: 'dialog'})
+            .setAutoReconnect(true)
             .build();
 
         const activeCall = this.state.infobipRTC.callApplication(config.INFOBIP_CALLS_CONFIGURATION_ID, applicationCallOptions);

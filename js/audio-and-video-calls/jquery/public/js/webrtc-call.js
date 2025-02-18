@@ -35,6 +35,7 @@ function setOnClickEventListeners() {
 function call(video = false) {
     let webrtcCallOptions = WebrtcCallOptions.builder()
         .setVideo(video)
+        .setAutoReconnect(true)
         .build();
     activeCall = infobipRTC.callWebrtc(getDestination(), webrtcCallOptions);
     $('#audio-input-device-settings').prop('hidden', false);
@@ -147,6 +148,21 @@ function listenForCallEvents() {
     activeCall.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
         console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
     });
+
+    activeCall.on(CallsApiEvent.RECONNECTING, () => {
+        $('#status').html('Reconnecting...');
+        console.log('Reconnecting...');
+    });
+    activeCall.on(CallsApiEvent.RECONNECTED, () => {
+        $('#status').html('Call established with: ' + activeCall.counterpart().identifier);
+        console.log('Reconnected');
+    });
+    activeCall.on(CallsApiEvent.REMOTE_DISCONNECTED, () => {
+        console.log('Remote disconnected');
+    });
+    activeCall.on(CallsApiEvent.REMOTE_RECONNECTED, () => {
+        console.log('Remote reconnected');
+    });
 }
 
 function toggleScreenShare() {
@@ -169,7 +185,7 @@ function setMediaStream(element, stream) {
 
 function accept() {
     $('#accept-decline-buttons').prop('hidden', true);
-    activeCall.accept();
+    activeCall.accept(WebrtcCallOptions.builder().setAutoReconnect(true).build());
 }
 
 function decline() {

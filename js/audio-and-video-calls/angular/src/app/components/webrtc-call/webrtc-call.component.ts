@@ -185,6 +185,21 @@ export class WebrtcCallComponent implements OnInit {
     this.activeCall.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
       console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
     });
+
+    this.activeCall.on(CallsApiEvent.RECONNECTING, () => {
+      this.status = 'Reconnecting...';
+      console.log('Reconnecting...');
+    });
+    this.activeCall.on(CallsApiEvent.RECONNECTED, () => {
+      this.status = 'Call established with: ' + this.activeCall.counterpart().identifier;
+      console.log('Reconnected');
+    });
+    this.activeCall.on(CallsApiEvent.REMOTE_DISCONNECTED, () => {
+      console.log('Remote disconnected');
+    });
+    this.activeCall.on(CallsApiEvent.REMOTE_RECONNECTED, () => {
+      console.log('Remote reconnected');
+    });
   };
 
   removeAllMediaStreams = () => {
@@ -212,6 +227,7 @@ export class WebrtcCallComponent implements OnInit {
     if (this.destination) {
       const webrtcCallOptions = WebrtcCallOptions.builder()
         .setVideo(video)
+        .setAutoReconnect(true)
         .build();
 
       this.activeCall = this.infobipRTC.callWebrtc(this.destination, webrtcCallOptions);
@@ -225,7 +241,10 @@ export class WebrtcCallComponent implements OnInit {
   };
 
   accept = () => {
-    (this.activeCall as IncomingWebrtcCall).accept();
+    const options = WebrtcCallOptions.builder()
+      .setAutoReconnect(true)
+      .build();
+    (this.activeCall as IncomingWebrtcCall).accept(options);
   };
 
   decline = () => {

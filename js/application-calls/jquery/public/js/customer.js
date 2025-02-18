@@ -28,8 +28,8 @@ function listenForApplicationCallEvents() {
         console.log('Call is ringing...');
     });
     activeCall.on(CallsApiEvent.ESTABLISHED, function (event) {
-        $('#status').html('Established...');
-        console.log('Call is established...');
+        $('#status').html('Established');
+        console.log('Call is established');
         setMediaStream($('#remote-audio')[0], event.stream);
     });
     activeCall.on(CallsApiEvent.HANGUP, function (event) {
@@ -134,12 +134,28 @@ function listenForApplicationCallEvents() {
     activeCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
         console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
     });
+
+    activeCall.on(CallsApiEvent.RECONNECTING, () => {
+        $('#status').html('Reconnecting...');
+        console.log('Reconnecting...');
+    });
+    activeCall.on(CallsApiEvent.RECONNECTED, () => {
+        $('#status').html('Established');
+        console.log('Reconnected');
+    });
+    activeCall.on(CallsApiEvent.PARTICIPANT_DISCONNECTED, event => {
+        console.log('Participant ' + event.participant.endpoint.identifier + ' disconnected');
+    });
+    activeCall.on(CallsApiEvent.PARTICIPANT_RECONNECTED, event => {
+        console.log('Participant ' + event.participant.endpoint.identifier + ' reconnected');
+    });
 }
 
 function phoneCall() {
     let applicationCallOptions = ApplicationCallOptions.builder()
         .setVideo(false)
         .setCustomData({scenario: 'dialog'})
+        .setAutoReconnect(true)
         .build();
 
     activeCall = infobipRTC.callApplication(applicationId, applicationCallOptions);
@@ -151,6 +167,7 @@ function videoCallWithAgent() {
     let applicationCallOptions = ApplicationCallOptions.builder()
         .setVideo(true)
         .setCustomData({scenario: 'conference'})
+        .setAutoReconnect(true)
         .build();
 
     activeCall = infobipRTC.callApplication(applicationId, applicationCallOptions);

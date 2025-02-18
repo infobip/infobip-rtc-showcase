@@ -23,7 +23,7 @@ function setOnClickEventListeners() {
 function join(video = false) {
     let roomCallOptions = RoomCallOptions.builder()
         .setVideo(video)
-        .setAutoRejoin(true)
+        .setAutoReconnect(true)
         .build();
 
     activeRoomCall = infobipRTC.joinRoom(getRoomName(), roomCallOptions);
@@ -48,20 +48,7 @@ function listenForRoomCallEvents() {
         removeMediaStreams();
         setValuesAfterLeavingRoom();
     });
-    activeRoomCall.on(CallsApiEvent.ROOM_REJOINING, function (event) {
-        $('#status').html('Rejoining room: ' + getRoomName());
-        console.log('Rejoining room: ' + getRoomName());
-    });
-    activeRoomCall.on(CallsApiEvent.ROOM_REJOINED, function (event) {
-        $('#status').html('Rejoined room: ' + getRoomName());
-        console.log('Rejoined room: ' + getRoomName());
-        setMediaStream($('#remote-audio')[0], event.stream);
-        setValuesAfterJoiningRoom();
-        if (event.participants.length) {
-            $("#participants").append("<br/><b>Participants:</b><br/>");
-            event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
-        }
-    });
+
     activeRoomCall.on(CallsApiEvent.PARTICIPANT_JOINING, function (event) {
         $('#status').html('Participant ' + event.participant.endpoint.identifier + ' is joining room');
         console.log('Participant ' + event.participant.endpoint.identifier + ' is joining room');
@@ -145,6 +132,21 @@ function listenForRoomCallEvents() {
     activeRoomCall.on(CallsApiEvent.ERROR, function (event) {
         $('#status').html('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+    });
+
+    activeRoomCall.on(CallsApiEvent.RECONNECTING, () => {
+        $('#status').html('Reconnecting...');
+        console.log('Reconnecting...');
+    });
+    activeRoomCall.on(CallsApiEvent.RECONNECTED, () => {
+        $('#status').html('Joined room: ' + getRoomName());
+        console.log('Reconnected');
+    });
+    activeRoomCall.on(CallsApiEvent.PARTICIPANT_DISCONNECTED, event => {
+        console.log('Participant ' + event.participant.endpoint.identifier + ' disconnected');
+    });
+    activeRoomCall.on(CallsApiEvent.PARTICIPANT_RECONNECTED, event => {
+        console.log('Participant ' + event.participant.endpoint.identifier + ' reconnected');
     });
 }
 

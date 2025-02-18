@@ -16,6 +16,7 @@ function setOnClickEventListeners() {
 function callPhone() {
     let phoneCallOptions = PhoneCallOptions.builder()
         .setFrom('33712345678')
+        .setAutoReconnect(true)
         .build();
     activeCall = infobipRTC.callPhone(getDestination(), phoneCallOptions);
     listenForCallEvents();
@@ -42,6 +43,14 @@ function listenForCallEvents() {
     });
     activeCall.on(CallsApiEvent.ERROR, function (event) {
         console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+    });
+    activeCall.on(CallsApiEvent.RECONNECTING, () => {
+        $('#status').html('Reconnecting...');
+        console.log('Reconnecting...');
+    });
+    activeCall.on(CallsApiEvent.RECONNECTED, () => {
+        $('#status').html('Call established with: ' + getDestination());
+        console.log('Reconnected');
     });
 }
 

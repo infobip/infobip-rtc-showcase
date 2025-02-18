@@ -80,15 +80,19 @@ export class RoomCallComponent {
       this.setValuesAfterLeavingRoom();
     });
 
-    this.activeRoomCall.on(CallsApiEvent.ROOM_REJOINING, () => {
-      this.status = 'Rejoining room: ' + this.roomName;
-      console.log('Rejoining room: ' + this.roomName);
+    this.activeRoomCall.on(CallsApiEvent.RECONNECTING, () => {
+      this.status = 'Reconnecting...';
+      console.log('Reconnecting...');
     });
-    this.activeRoomCall.on(CallsApiEvent.ROOM_REJOINED, event => {
-      this.status = 'Rejoined room: ' + this.roomName;
-      console.log('Rejoined room: ' + this.roomName);
-      this.setMediaStream(this.remoteAudio, event.stream);
-      event.participants.forEach(participant => this.addParticipant(participant.endpoint.identifier));
+    this.activeRoomCall.on(CallsApiEvent.RECONNECTED, () => {
+      this.status = 'Joined room: ' + this.roomName;
+      console.log('Reconnected');
+    });
+    this.activeRoomCall.on(CallsApiEvent.PARTICIPANT_DISCONNECTED, event => {
+      console.log('Participant ' + event.participant.endpoint.identifier + ' disconnected');
+    });
+    this.activeRoomCall.on(CallsApiEvent.PARTICIPANT_RECONNECTED, event => {
+      console.log('Participant ' + event.participant.endpoint.identifier + ' reconnected');
     });
 
     this.activeRoomCall.on(CallsApiEvent.PARTICIPANT_JOINING, event => {
@@ -184,7 +188,7 @@ export class RoomCallComponent {
     if (this.roomName) {
       const roomCallOptions = RoomCallOptions.builder()
         .setVideo(video)
-        .setAutoRejoin(true)
+        .setAutoReconnect(true)
         .build();
 
       this.activeRoomCall = this.infobipRTC.joinRoom(this.roomName, roomCallOptions);

@@ -73,6 +73,14 @@ class PhoneCall extends Component {
         call.on(CallsApiEvent.ERROR, event => {
             console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
         });
+        call.on(CallsApiEvent.RECONNECTING, () => {
+            this.setState({status: 'Reconnecting...'});
+            console.log('Reconnecting...');
+        });
+        call.on(CallsApiEvent.RECONNECTED, () => {
+            this.setState({status: 'Call established with: ' + this.state.activeCall.counterpart().identifier});
+            console.log('Reconnected');
+        });
     }
 
     setMediaStream = (element, stream) => {
@@ -88,6 +96,7 @@ class PhoneCall extends Component {
         if (this.state.destination) {
             let phoneCallOptions = PhoneCallOptions.builder()
                 .setFrom('33712345678')
+                .setAutoReconnect(true)
                 .build();
             const activeCall = this.state.infobipRTC.callPhone(this.state.destination, phoneCallOptions);
             this.setCallEventHandlers(activeCall);

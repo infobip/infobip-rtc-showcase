@@ -84,8 +84,8 @@ export class CustomerComponent {
       console.log('Call is ringing...');
     });
     this.activeCall.on(CallsApiEvent.ESTABLISHED, event => {
-      this.status = 'Established...';
-      console.log('Call is established...');
+      this.status = 'Established';
+      console.log('Call is established');
       this.setMediaStream(this.remoteAudio, event.stream);
     });
     this.activeCall.on(CallsApiEvent.HANGUP, event => {
@@ -198,12 +198,28 @@ export class CustomerComponent {
     this.activeCall.on(CallsApiEvent.PARTICIPANT_NETWORK_QUALITY_CHANGED, event => {
       console.log('Network quality of ' + event.participant.endpoint.identifier + ' has changed: ' + NetworkQuality[event.networkQuality]);
     });
+
+    this.activeCall.on(CallsApiEvent.RECONNECTING, () => {
+      this.status = 'Reconnecting...';
+      console.log('Reconnecting...');
+    });
+    this.activeCall.on(CallsApiEvent.RECONNECTED, () => {
+      this.status = 'Established';
+      console.log('Reconnected');
+    });
+    this.activeCall.on(CallsApiEvent.PARTICIPANT_DISCONNECTED, event => {
+      console.log('Participant ' + event.participant.endpoint.identifier + ' disconnected');
+    });
+    this.activeCall.on(CallsApiEvent.PARTICIPANT_RECONNECTED, event => {
+      console.log('Participant ' + event.participant.endpoint.identifier + ' reconnected');
+    });
   };
 
   videoCallWithAgent() {
     const applicationCallOptions = ApplicationCallOptions.builder()
       .setVideo(true)
       .setCustomData({scenario: 'conference'})
+      .setAutoReconnect(true)
       .build();
 
     this.activeCall = this.infobipRTC.callApplication(this.applicationId, applicationCallOptions);
@@ -214,6 +230,7 @@ export class CustomerComponent {
     const applicationCallOptions = ApplicationCallOptions.builder()
       .setVideo(false)
       .setCustomData({scenario: 'dialog'})
+      .setAutoReconnect(true)
       .build();
 
     this.activeCall = this.infobipRTC.callApplication(this.applicationId, applicationCallOptions);

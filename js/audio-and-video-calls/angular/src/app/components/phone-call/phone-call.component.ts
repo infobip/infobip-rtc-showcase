@@ -87,6 +87,14 @@ export class PhoneCallComponent implements OnInit {
     this.activeCall.on(CallsApiEvent.ERROR, event => {
       console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
     });
+    this.activeCall.on(CallsApiEvent.RECONNECTING, () => {
+      this.status = 'Reconnecting...';
+      console.log('Reconnecting...');
+    });
+    this.activeCall.on(CallsApiEvent.RECONNECTED, () => {
+      this.status = 'Call established with: ' + this.destination;
+      console.log('Reconnected');
+    });
   };
 
   setMediaStream = (element, stream) => {
@@ -106,6 +114,7 @@ export class PhoneCallComponent implements OnInit {
     if (this.destination) {
       const phoneCallOptions = PhoneCallOptions.builder()
         .setFrom('33712345678')
+        .setAutoReconnect(true)
         .build();
 
       this.activeCall = this.infobipRTC.callPhone(this.destination, phoneCallOptions);

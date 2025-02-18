@@ -168,6 +168,21 @@ class WebrtcCall extends Component {
         call.on(CallsApiEvent.REMOTE_NETWORK_QUALITY_CHANGED, event => {
             console.log('Remote network quality has changed: ' + NetworkQuality[event.networkQuality]);
         });
+
+        call.on(CallsApiEvent.RECONNECTING, () => {
+            this.setState({status: 'Reconnecting...'});
+            console.log('Reconnecting...');
+        });
+        call.on(CallsApiEvent.RECONNECTED, () => {
+            this.setState({status: 'Call established with: ' + this.state.activeCall.counterpart().identifier});
+            console.log('Reconnected');
+        });
+        call.on(CallsApiEvent.REMOTE_DISCONNECTED, () => {
+            console.log('Remote disconnected');
+        });
+        call.on(CallsApiEvent.REMOTE_RECONNECTED, () => {
+            console.log('Remote reconnected');
+        });
     }
 
     setMediaStream = (element, stream) => {
@@ -191,6 +206,7 @@ class WebrtcCall extends Component {
         if (this.state.destination) {
             let webrtcCallOptions = WebrtcCallOptions.builder()
                 .setVideo(video)
+                .setAutoReconnect(true)
                 .build();
 
             const activeCall = this.state.infobipRTC.callWebrtc(this.state.destination, webrtcCallOptions);
@@ -200,7 +216,10 @@ class WebrtcCall extends Component {
     };
 
     accept = () => {
-        this.state.activeCall.accept();
+        const options = WebrtcCallOptions.builder()
+            .setAutoReconnect(true)
+            .build();
+        this.state.activeCall.accept(options);
     };
 
     decline = () => {
