@@ -33,21 +33,29 @@ import com.infobip.webrtc.sdk.api.call.IncomingApplicationCall
 import com.infobip.webrtc.sdk.api.event.call.CallEarlyMediaEvent
 import com.infobip.webrtc.sdk.api.event.call.CallEstablishedEvent
 import com.infobip.webrtc.sdk.api.event.call.CallHangupEvent
+import com.infobip.webrtc.sdk.api.event.call.CallRecordingStartedEvent
+import com.infobip.webrtc.sdk.api.event.call.CallRecordingStoppedEvent
 import com.infobip.webrtc.sdk.api.event.call.CallRingingEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoUpdatedEvent
 import com.infobip.webrtc.sdk.api.event.call.ConferenceJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.ConferenceLeftEvent
+import com.infobip.webrtc.sdk.api.event.call.ConferenceRecordingStartedEvent
+import com.infobip.webrtc.sdk.api.event.call.ConferenceRecordingStoppedEvent
 import com.infobip.webrtc.sdk.api.event.call.DialogJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.DialogLeftEvent
+import com.infobip.webrtc.sdk.api.event.call.DialogRecordingStartedEvent
+import com.infobip.webrtc.sdk.api.event.call.DialogRecordingStoppedEvent
 import com.infobip.webrtc.sdk.api.event.call.ErrorEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantCameraVideoAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantCameraVideoRemovedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantDeafEvent
+import com.infobip.webrtc.sdk.api.event.call.ParticipantDisconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantJoiningEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantLeftEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantMutedEvent
+import com.infobip.webrtc.sdk.api.event.call.ParticipantReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantScreenShareRemovedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantStartedTalkingEvent
@@ -134,7 +142,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         }
         if (resultCode == RESULT_OK) {
             val screenCapturer = ScreenCapturer(resultCode, data)
-            InfobipRTC.getInstance().activeApplicationCall.startScreenShare(screenCapturer)
+            InfobipRTC.getInstance().activeApplicationCall?.startScreenShare(screenCapturer)
         }
     }
 
@@ -298,6 +306,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         val applicationCallOptions = ApplicationCallOptions.builder()
             .video(video)
             .customData(mapOf("scenario" to scenario))
+            .autoReconnect(true)
             .build()
         val call =
             InfobipRTC.getInstance().callApplication(applicationCallRequest, applicationCallOptions)
@@ -306,7 +315,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
 
     private fun showIncomingCall() {
         val incomingApplicationCall = InfobipRTC.getInstance().activeApplicationCall
-        if (incomingApplicationCall.status() == CallStatus.RINGING) {
+        if (incomingApplicationCall?.status() == CallStatus.RINGING) {
             incomingApplicationCall.eventListener = this
 
             runOnUiThread {
@@ -340,7 +349,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
         if (applicationCall != null) {
             (applicationCall as IncomingApplicationCall).accept(
-                ApplicationCallOptions.builder().video(true).build()
+                ApplicationCallOptions.builder().video(true).autoReconnect(true).build()
             )
         } else {
             runOnUiThread {
@@ -374,7 +383,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
 
     private fun showAudioQualityModeDialog() {
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
-        val audioQualityMode = applicationCall.audioQualityMode()
+        val audioQualityMode = applicationCall?.audioQualityMode()
         val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
         var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
 
@@ -384,7 +393,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
                 checkedItem = which
             }
             .setPositiveButton("Ok") { _, _ ->
-                applicationCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+                applicationCall?.audioQualityMode(AudioQualityMode.values()[checkedItem])
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -392,22 +401,24 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
 
     private fun showAudioDeviceDialog() {
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
-        val activeDevice = applicationCall.audioDeviceManager().activeDevice
-        val availableAudioDevices = applicationCall.audioDeviceManager().availableAudioDevices
-        val audioDevices = availableAudioDevices.map { it.name }.toTypedArray()
-        var checkedItem = availableAudioDevices.indexOfFirst { it == activeDevice }
+        val activeDevice = applicationCall?.audioDeviceManager()?.activeDevice
+        val availableAudioDevices = applicationCall?.audioDeviceManager()?.availableAudioDevices
+        val audioDevices = availableAudioDevices?.map { it.name }?.toTypedArray()
+        var checkedItem = availableAudioDevices?.indexOfFirst { it == activeDevice }
 
-        AlertDialog.Builder(this)
-            .setTitle("Select preferred audio device")
-            .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
-                checkedItem = which
-            }
-            .setPositiveButton("Ok") { _, _ ->
-                val audioDevice = availableAudioDevices.elementAt(checkedItem)!!
-                applicationCall.audioDeviceManager().selectAudioDevice(audioDevice)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        if (checkedItem != null) {
+            AlertDialog.Builder(this)
+                .setTitle("Select preferred audio device")
+                .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
+                    checkedItem = which
+                }
+                .setPositiveButton("Ok") { _, _ ->
+                    val audioDevice = availableAudioDevices?.elementAt(checkedItem!!)!!
+                    applicationCall.audioDeviceManager()!!.selectAudioDevice(audioDevice)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
     }
 
     private fun toggleCameraButtonOnClick() {
@@ -484,7 +495,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         findViewById<Button>(R.id.toggle_audio_button).setText(R.string.mute)
         findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
         val applicationCall = InfobipRTC.getInstance().activeApplicationCall
-        if (applicationCall.customData()["scenario"] == "conference" || TokenService.getRole() == Role.AGENT) {
+        if (applicationCall?.customData()?.get("scenario") == "conference" || TokenService.getRole() == Role.AGENT) {
             findViewById<LinearLayout>(R.id.video_buttons).visibility = View.VISIBLE
             findViewById<Button>(R.id.flip_camera_button).visibility = View.VISIBLE
         } else {
@@ -533,7 +544,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
     private fun initParticipantsLayout() {
         findViewById<LinearLayout>(R.id.participants_layout).visibility = View.VISIBLE
         setNumberOfParticipants()
-        for (participant: Participant in InfobipRTC.getInstance().activeApplicationCall.participants()) {
+        InfobipRTC.getInstance().activeApplicationCall?.participants()?.forEach { participant : Participant ->
             if (participant.state.equals(ParticipantState.JOINED)) {
                 val participantToAdd = createParticipant(participant.endpoint.identifier())
                 findViewById<LinearLayout>(R.id.participants).addView(participantToAdd)
@@ -578,7 +589,7 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
         numberOfParticipants.text =
             getString(
                 R.string.participants_title,
-                InfobipRTC.getInstance().activeApplicationCall.participants().size
+                InfobipRTC.getInstance().activeApplicationCall?.participants()?.size
             )
     }
 
@@ -1017,6 +1028,83 @@ class MainActivity : Activity(), ApplicationCallEventListener, NetworkQualityEve
 
     override fun onReconnected(reconnectedEvent: ReconnectedEvent?) {
         val message = "Call reconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onParticipantDisconnected(participantDisconnectedEvent: ParticipantDisconnectedEvent?) {
+        val participant = participantDisconnectedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant disconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onParticipantReconnected(participantReconnectedEvent: ParticipantReconnectedEvent?) {
+        val participant = participantReconnectedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant reconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onCallRecordingStarted(callRecordingStarted: CallRecordingStartedEvent?) {
+        val recordingType = callRecordingStarted?.recordingType?.name
+        val message = "Call recording started with type: $recordingType"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onCallRecordingStopped(callRecordingStoppedEvent: CallRecordingStoppedEvent?) {
+        val message = "Call recording stopped"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onDialogRecordingStarted(dialogRecordingStartedEvent: DialogRecordingStartedEvent?) {
+        val recordingType = dialogRecordingStartedEvent?.recordingType?.name
+        val message = "Dialog recording started with type: $recordingType"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onDialogRecordingStopped(dialogRecordingStoppedEvent: DialogRecordingStoppedEvent?) {
+        val message = "Dialog recording stopped"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onConferenceRecordingStarted(conferenceRecordingStartedEvent: ConferenceRecordingStartedEvent?) {
+        val recordingType = conferenceRecordingStartedEvent?.recordingType?.name
+        val message = "Conference recording started with type: $recordingType"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onConferenceRecordingStopped(conferenceRecordingStoppedEvent: ConferenceRecordingStoppedEvent?) {
+        val message = "Conference recording stopped"
         Log.d(TAG, message)
 
         runOnUiThread {

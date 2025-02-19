@@ -43,8 +43,6 @@ import com.infobip.webrtc.sdk.api.event.call.ParticipantUndeafEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantUnmutedEvent
 import com.infobip.webrtc.sdk.api.event.call.RoomJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.RoomLeftEvent
-import com.infobip.webrtc.sdk.api.event.call.RoomRejoinedEvent
-import com.infobip.webrtc.sdk.api.event.call.RoomRejoiningEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
 import com.infobip.webrtc.sdk.api.event.datachannel.BroadcastTextReceivedEvent
@@ -137,12 +135,12 @@ class MainActivity : Activity() {
             val toEndpoint = getEndpointByIdentity(to)
 
             if (text.trim().isNotEmpty()) {
-                val dataChannel = InfobipRTC.getInstance().activeRoomCall.dataChannel()
+                val dataChannel = InfobipRTC.getInstance().activeRoomCall?.dataChannel()
 
                 if (toEndpoint != null) {
-                    dataChannel.send(text, toEndpoint, getSendTextEventListener(text, to))
+                    dataChannel?.send(text, toEndpoint, getSendTextEventListener(text, to))
                 } else {
-                    dataChannel.send(text, getSendTextEventListener(text, null))
+                    dataChannel?.send(text, getSendTextEventListener(text, null))
                 }
 
                 findViewById<EditText>(R.id.message_input).setText("")
@@ -300,17 +298,17 @@ class MainActivity : Activity() {
 
     private fun setAutoCompleteAdapter() {
         runOnUiThread {
-            val identifiers = InfobipRTC.getInstance().activeRoomCall.participants()
-                .map { it.endpoint.identifier() }
-                .filter { it != connectedUser }
+            val identifiers = InfobipRTC.getInstance().activeRoomCall?.participants()
+                ?.map { it.endpoint.identifier() }
+                ?.filter { it != connectedUser }
 
             Log.d(
                 TAG,
-                "Setting auto complete adapter, identifiers are: ${identifiers.joinToString()}"
+                "Setting auto complete adapter, identifiers are: ${identifiers?.joinToString()}"
             )
 
             val autoCompleteAdapter =
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, identifiers)
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, identifiers ?: emptyList())
             val autoComplete = findViewById<AutoCompleteTextView>(R.id.recipient_input)
 
             autoComplete.setAdapter(autoCompleteAdapter)
@@ -349,8 +347,8 @@ class MainActivity : Activity() {
     }
 
     private fun getEndpointByIdentity(identity: String): Endpoint? {
-        return InfobipRTC.getInstance().activeRoomCall.participants()
-            .find { it.endpoint.identifier() == identity }?.endpoint
+        return InfobipRTC.getInstance().activeRoomCall?.participants()
+            ?.find { it.endpoint.identifier() == identity }?.endpoint
     }
 
     private fun getRoomCallEventListener(): RoomCallEventListener {

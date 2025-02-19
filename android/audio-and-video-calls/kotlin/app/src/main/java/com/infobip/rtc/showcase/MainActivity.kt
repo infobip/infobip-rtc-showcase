@@ -35,6 +35,7 @@ import com.infobip.webrtc.sdk.api.call.WebrtcCall
 import com.infobip.webrtc.sdk.api.event.call.CallEarlyMediaEvent
 import com.infobip.webrtc.sdk.api.event.call.CallEstablishedEvent
 import com.infobip.webrtc.sdk.api.event.call.CallHangupEvent
+import com.infobip.webrtc.sdk.api.event.call.CallRecordingStartedEvent
 import com.infobip.webrtc.sdk.api.event.call.CallRingingEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.CameraVideoUpdatedEvent
@@ -42,20 +43,25 @@ import com.infobip.webrtc.sdk.api.event.call.ErrorEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantCameraVideoAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantCameraVideoRemovedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantDeafEvent
+import com.infobip.webrtc.sdk.api.event.call.ParticipantDisconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantJoiningEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantLeftEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantMutedEvent
+import com.infobip.webrtc.sdk.api.event.call.ParticipantReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantScreenShareRemovedEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantStartedTalkingEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantStoppedTalkingEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantUndeafEvent
 import com.infobip.webrtc.sdk.api.event.call.ParticipantUnmutedEvent
+import com.infobip.webrtc.sdk.api.event.call.ReconnectedEvent
+import com.infobip.webrtc.sdk.api.event.call.ReconnectingEvent
+import com.infobip.webrtc.sdk.api.event.call.RemoteDisconnectedEvent
+import com.infobip.webrtc.sdk.api.event.call.RemoteReconnectedEvent
 import com.infobip.webrtc.sdk.api.event.call.RoomJoinedEvent
 import com.infobip.webrtc.sdk.api.event.call.RoomLeftEvent
-import com.infobip.webrtc.sdk.api.event.call.RoomRejoinedEvent
-import com.infobip.webrtc.sdk.api.event.call.RoomRejoiningEvent
+import com.infobip.webrtc.sdk.api.event.call.RoomRecordingStartedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareAddedEvent
 import com.infobip.webrtc.sdk.api.event.call.ScreenShareRemovedEvent
 import com.infobip.webrtc.sdk.api.event.listener.NetworkQualityEventListener
@@ -159,7 +165,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         if (resultCode == RESULT_OK) {
             val screenCapturer = ScreenCapturer(resultCode, data)
             if (activeTab == Tab.ROOM) {
-                InfobipRTC.getInstance().activeRoomCall.startScreenShare(screenCapturer)
+                InfobipRTC.getInstance().activeRoomCall?.startScreenShare(screenCapturer)
             } else {
                 (InfobipRTC.getInstance().activeCall as WebrtcCall).startScreenShare(screenCapturer)
             }
@@ -288,12 +294,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     override fun onRemoteMuted() {
         Log.d(TAG, "Remote user muted")
-
         runOnUiThread {
             findViewById<TextView>(R.id.remote_user).text =
                 getString(
                     R.string.remote_muted,
-                    InfobipRTC.getInstance().activeCall.counterpart().identifier()
+                    InfobipRTC.getInstance().activeCall?.counterpart()?.identifier()
                 )
         }
     }
@@ -303,7 +308,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
         runOnUiThread {
             findViewById<TextView>(R.id.remote_user).text =
-                InfobipRTC.getInstance().activeCall.counterpart().identifier()
+                InfobipRTC.getInstance().activeCall?.counterpart()?.identifier()
         }
     }
 
@@ -525,24 +530,85 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         }
     }
 
-    override fun onRoomRejoining(roomRejoiningEvent: RoomRejoiningEvent?) {
-        val message = "Rejoining room..."
+    override fun onReconnecting(reconnectingEvent: ReconnectingEvent?) {
+        val message = "Trying to reconnect..."
         Log.d(TAG, message)
 
         runOnUiThread {
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
             setCallStatus(message)
-            setCallStatus(R.string.rejoining_room)
         }
     }
 
-    override fun onRoomRejoined(roomRejoinedEvent: RoomRejoinedEvent?) {
-        val message = "Rejoined room"
+    override fun onReconnected(reconnectedEvent: ReconnectedEvent?) {
+        val message = "You have been successfully reconnected!"
         Log.d(TAG, message)
 
         runOnUiThread {
             Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
-            setCallStatus(R.string.joined_room)
+            if (InfobipRTC.getInstance().activeRoomCall != null){
+                setCallStatus(R.string.joined_room)
+            } else {
+                setCallStatus(R.string.in_call)
+            }
+        }
+    }
+
+    override fun onParticipantDisconnected(participantDisconnectedEvent: ParticipantDisconnectedEvent?) {
+        val participant = participantDisconnectedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant disconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onParticipantReconnected(participantReconnectedEvent: ParticipantReconnectedEvent?) {
+        val participant = participantReconnectedEvent?.participant?.endpoint?.identifier()
+        val message = "Participant $participant reconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onRemoteDisconnected(remoteDisconnectedEvent: RemoteDisconnectedEvent?) {
+        val message = "Remote disconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onRemoteReconnected(remoteReconnectedEvent: RemoteReconnectedEvent?) {
+        val message = "Remote reconnected"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onRoomRecordingStarted(roomRecordingStartedEvent: RoomRecordingStartedEvent?) {
+        val recordingType = roomRecordingStartedEvent?.recordingType?.name
+        val message = "Room recording started with type: $recordingType"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onCallRecordingStarted(callRecordingStartedEvent: CallRecordingStartedEvent?) {
+        val recordingType = callRecordingStartedEvent?.recordingType?.name
+        val message = "Call recording started with type: $recordingType"
+        Log.d(TAG, message)
+
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -675,14 +741,14 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun initParticipantsView() {
         findViewById<LinearLayout>(R.id.room_participants_layout).visibility = View.VISIBLE
-        val participants = InfobipRTC.getInstance().activeRoomCall.participants()
+        val participants = InfobipRTC.getInstance().activeRoomCall?.participants()
         val numberOfParticipants = findViewById<TextView>(R.id.number_of_participants)
         numberOfParticipants.text =
             getString(
                 R.string.number_of_participants_title,
-                participants.size
+                participants?.size
             )
-        for (participant: Participant in participants) {
+        participants?.forEach { participant: Participant ->
             val participantToAdd = createParticipant(participant)
             findViewById<LinearLayout>(R.id.participants).addView(participantToAdd)
         }
@@ -739,7 +805,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         numberOfParticipants.text =
             getString(
                 R.string.number_of_participants_title,
-                InfobipRTC.getInstance().activeRoomCall.participants().size
+                InfobipRTC.getInstance().activeRoomCall?.participants()?.size
             )
     }
 
@@ -934,7 +1000,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         val activeCall = InfobipRTC.getInstance().activeCall
         if (activeCall != null) {
             val webrtcCallOptions =
-                WebrtcCallOptions.builder().audio(audioEnabled).video(video).build()
+                WebrtcCallOptions.builder()
+                    .audio(audioEnabled)
+                    .video(video)
+                    .autoReconnect(true)
+                    .build()
             (activeCall as IncomingWebrtcCall).accept(webrtcCallOptions)
         } else {
             runOnUiThread {
@@ -978,8 +1048,8 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun toggleAudioButtonOnClick() {
         val activeCall = InfobipRTC.getInstance().activeCall
-        val muted = !activeCall.muted()
-        activeCall.mute(muted)
+        val muted = activeCall?.muted() != true
+        activeCall?.mute(muted)
 
         runOnUiThread {
             findViewById<Button>(R.id.toggle_audio_button).setText(if (muted) R.string.unmute else R.string.mute)
@@ -988,8 +1058,8 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun toggleRoomAudioButtonOnClick() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val muted = !activeRoomCall.muted()
-        activeRoomCall.mute(muted)
+        val muted = activeRoomCall?.muted() != true
+        activeRoomCall?.mute(muted)
 
         runOnUiThread {
             findViewById<Button>(R.id.toggle_audio_button).setText(if (muted) R.string.unmute else R.string.mute)
@@ -1003,7 +1073,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun showRoomAudioQualityModeDialog() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val audioQualityMode = activeRoomCall.audioQualityMode()
+        val audioQualityMode = activeRoomCall?.audioQualityMode()
         val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
         var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
 
@@ -1013,7 +1083,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
                 checkedItem = which
             }
             .setPositiveButton("Ok") { _, _ ->
-                activeRoomCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+                activeRoomCall?.audioQualityMode(AudioQualityMode.values()[checkedItem])
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -1021,7 +1091,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun showCallAudioQualityModeDialog() {
         val activeCall = InfobipRTC.getInstance().activeCall
-        val audioQualityMode = activeCall.audioQualityMode()
+        val audioQualityMode = activeCall?.audioQualityMode()
         val audioQualityModes = AudioQualityMode.values().map { it.name }.toTypedArray()
         var checkedItem = AudioQualityMode.values().indexOfFirst { it == audioQualityMode }
 
@@ -1031,7 +1101,7 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
                 checkedItem = which
             }
             .setPositiveButton("Ok") { _, _ ->
-                activeCall.audioQualityMode(AudioQualityMode.values()[checkedItem])
+                activeCall?.audioQualityMode(AudioQualityMode.values()[checkedItem])
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -1039,42 +1109,46 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun showRoomAudioDeviceDialog() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val activeDevice = activeRoomCall.audioDeviceManager().activeDevice
-        val availableAudioDevices = activeRoomCall.audioDeviceManager().availableAudioDevices
-        val audioDevices = availableAudioDevices.map { it.name }.toTypedArray()
-        var checkedItem = availableAudioDevices.indexOfFirst { it == activeDevice }
+        val activeDevice = activeRoomCall?.audioDeviceManager()?.activeDevice
+        val availableAudioDevices = activeRoomCall?.audioDeviceManager()?.availableAudioDevices
+        val audioDevices = availableAudioDevices?.map { it.name }?.toTypedArray()
+        var checkedItem = availableAudioDevices?.indexOfFirst { it == activeDevice }
 
-        AlertDialog.Builder(this)
-            .setTitle("Select preferred audio device")
-            .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
-                checkedItem = which
-            }
-            .setPositiveButton("Ok") { _, _ ->
-                val audioDevice = availableAudioDevices.elementAt(checkedItem)!!
-                activeRoomCall.audioDeviceManager().selectAudioDevice(audioDevice)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        if (checkedItem != null) {
+            AlertDialog.Builder(this)
+                .setTitle("Select preferred audio device")
+                .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
+                    checkedItem = which
+                }
+                .setPositiveButton("Ok") { _, _ ->
+                    val audioDevice = availableAudioDevices?.elementAt(checkedItem!!)!!
+                    activeRoomCall.audioDeviceManager().selectAudioDevice(audioDevice)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
     }
 
     private fun showCallAudioDeviceDialog() {
         val activeCall = InfobipRTC.getInstance().activeCall
-        val activeDevice = activeCall.audioDeviceManager().activeDevice
-        val availableAudioDevices = activeCall.audioDeviceManager().availableAudioDevices
-        val audioDevices = availableAudioDevices.map { it.name }.toTypedArray()
-        var checkedItem = availableAudioDevices.indexOfFirst { it == activeDevice }
+        val activeDevice = activeCall?.audioDeviceManager()?.activeDevice
+        val availableAudioDevices = activeCall?.audioDeviceManager()?.availableAudioDevices
+        val audioDevices = availableAudioDevices?.map { it.name }?.toTypedArray()
+        var checkedItem = availableAudioDevices?.indexOfFirst { it == activeDevice }
 
-        AlertDialog.Builder(this)
-            .setTitle("Select preferred audio device")
-            .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
-                checkedItem = which
-            }
-            .setPositiveButton("Ok") { _, _ ->
-                val audioDevice = availableAudioDevices.elementAt(checkedItem)!!
-                activeCall.audioDeviceManager().selectAudioDevice(audioDevice)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        if (checkedItem != null) {
+            AlertDialog.Builder(this)
+                .setTitle("Select preferred audio device")
+                .setSingleChoiceItems(audioDevices, checkedItem) { _, which ->
+                    checkedItem = which
+                }
+                .setPositiveButton("Ok") { _, _ ->
+                    val audioDevice = availableAudioDevices?.elementAt(checkedItem!!)!!
+                    activeCall.audioDeviceManager().selectAudioDevice(audioDevice)
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
     }
 
     private fun toggleCameraButtonOnClick() {
@@ -1096,9 +1170,9 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun toggleRoomCameraButtonOnClick() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val hasCameraVideo = !activeRoomCall.hasCameraVideo()
+        val hasCameraVideo = activeRoomCall?.hasCameraVideo() != true
         try {
-            activeRoomCall.cameraVideo(hasCameraVideo)
+            activeRoomCall?.cameraVideo(hasCameraVideo)
         } catch (e: Exception) {
             Log.d(TAG, "${e.message}")
         }
@@ -1123,11 +1197,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun toggleRoomScreenShareButtonOnClick() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val hasScreenShare = activeRoomCall.hasScreenShare()
-        if (!hasScreenShare) {
-            startScreenShare()
-        } else {
+        val hasScreenShare = activeRoomCall?.hasScreenShare()
+        if (hasScreenShare == true) {
             activeRoomCall.stopScreenShare()
+        } else {
+            startScreenShare()
         }
     }
 
@@ -1143,9 +1217,9 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun flipRoomCameraButtonOnClick() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        val front = activeRoomCall.cameraOrientation() == CameraOrientation.FRONT
+        val front = activeRoomCall?.cameraOrientation() == CameraOrientation.FRONT
         val newCameraOrientation = if (front) CameraOrientation.BACK else CameraOrientation.FRONT
-        activeRoomCall.cameraOrientation(newCameraOrientation)
+        activeRoomCall?.cameraOrientation(newCameraOrientation)
     }
 
     private fun permissionGranted(permission: String): Boolean {
@@ -1206,7 +1280,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             destination,
             this
         )
-        val phoneCallOptions = PhoneCallOptions.builder().audio(audioEnabled).from(FROM).build()
+        val phoneCallOptions = PhoneCallOptions.builder()
+            .audio(audioEnabled)
+            .from(FROM)
+            .autoReconnect(true)
+            .build()
         val call = InfobipRTC.getInstance().callPhone(callPhoneRequest, phoneCallOptions)
         Log.d(TAG, "Outgoing phone call with id ${call.id()}")
     }
@@ -1218,7 +1296,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
             destination,
             this
         )
-        val webrtcCallOptions = WebrtcCallOptions.builder().audio(audioEnabled).video(video).build()
+        val webrtcCallOptions = WebrtcCallOptions.builder()
+            .audio(audioEnabled)
+            .video(video)
+            .autoReconnect(true)
+            .build()
         val call = InfobipRTC.getInstance().callWebrtc(webrtcCallRequest, webrtcCallOptions)
         Log.d(TAG, "Outgoing webrtc call with id ${call.id()}")
     }
@@ -1227,7 +1309,11 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
         val roomCallRequest =
             RoomRequest(TokenService.getAccessToken().token, applicationContext, this, destination)
         val roomCallOptions =
-            RoomCallOptions.builder().audio(audioEnabled).video(video).autoRejoin(true).build()
+            RoomCallOptions.builder()
+                .audio(audioEnabled)
+                .video(video)
+                .autoReconnect(true)
+                .build()
         val call = InfobipRTC.getInstance().joinRoom(roomCallRequest, roomCallOptions)
         Log.d(TAG, "Outgoing room call with id ${call.id()}")
     }
@@ -1304,24 +1390,29 @@ class MainActivity : AppCompatActivity(), PhoneCallEventListener, WebrtcCallEven
 
     private fun prepareActivePhoneCallLayout() {
         val activeCall = InfobipRTC.getInstance().activeCall
-        findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
-        findViewById<Button>(R.id.toggle_audio_button).setText(if (activeCall.muted()) R.string.unmute else R.string.mute)
-        findViewById<LinearLayout>(R.id.video_buttons).visibility = View.GONE
-        findViewById<LinearLayout>(R.id.local_videos_layout).visibility = View.GONE
-        findViewById<LinearLayout>(R.id.remote_videos_layout).visibility = View.GONE
+        activeCall?.let {
+            findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
+            findViewById<Button>(R.id.toggle_audio_button).setText(if (activeCall.muted()) R.string.unmute else R.string.mute)
+            findViewById<LinearLayout>(R.id.video_buttons).visibility = View.GONE
+            findViewById<LinearLayout>(R.id.local_videos_layout).visibility = View.GONE
+            findViewById<LinearLayout>(R.id.remote_videos_layout).visibility = View.GONE
+        }
     }
 
     private fun prepareActiveRoomCallLayout() {
         val activeRoomCall = InfobipRTC.getInstance().activeRoomCall
-        findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
-        findViewById<Button>(R.id.toggle_audio_button).setText(if (activeRoomCall.muted()) R.string.unmute else R.string.mute)
-        findViewById<LinearLayout>(R.id.video_buttons).visibility = View.VISIBLE
-        findViewById<Button>(R.id.flip_camera_button).visibility =
-            if (activeRoomCall.hasCameraVideo()) View.VISIBLE else View.GONE
-        findViewById<LinearLayout>(R.id.local_videos_layout).visibility =
-            if (activeRoomCall.hasCameraVideo() || activeRoomCall.hasScreenShare()) View.VISIBLE else View.GONE
-        findViewById<LinearLayout>(R.id.remote_videos_layout).visibility =
-            if (activeRoomCall.remoteVideos().isNotEmpty()) View.VISIBLE else View.GONE
+        activeRoomCall?.let {
+            findViewById<LinearLayout>(R.id.audio_buttons).visibility = View.VISIBLE
+            findViewById<Button>(R.id.toggle_audio_button).setText(if (activeRoomCall.muted()) R.string.unmute else R.string.mute)
+            findViewById<LinearLayout>(R.id.video_buttons).visibility = View.VISIBLE
+            findViewById<Button>(R.id.flip_camera_button).visibility =
+                if (activeRoomCall.hasCameraVideo()) View.VISIBLE else View.GONE
+            findViewById<LinearLayout>(R.id.local_videos_layout).visibility =
+                if (activeRoomCall.hasCameraVideo() || activeRoomCall.hasScreenShare()) View.VISIBLE else View.GONE
+            findViewById<LinearLayout>(R.id.remote_videos_layout).visibility =
+                if (activeRoomCall.remoteVideos().isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
     }
 
     private fun hideActiveCallLayout() {
