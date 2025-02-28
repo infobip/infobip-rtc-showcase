@@ -51,13 +51,14 @@ extension AgentController: PKPushRegistryDelegate, IncomingApplicationCallEventL
     }
     
     func onIncomingApplicationCall(_ incomingApplicationCallEvent: IncomingApplicationCallEvent) {
-        let incomingApplicationCall = incomingApplicationCallEvent.incomingApplicationCall
-        
-        if Runtime.simulator() {
-            self.handleIncomingCallOnSimulator(incomingApplicationCall)
-        } else {
-            self.handleIncomingCall()
-            CallKitAdapter.shared.reportIncomingCall(incomingApplicationCall)
+        DispatchQueue.main.async {
+            let incomingApplicationCall = incomingApplicationCallEvent.incomingApplicationCall
+            if Runtime.simulator() {
+                self.handleIncomingCallOnSimulator(incomingApplicationCall)
+            } else {
+                self.handleIncomingCall()
+                CallKitAdapter.shared.reportIncomingCall(incomingApplicationCall)
+            }
         }
     }
 }

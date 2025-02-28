@@ -54,7 +54,8 @@ class CallController: UIViewController {
         self.remoteVideosCollectionView.dataSource = self
         
         if getInfobipRTCInstance().getActiveCall() != nil {
-            return self.handleIncomingCallOnSimulator()
+            self.handleIncomingCallOnSimulator()
+            return
         }
         
         if self.callType == .room_audio || self.callType == .room_video {

@@ -38,6 +38,8 @@ extension MainController: PKPushRegistryDelegate, IncomingCallEventListener {
         let alert = UIAlertController(title: "Incoming Call", message: incomingCall.source().identifier(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Accept", style: .default, handler: {action in
             incomingCall.accept(WebrtcCallOptions(autoReconnect: true))
+            let callType = incomingCall.hasRemoteCameraVideo() ? CallType.webrtc_video : CallType.webrtc_audio
+            self.handleIncomingCall(incomingCall.counterpart().identifier(), callType)
         }))
         alert.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: {action in
             incomingCall.decline(DeclineOptions(true))
@@ -47,16 +49,14 @@ extension MainController: PKPushRegistryDelegate, IncomingCallEventListener {
     }
     
     func onIncomingWebrtcCall(_ incomingWebrtcCallEvent: IncomingWebrtcCallEvent) {
-        self.tabBarController?.selectedIndex = 0
-        
-        let incomingWebrtcCall = incomingWebrtcCallEvent.incomingWebrtcCall
-        let callType = incomingWebrtcCall.hasRemoteCameraVideo() ? CallType.webrtc_video : CallType.webrtc_audio
-        self.handleIncomingCall(incomingWebrtcCall.counterpart().identifier(), callType)
-        
-        if Runtime.simulator() {
-            self.handleIncomingCallOnSimulator(incomingWebrtcCall)
-        } else {
-            CallKitAdapter.shared.reportIncomingCall(incomingWebrtcCall)
+        DispatchQueue.main.async {
+            self.tabBarController?.selectedIndex = 0
+            let incomingWebrtcCall = incomingWebrtcCallEvent.incomingWebrtcCall
+            if Runtime.simulator() {
+                self.handleIncomingCallOnSimulator(incomingWebrtcCall)
+            } else {
+                CallKitAdapter.shared.reportIncomingCall(incomingWebrtcCall)
+            }
         }
     }
 }
