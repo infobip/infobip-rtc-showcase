@@ -13,6 +13,7 @@ import {
 import {HttpClient} from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'app-call',
   templateUrl: './webrtc-call.component.html'
 })

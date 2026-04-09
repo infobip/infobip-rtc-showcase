@@ -13,6 +13,7 @@ import {
 import {HttpClient} from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'app-agent',
   templateUrl: './agent.component.html'
 })

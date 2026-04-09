@@ -11,6 +11,7 @@ import {
 import {HttpClient} from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'app-call',
   templateUrl: './phone-call.component.html'
 })

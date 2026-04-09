@@ -11,39 +11,33 @@
     "ng": "cross-env ng",
     "start": "cross-env ng serve --open --port 8030",
     "build": "cross-env ng build",
-    "test": "cross-env ng test",
-    "lint": "cross-env ng lint",
-    "e2e": "cross-env ng e2e"
+    "test": "cross-env ng test"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~17.3.3",
-    "@angular/common": "~17.3.3",
-    "@angular/compiler": "~17.3.3",
-    "@angular/core": "~17.3.3",
-    "@angular/forms": "~17.3.3",
-    "@angular/platform-browser": "~17.3.3",
-    "@angular/platform-browser-dynamic": "~17.3.3",
-    "@angular/router": "~17.3.3",
+    "@angular/animations": "~19.2.20",
+    "@angular/common": "~19.2.20",
+    "@angular/compiler": "~19.2.20",
+    "@angular/core": "~19.2.20",
+    "@angular/forms": "~19.2.20",
+    "@angular/platform-browser": "~19.2.20",
+    "@angular/platform-browser-dynamic": "~19.2.20",
+    "@angular/router": "~19.2.20",
     "core-js": "^2.6.11",
     "infobip-rtc": "2.7.34",
     "rxjs": "~6.6.7",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~17.3.3",
-    "@angular/cli": "~17.3.3",
-    "@angular/compiler-cli": "~17.3.3",
-    "@angular/language-service": "~17.3.3",
+    "@angular-devkit/build-angular": "~19.2.23",
+    "@angular/cli": "~19.2.23",
+    "@angular/compiler-cli": "~19.2.20",
+    "@angular/language-service": "~19.2.20",
     "@types/dom-mediacapture-transform": "^0.1.10",
-    "@types/dom-webcodecs": "0.1.10",
-    "@types/node": "~13.9.1",
-    "codelyzer": "~6.0.2",
+    "@types/node": "^18.19.0",
     "cross-env": "^5.2.1",
-    "protractor": "~7.0.0",
     "ts-node": "~8.6.2",
-    "tslint": "~6.1.0",
-    "typescript": "<5.5"
+    "typescript": "~5.8.0"
   }
 }

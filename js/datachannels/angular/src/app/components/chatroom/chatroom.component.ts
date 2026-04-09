@@ -15,6 +15,7 @@ import {Message} from "../../types/message";
 import {FormControl} from "@angular/forms";
 
 @Component({
+  standalone: false,
   selector: 'app-chatroom',
   templateUrl: './chatroom.component.html',
   styleUrls: ['./chatroom.component.css']

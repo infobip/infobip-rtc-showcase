@@ -12,6 +12,7 @@ import {
 import {HttpClient} from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'app-customer',
   templateUrl: './customer.component.html'
 })

@@ -3,6 +3,7 @@ import {Message} from "../../types/message";
 import {getDateString} from "../../utils/date-util";
 
 @Component({
+  standalone: false,
   selector: 'app-sent-message',
   templateUrl: './sent-message.component.html'
 })
