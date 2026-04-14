@@ -16,7 +16,7 @@
     "start": "cross-env PORT=8020 react-scripts start"
   },
   "dependencies": {
-    "axios": "^1.6.0",
+    "axios": "^1.15.0",
     "infobip-rtc": "2.7.34",
     "infobip-rtc-extensions": "1.2.5",
     "react": "^16.8.6",
