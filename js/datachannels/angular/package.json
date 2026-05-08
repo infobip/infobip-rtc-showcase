@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "~19.2.20",
     "@angular/router": "~19.2.20",
     "core-js": "^2.6.11",
-    "infobip-rtc": "2.7.34",
+    "infobip-rtc": "2.7.35",
     "rxjs": "~6.6.7",
     "tslib": "^1.11.1",
     "zone.js": "~0.15.0"
